@@ -1,14 +1,16 @@
 <head>
-  <title>misas</title>
+  <base href="/">
 </head>
-
 <body>
-  <h1>Welcome to Meteor!</h1>
-
-  {{> hello}}
+  <div ng-app="misas" ng-strict-di="">
+    <ul>
+      <li>
+        <a ui-sref="misas">Home</a>
+      </li>
+      <li>
+        <a ui-sref="misas.search">Search</a>
+      </li>
+    </ul>
+    <div ui-view=""></div>
+  </div>
 </body>
-
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
-</template>
