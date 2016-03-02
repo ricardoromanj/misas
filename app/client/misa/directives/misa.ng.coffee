@@ -5,7 +5,8 @@ angular.module('misas').directive 'misa', ()->
     restrict: 'E'
     templateUrl: 'app/client/misa/views/misa.html'
     controllerAs: 'misa'
-    controller: ($scope)->
+    controller: ($scope,$stateParams)->
       console.log 'misa loaded'
+      $scope.id = $stateParams.id
   }
 
