@@ -1,21 +1,21 @@
 if Meteor.isClient
-  angular.module('misas').config ($urlRouterProvider, $stateProvider, $locationProvider) ->
+  angular.module('parroquias').config ($urlRouterProvider, $stateProvider, $locationProvider) ->
     $locationProvider.html5Mode true
     $stateProvider
-      .state( 
-        'misas'                      
-        url: '/'                 
-        template: '<misas></misas>'
+      .state(
+        'parroquias'
+        url: '/'
+        template: '<parroquias></parroquias>'
       )
       .state(
-        'misas.search'
+        'parroquias.search'
         url: '/search'
-        template: '<misas-search></misas-search>'
+        template: '<parroquias-search></parroquias-search>'
       )
       .state(
-        'misa'
-        url: '/misa/:id'
-        template: '<misa></misa>'
+        'parroquia'
+        url: '/parroquia/:id'
+        template: '<parroquia></parroquia>'
       )
     $urlRouterProvider.otherwise('/')
     return

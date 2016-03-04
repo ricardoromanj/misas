@@ -1,0 +1,4 @@
+div Current misas available hello:
+  ul
+    li(ng-repeat="parroquia in psc.parroquias") 
+      a(ui-sref='parroquia({id: {{parroquia._id}}})') {{parroquia.name}}
