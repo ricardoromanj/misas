@@ -4,18 +4,21 @@ if Meteor.isClient
     $stateProvider
       .state(
         'parroquias'
-        url: '/'
+        url: '/parroquias/'
         template: '<parroquias></parroquias>'
       )
       .state(
         'parroquias.search'
-        url: '/search'
+        url: 'search'
         template: '<parroquias-search></parroquias-search>'
       )
       .state(
         'parroquia'
-        url: '/parroquia/:id'
-        template: '<parroquia></parroquia>'
+        url: '/parroquia/{id}'
+        template: '<parroquia id="id"></parroquia>'
+        controller: ($scope, $stateParams)->
+          $scope.id = $stateParams.id
+          console.log "parroquia state loaded"
       )
     $urlRouterProvider.otherwise('/')
     return
