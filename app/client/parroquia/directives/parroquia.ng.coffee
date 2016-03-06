@@ -16,7 +16,14 @@ angular.module('parroquias').directive 'parroquia', ($stateParams)->
       pc.id = $scope.id
       pc.helpers(
         parroquia: ()->
-          return Parroquias.findOne({ _id: pc.id}) 
+          return Parroquias.findOne({})
+      )
+      pc.subscribe(
+        'parroquia'
+        ()->
+          [
+            pc.id
+          ]
       )
       console.log 'parroquia loaded'
   }

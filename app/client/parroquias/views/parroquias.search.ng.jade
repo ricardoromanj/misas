@@ -1,0 +1,20 @@
+div(class="parroquias-search")
+  //p {{ pssc | json }}
+  h1 Parroquias Search
+  form(novalidate)
+    |Search: 
+    input(type="search", ng-model="pssc.searchText")
+    select(ng-model="pssc.searchOrder")
+      option(value="1")  ascending
+      option(value="-1") discending
+  div(class="parroquias-results")
+    ul 
+      li(ng-repeat="parroquia in pssc.parroquias") 
+        a(ui-sref="parroquia({id: parroquia._id})") {{parroquia.name}}
+  //form(no-validate="")
+    input(type="search", ng-model="pssc.searchText", placeholder="search")
+    select(ng-model="pssc.searchOrder")
+      option(value="1")
+      option(value"-1")
+  //div(class"parroquias-results")
+    a(ng-repeat="parroquia in pssc.parroquias") {{parroquia.name}}

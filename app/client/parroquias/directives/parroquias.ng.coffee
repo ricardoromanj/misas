@@ -7,9 +7,10 @@ angular.module('parroquias').directive 'parroquias', ()->
     controllerAs: 'psc'
     controller: ($scope, $reactive)->
       $reactive(@).attach($scope)
+      @.subscribe('parroquias')
       @.helpers({
           parroquias: () ->
-            return Parroquias.find()
+            return Parroquias.find({})
         }
       )
       console.log 'parroquias loaded'

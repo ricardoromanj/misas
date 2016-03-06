@@ -10,7 +10,10 @@ if Meteor.isClient
       .state(
         'parroquias.search'
         url: 'search'
-        template: '<parroquias-search></parroquias-search>'
+        views:
+          #This targets <unnamed ui view>@<root state=parroquias>
+          '@':
+            template: '<parroquias-search></parroquias-search>'
       )
       .state(
         'parroquia'
