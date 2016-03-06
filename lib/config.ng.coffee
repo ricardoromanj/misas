@@ -1,7 +1,7 @@
 if Meteor.isClient
-  console.log 'Loaded misas!'
+  console.log 'Loaded parroquias!'
   angular.module(
-    'misas' 
+    'parroquias'
     [ 'angular-meteor'
       'ui.router' ]
   )

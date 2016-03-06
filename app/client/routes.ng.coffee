@@ -1,21 +1,27 @@
 if Meteor.isClient
-  angular.module('misas').config ($urlRouterProvider, $stateProvider, $locationProvider) ->
+  angular.module('parroquias').config ($urlRouterProvider, $stateProvider, $locationProvider) ->
     $locationProvider.html5Mode true
     $stateProvider
-      .state( 
-        'misas'                      
-        url: '/'                 
-        template: '<misas></misas>'
+      .state(
+        'parroquias'
+        url: '/parroquias/'
+        template: '<parroquias></parroquias>'
       )
       .state(
-        'misas.search'
-        url: '/search'
-        template: '<misas-search></misas-search>'
+        'parroquias.search'
+        url: 'search'
+        views:
+          #This targets <unnamed ui view>@<root state=parroquias>
+          '@':
+            template: '<parroquias-search></parroquias-search>'
       )
       .state(
-        'misa'
-        url: '/misa/:id'
-        template: '<misa></misa>'
+        'parroquia'
+        url: '/parroquia/{id}'
+        template: '<parroquia id="id"></parroquia>'
+        controller: ($scope, $stateParams)->
+          $scope.id = $stateParams.id
+          console.log "parroquia state loaded"
       )
     $urlRouterProvider.otherwise('/')
     return
