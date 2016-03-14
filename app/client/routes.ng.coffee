@@ -8,6 +8,11 @@ if Meteor.isClient
         template: '<parroquias></parroquias>'
       )
       .state(
+        'parroquias.create'
+        url: '/parroquias/create'
+        template: '<parroquias-form></parroquias-form>'
+      )
+      .state(
         'parroquias.search'
         url: 'search'
         views:
