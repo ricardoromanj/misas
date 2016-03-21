@@ -23,5 +23,22 @@ if Meteor.isClient
           $scope.id = $stateParams.id
           console.log "parroquia state loaded"
       )
+      .state(
+        'admin'
+        url: '/admin/'
+        templateUrl: 'app/client/admin/views/admin.html'
+        controller: ($scope)->
+          console.log "admin"
+      )
+      .state(
+        'admin.dhm-parse'
+        url: 'dhm-parse/'
+        controller: ($scope)->
+          console.log "dhm parsing"
+        views:
+          #This targets <unnamed ui view>@<root state=parroquias>
+          '@':
+            template: '<dhm-parse></dhm-parse>'
+      )
     $urlRouterProvider.otherwise('/')
     return

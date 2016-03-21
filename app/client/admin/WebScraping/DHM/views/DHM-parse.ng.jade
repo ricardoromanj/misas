@@ -1,0 +1,17 @@
+.dhm-parse
+  .states 
+  h2 States
+    select(name="statesOptions",
+      ng-options="state.name for state in adhmp.states track by state.id",
+      ng-model="adhmp.state")
+  .municipios(ng-if="adhmp.state")
+    p {{ adhmp.state | json }}
+    p {{ adhmp.cities | json }}
+    h2 Municipios
+      .state-info
+        ul
+          li {{adhmp.state.name}} with value {{adhmp.state.id}}
+        select(name="cityOptions",
+          ng-options="city.name for city in adhmp.cities track by city.id",
+          ng-model="adhmp.city")
+      
