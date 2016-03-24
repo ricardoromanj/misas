@@ -6,9 +6,10 @@ angular.module('parroquias').directive 'dhmParse', ()->
     templateUrl: 'app/client/admin/WebScraping/DHM/views/DHM-parse.html'
     controllerAs: 'adhmp'
     controller: ($scope, $reactive)->
-      $reactive(@).attach($scope)
       adhmp = @
+      $reactive(adhmp).attach($scope)
       adhmp.states = []
+      adhmp.cities = []
       adhmp.call('DHM-parse-all-states', (err, html)->
         #get all states and their values from website
         #use jquery to retrieve from content string
@@ -16,7 +17,7 @@ angular.module('parroquias').directive 'dhmParse', ()->
           stateOptions = $(html).find('option')
           #generate array of state options
           adhmp.states = for stateOpt in stateOptions
-            stateName = stateOpt.innerText.trim()
+            stateName = stateOpt.innerHTML.trim()
             stateId = stateOpt.value.trim()
             if stateId == "-1"
               stateName = "Todos"
@@ -28,14 +29,14 @@ angular.module('parroquias').directive 'dhmParse', ()->
       )
       #what the current state value and based on that make
       #a request for the cities in that state
-      $scope.$watch("adhmp.state", (oldValue, newValue)->
+      $scope.$watch("adhmp.state", (newValue, oldValue)->
         if newValue?
           stateId = newValue.id
-          adhmp.call('DHM-parse-all-cities', stateId, (err, html)->
+          Meteor.call('DHM-parse-all-cities', stateId, (err, html)->
             cityOptions = $(html).find('option')
             if not err?
               adhmp.cities = for cityOpt in cityOptions
-                cityName = cityOpt.innerText.trim()
+                cityName = cityOpt.innerHTML.trim()
                 cityId = cityOpt.value.trim()
                 if cityId == "-1"
                   cityName = "Todas"
@@ -43,6 +44,7 @@ angular.module('parroquias').directive 'dhmParse', ()->
                   id: cityId
                   name: cityName
                 }
+              $scope.$digest()
             return undefined
           )
       )

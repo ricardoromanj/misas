@@ -49,13 +49,13 @@
 website="http://www.dondehaymisa.com/"
 Meteor.methods(
   'DHM-parse-all-states': ()->
-    #@.unblock()
+    @.unblock()
     result = HTTP.get(website+"ajax2.asp?op=1&p=1&i=&edo=")
     if result?
       return result.content
     return ""
   'DHM-parse-all-cities': (stateId)->
-    #@.unblock()
+    @.unblock()
     console.log "requesting @"+website+"ajax2.asp?op=2&p=1&e="+stateId+"&i=&sid="+Math.random()
     result = HTTP.get(website+"ajax2.asp?op=2&p=1&e="+stateId+"&i=")
     if result?
