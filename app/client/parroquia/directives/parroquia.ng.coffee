@@ -27,4 +27,3 @@ angular.module('parroquias').directive 'parroquia', ($stateParams)->
       )
       console.log 'parroquia loaded'
   }
-
