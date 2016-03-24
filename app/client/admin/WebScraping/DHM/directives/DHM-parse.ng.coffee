@@ -48,5 +48,19 @@ angular.module('parroquias').directive 'dhmParse', ()->
             return undefined
           )
       )
+      adhmp.getParroquias = ()->
+        if adhmp.city?
+          cityId = adhmp.city?
+        if adhmp.state?
+          stateId = adhmp.state?
+        Meteor.call(
+          'DHM-parse-parroquias'
+          {
+            cityId: cityId
+            stateId: stateId
+          }
+          (err, html)->
+            console.log(html)
+        )
       return undefined
   }

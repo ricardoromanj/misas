@@ -14,4 +14,5 @@
         select(name="cityOptions",
           ng-options="city.name for city in adhmp.cities track by city.id",
           ng-model="adhmp.city")
-      
+  .parroquias(ng-if="adhmp.state || adhmp.city")   
+    button(ng-click="adhmp.getParroquias()") Get Parroquias

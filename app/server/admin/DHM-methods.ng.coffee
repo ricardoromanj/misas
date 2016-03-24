@@ -61,4 +61,7 @@ Meteor.methods(
     if result?
       return result.content
     return ""
+  'DHM-parse-parroquias': (query)->
+    @.unblock()
+    return 0
 )
