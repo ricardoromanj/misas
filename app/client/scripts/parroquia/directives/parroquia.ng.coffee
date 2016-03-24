@@ -6,7 +6,7 @@ angular.module('parroquias').directive 'parroquia', ($stateParams)->
     scope: {
       id: '='
     }
-    templateUrl: 'app/client/parroquia/views/parroquia.html'
+    templateUrl: 'app/client/scripts/parroquia/views/parroquia.html'
     controllerAs: 'pc'
     controller: ($scope, $reactive)->
       $reactive(@).attach($scope)

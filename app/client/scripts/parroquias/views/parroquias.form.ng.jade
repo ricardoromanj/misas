@@ -1,0 +1,9 @@
+form
+  label(class='control-label')
+    |Name
+  input(type="text", ng-model="parroquia.name", class='form-control')
+  label(class='control-label')
+    |Description
+  input(type="text", ng-model="parroquia.description", class='form-control')
+p {{ parroquia.name }}
+p {{ parroquia.description }}
