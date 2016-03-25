@@ -63,5 +63,14 @@ Meteor.methods(
     return ""
   'DHM-parse-parroquias': (query)->
     @.unblock()
-    return 0
+    cityId = query.cityId
+    stateId = query.stateId
+    if not cityId?
+      cityId = -1
+    if not stateId?
+      stateId = -1
+    result = HTTP.get(website+"ajax2.asp?op=4&d=1&e=#{stateId}&m=#{cityId}hora=0&dia=0&tipo=0&cad=&col=0&expl=1")
+    if result?
+      return result.content
+    return ""
 )
