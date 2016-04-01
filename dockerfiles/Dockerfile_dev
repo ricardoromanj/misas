@@ -1,2 +1,0 @@
-FROM meteorhacks/meteord:devbuild
-MAINTAINER Ricardo Roman <ricardo.roman@ticnsp.org>
