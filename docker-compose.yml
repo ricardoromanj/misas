@@ -20,7 +20,7 @@ misasdb:
     - 27017
 
 misas:
-  image: meteorhacks/meteord:onbuild
+  build: .
   links:
     - misasdb
   environment:
