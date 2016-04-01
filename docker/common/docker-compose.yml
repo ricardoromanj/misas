@@ -1,0 +1,5 @@
+misasdb:
+  image: mongo
+  command: mongod --smallfiles --oplogSize 128
+  ports:
+    - 27017
