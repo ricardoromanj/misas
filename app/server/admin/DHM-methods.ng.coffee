@@ -69,7 +69,26 @@ Meteor.methods(
       cityId = -1
     if not stateId?
       stateId = -1
-    result = HTTP.get(website+"ajax2.asp?op=4&d=1&e=#{stateId}&m=#{cityId}hora=0&dia=0&tipo=0&cad=&col=0&expl=1")
+    #http://dondehaymisa.com/ajax2.asp?op=4&d=1&e=16&m=784&hora=0&dia=0&tipo=0&cad=&col=0&expl=1&fec=Mon%20Mar%2028%202016%2013:09:17%20GMT-0600%20(MDT)
+    console.log "requesting @"+website+"ajax2.asp?op=4&d=1&e=#{stateId}&m=#{cityId}hora=0&dia=0&tipo=0&cad=&col=0&expl=1"
+    console.log " with params: #{stateId} and #{cityId}"
+    console.log query
+    result = HTTP.get(website+"ajax2.asp?op=4&d=1&e=#{stateId}&m=#{cityId}&hora=0&dia=0&tipo=0&cad=&col=0&expl=1")
+    if result?
+      return result.content
+    return ""
+  'DHM-parse-parroquia': (query)->
+    #dhm.asp?op=2&id=21&d=35
+    if not query.id?
+      return ""
+    if not query.d?
+      return ""
+    d = query.d
+    id = query.id
+    console.log "requesting @"+website+"dhm.asp?op=2&id=#{id}&d=#{d}"
+    console.log " with params: #{d} and #{id}"
+    console.log query
+    result = HTTP.get(website+"dhm.asp?op=2&id=#{id}&d=#{d}")
     if result?
       return result.content
     return ""
