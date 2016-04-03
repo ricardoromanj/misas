@@ -1,3 +1,5 @@
+_ = lodash
+
 angular.module('parroquias').directive 'dhmParse', ()->
   return {
     restrict: 'E'
@@ -10,6 +12,7 @@ angular.module('parroquias').directive 'dhmParse', ()->
       $reactive(adhmp).attach($scope)
       adhmp.states = []
       adhmp.cities = []
+      adhmp.updated = 0
       adhmp.call('DHM-parse-all-states', (err, html)->
         #get all states and their values from website
         #use jquery to retrieve from content string
@@ -155,10 +158,10 @@ angular.module('parroquias').directive 'dhmParse', ()->
                     stACt = stACtRegexp.exec(addressText[2].textContent)
                     #get city
                     if stACt.length >= 2
-                      parroquia.city = lodash.trim(stACt[1])
+                      parroquia.city = _.trim(stACt[1])
                     #get state
                     if stACt.length >= 3
-                      parroquia.state = lodash.trim(stACt[2])
+                      parroquia.state = _.trim(stACt[2])
                 #get postal code
                 cpText = datosGeneralesHtml.find("b:contains('C.P.')").closest("font").next().text()
                 if cpText != ""
@@ -182,6 +185,15 @@ angular.module('parroquias').directive 'dhmParse', ()->
               #get fiesta patronal
               #get lat lon information
               #get schedule information
+              day_ids = {
+                lunes: 1
+                martes: 2
+                miercoles: 3
+                jueves: 4
+                viernes: 5
+                sabado: 6
+                domingo: 7
+              }
               scheduleHtml = parroquiaHtml.find("strong:contains(Misas)").closest("tr").next()
               if scheduleHtml.length > 0
                 #get days for schedule
@@ -199,7 +211,7 @@ angular.module('parroquias').directive 'dhmParse', ()->
                       #for each event/mass get the specific time of mass
                       #and then get the type of mass offered
                       eventRegexp = /(.*)\s-\s(.*)/g
-                      timeRegexp = /.*/
+                      timeRegexp = /(\d{1,2}):(\d{2})\s*([AP].M.)/gi
                       eventInfo = eventRegexp.exec(eventHtml.text())
                       #get event/mass name type 
                       if eventInfo.length >= 2
@@ -207,15 +219,32 @@ angular.module('parroquias').directive 'dhmParse', ()->
                       #get event/mass time 
                       if eventInfo.length >= 3
                         #workout the time of mass
-                        eventTimeText = eventInfo[2]
+                        eventTime = eventInfo[2]
+                        #if everything matched then store it as a date
+                        timeParts = timeRegexp.exec(eventTime)
+                        if timeParts.length >= 4
+                          hour = timeParts[1]
+                          mins = timeParts[2]
+                          meridiem = timeParts[3].replace(/\./g, '')
+                          eventTime = {
+                            hour: hour
+                            mins: mins
+                            meridiem: meridiem
+                          }
                       {
                         type: eventTypeName
-                        start_time: eventTimeText
+                        start_time: eventTime
                       }
                     )
                     #processes each entry
                     #console.log scheduleHtml
+                  #transform day
+                  tDay = _.lowerCase(_.deburr(day))
+                  if day_ids[tDay]?
+                    day_id = day_ids[tDay]
+                  #get day id
                   {
+                    id: day_id
                     name: day
                     events: daySchedule
                   }
@@ -227,8 +256,17 @@ angular.module('parroquias').directive 'dhmParse', ()->
         )
         return
       adhmp.getAllParroquiasMoreInfo = ()->
+        #update and get all information for each
+        #church
+        adhmp.updated = 0
+        if not adhmp.parroquias? or adhmp.parroquias.length == 0
+          adhmp.getParroquias()
+        for parroquia in adhmp.parroquias
+          adhmp.getMoreParroquiaInfo(parroquia)
         return
       adhmp.updateAllParroquias = ()->
+        adhmp.getAllParroquiasMoreInfo()
+        #save this information in mongo db
         return
       return
   }
