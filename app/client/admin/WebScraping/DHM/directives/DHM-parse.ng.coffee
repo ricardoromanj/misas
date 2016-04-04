@@ -13,6 +13,7 @@ angular.module('parroquias').directive 'dhmParse', ()->
       adhmp.states = []
       adhmp.cities = []
       adhmp.updated = 0
+      adhmp.parroquias = []
       adhmp.call('DHM-parse-all-states', (err, html)->
         #get all states and their values from website
         #use jquery to retrieve from content string
@@ -50,8 +51,8 @@ angular.module('parroquias').directive 'dhmParse', ()->
             return undefined
           )
       )
-      adhmp.parroquias = []
       adhmp.getParroquias = ()->
+        adhmp.updated = 0
         if adhmp.city?
           cityId = adhmp.city.id
         if adhmp.state?
@@ -134,57 +135,51 @@ angular.module('parroquias').directive 'dhmParse', ()->
           }
           (error, html)->
             parroquiaHtml = $(html)
-            if parroquiaHtml.length >= 1
+            if parroquiaHtml? and parroquiaHtml.length >= 1
               #process html   
               #get photograph location or photo itself
               #get name of diocesis if available
               datosGeneralesHtml = parroquiaHtml.find("strong:contains('Datos generales')").closest("tr").next()
-              if datosGeneralesHtml.length > 0
+              if datosGeneralesHtml? and datosGeneralesHtml.length > 0
                 #address
                 addressHtml = datosGeneralesHtml.find("strong:contains('Dirección')").closest("td").next()
-                if addressHtml.length > 0
+                if addressHtml? and addressHtml.length > 0
                   addressText = addressHtml.contents().filter(()->
                     return this.nodeType == 3
                   )
                   #get street line 1
-                  if addressText.length >= 1
+                  if addressText? and addressText.length >= 1
                     parroquia.address_line_1 = addressText[0].textContent
                   #get street line 2
-                  addressLine2 = addressHtml.find("font:contains(Colonia)").next().text()
-                  if addressLine2 != ""
-                    parroquia.address_line_2 = addressLine2
-                  if addressText.length >= 3
+                  addressLine2 = addressHtml.find("font:contains(Colonia)")
+                  if addressLine2? and addressLine2.length > 0 
+                    parroquia.address_line_2 = addressLine2.next().text()
+                  if addressText? and addressText.length >= 3
                     stACtRegexp = /(.*),(.*)/g
                     stACt = stACtRegexp.exec(addressText[2].textContent)
                     #get city
-                    if stACt.length >= 2
-                      parroquia.city = _.trim(stACt[1])
-                    #get state
-                    if stACt.length >= 3
-                      parroquia.state = _.trim(stACt[2])
-                #get postal code
-                cpText = datosGeneralesHtml.find("b:contains('C.P.')").closest("font").next().text()
-                if cpText != ""
-                  parroquia.postal_code = cpText
-                #get apartado postal
-                apText = datosGeneralesHtml.find("b:contains('A.P.')").closest("font").next().text()
-                if apText != ""
-                  parroquia.postal_code_a = apText
-                #get telephone
-                phoneText = datosGeneralesHtml.find("b:contains('Teléfono')").closest("font").next().text()
-                if phoneText != ""
-                  parroquia.phone = phoneText
-                #get contact mail if available
-                emailText = datosGeneralesHtml.find("b:contains('Mail')").closest("font").next().text()
-                if emailText != ""
-                  parroquia.email = emailText
-                #get website if available
-                websiteText = datosGeneralesHtml.find("b:contains('Website')").closest("font").next().text()
-                if websiteText != ""
-                  parroquia.website = websiteText
-              #get fiesta patronal
-              #get lat lon information
-              #get schedule information
+                    if stACt?
+                      if stACt.length >= 2
+                        parroquia.city = _.trim(stACt[1])
+                      #get state
+                      if stACt.length >= 3
+                        parroquia.state = _.trim(stACt[2])
+                getInfo = (field, parroquiaField, parroquia) ->
+                  elem = datosGeneralesHtml.find("b:contains('#{field}')")
+                  if not elem? or elem.length == 0
+                    return
+                  elem = elem.closest("font")
+                  if not elem? or elem.length == 0
+                    return
+                  elem = elem.next()
+                  if not elem? or elem.length == 0
+                    return
+                  parroquia["#{parroquiaField}"] = elem.text()
+                getInfo("C.P.", "postal_code", parroquia)
+                getInfo("A.P.", "postal_code_a", parroquia)
+                getInfo("Teléfono", "phone", parroquia)
+                getInfo("Mail", "email", parroquia)
+                getInfo("Website", "website", parroquia)
               day_ids = {
                 lunes: 1
                 martes: 2
@@ -214,23 +209,24 @@ angular.module('parroquias').directive 'dhmParse', ()->
                       timeRegexp = /(\d{1,2}):(\d{2})\s*([AP].M.)/gi
                       eventInfo = eventRegexp.exec(eventHtml.text())
                       #get event/mass name type 
-                      if eventInfo.length >= 2
-                        eventTypeName = eventInfo[1]
-                      #get event/mass time 
-                      if eventInfo.length >= 3
-                        #workout the time of mass
-                        eventTime = eventInfo[2]
-                        #if everything matched then store it as a date
-                        timeParts = timeRegexp.exec(eventTime)
-                        if timeParts.length >= 4
-                          hour = timeParts[1]
-                          mins = timeParts[2]
-                          meridiem = timeParts[3].replace(/\./g, '')
-                          eventTime = {
-                            hour: hour
-                            mins: mins
-                            meridiem: meridiem
-                          }
+                      if eventInfo?
+                        if eventInfo.length >= 2
+                          eventTypeName = eventInfo[1]
+                        #get event/mass time 
+                        if eventInfo.length >= 3
+                          #workout the time of mass
+                          eventTime = eventInfo[2]
+                          #if everything matched then store it as a date
+                          timeParts = timeRegexp.exec(eventTime)
+                          if timeParts.length >= 4
+                            hour = timeParts[1]
+                            mins = timeParts[2]
+                            meridiem = timeParts[3].replace(/\./g, '')
+                            eventTime = {
+                              hour: hour
+                              mins: mins
+                              meridiem: meridiem
+                            }
                       {
                         type: eventTypeName
                         start_time: eventTime
@@ -252,7 +248,7 @@ angular.module('parroquias').directive 'dhmParse', ()->
                 parroquia.schedule = {
                   days: days
                 }
-              #console.log(html)
+            adhmp.updated += 1
         )
         return
       adhmp.getAllParroquiasMoreInfo = ()->

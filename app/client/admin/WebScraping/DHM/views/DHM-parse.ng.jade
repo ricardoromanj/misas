@@ -20,9 +20,9 @@
         button(ng-click="adhmp.getParroquias()") Get Parroquias
         button(ng-click="adhmp.getAllParroquiasMoreInfo()") Get All Parroquias W/ More Info
         button(ng-click="adhmp.updateAllParroquias()") Update All Parroquias W/ More Info 
-        div(ng-if="adhmp.parroquias")
-          p Number of parroquias updated
-          uib-progressbar(max="adhmp.parroquias.length", value="adhmp.updated", style="width: 100%")
+        div(ng-if="adhmp.parroquias && adhmp.parroquias.length > 0 && adhmp.updated >= 0 ")
+          p Parroquias updated {{adhmp.updated}} / {{adhmp.parroquias.length}}
+          uib-progressbar(ng-if="adhmp.parroquias.length", max="adhmp.parroquias.length", value="adhmp.updated", style="width: 100%")
             span(style="color:white; white-space:nowrap;") {{adhmp.updated}} / {{adhmp.parroquias.length}} 
         // {{adhmp.parroquias}}
         ul

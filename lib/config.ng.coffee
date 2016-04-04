@@ -5,6 +5,6 @@ if Meteor.isClient
     [
       'angular-meteor'
       'ui.router'
-      'ui.bootstrap'
+      'ui.bootstrap.progressbar'
     ]
   )
