@@ -116,6 +116,8 @@ angular.module('parroquias').directive 'dhmParse', ()->
                 href: parroquiaHref
                 id: parroquiaId
                 diocesis_id: diocesisId
+                state_id: stateId
+                city_id: cityId
               }
               #console.log(parroquia)
               parroquia

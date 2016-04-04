@@ -37,3 +37,15 @@
 
 @Parroquias = new Mongo.Collection("parroquias")
 
+Meteor.methods(
+  'parroquias.parse-insert-update': (parroquia)->
+    #get parroquia with same else create a new parroquia
+    # diocesis_id
+    # id
+    # state_id
+    # m_id
+    return
+  'parroquias.insert': (parroquia)->
+    #create a new parroquia
+    return
+)
