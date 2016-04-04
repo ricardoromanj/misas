@@ -79,6 +79,7 @@ Meteor.methods(
     return ""
   'DHM-parse-parroquia': (query)->
     #dhm.asp?op=2&id=21&d=35
+    @.unblock()
     if not query.id?
       return ""
     if not query.d?

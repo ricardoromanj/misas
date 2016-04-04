@@ -279,6 +279,21 @@ angular.module('parroquias').directive 'dhmParse', ()->
       adhmp.updateAllParroquias = ()->
         adhmp.getAllParroquiasMoreInfo()
         #save this information in mongo db
+        adhmp.inserted = 0
+        for parroquia in adhmp.parroquias
+          parroquia = _.clone(parroquia)
+          delete parroquia["$$hashKey"]
+          adhmp.call(
+            'parroquias.parse-upsert'
+            parroquia
+            (error, result)->
+              if not error?
+                console.log "inserted #{parroquia.name}"
+                adhmp.inserted += 1
+              else
+                console.log "error inserting #{parroquia.name}"
+                console.log result
+          )
         return
       return
   }
