@@ -138,6 +138,16 @@ angular.module('parroquias').directive 'dhmParse', ()->
             if parroquiaHtml? and parroquiaHtml.length >= 1
               #process html   
               #get photograph location or photo itself
+              pictureHtml = parroquiaHtml.find("span.titulo2 > center > img")
+              if pictureHtml? and pictureHtml.length > 0
+                src = pictureHtml.attr("src")
+                if src?
+                  doesNotExistRegexp = /nodisponible\.jpg/g
+                  doesNotExist = doesNotExistRegexp.exec(src)
+                  if not doesNotExist?
+                    parroquia.img = {
+                      url: src
+                    }
               #get name of diocesis if available
               datosGeneralesHtml = parroquiaHtml.find("strong:contains('Datos generales')").closest("tr").next()
               if datosGeneralesHtml? and datosGeneralesHtml.length > 0

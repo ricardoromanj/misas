@@ -35,6 +35,7 @@
                 ul(ng-if="day.events")
                   li(ng-repeat="event in day.events") {{event.type}} | {{event.start_time | json}}
             p {{parroquia.parroquia_type}}
+            p(ng-if="parroquia.img.url") {{parroquia.img.url}}
             p(ng-if="parroquia.address") {{parroquia.address}} {{parroquia.postal_code}}
             ul
               li(ng-if="parroquia.address_line_1") Address Line 1: {{parroquia.address_line_1}}
