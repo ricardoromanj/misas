@@ -199,6 +199,10 @@ angular.module('parroquias').directive 'dhmParse', ()->
                 sabado: 6
                 domingo: 7
               }
+              #gets the rest of the information
+              serviciosHtml = parroquiaHtml.find("strong:contains(Servicios)").closest("tr").next()
+              if serviciosHtml.length > 0
+                parroquia.servicios = serviciosHtml.html()
               scheduleHtml = parroquiaHtml.find("strong:contains(Misas)").closest("tr").next()
               if scheduleHtml.length > 0
                 #get days for schedule
