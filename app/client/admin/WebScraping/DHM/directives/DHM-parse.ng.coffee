@@ -52,6 +52,7 @@ angular.module('parroquias').directive 'dhmParse', ()->
           )
       )
       adhmp.getParroquias = ()->
+        defered = $q.defer()
         adhmp.updated = 0
         if adhmp.city?
           cityId = adhmp.city.id
@@ -121,10 +122,12 @@ angular.module('parroquias').directive 'dhmParse', ()->
               }
               #console.log(parroquia)
               parroquia
+            defered.resolve(adhmp.parroquias)
             return
         )
+        return defered.promise
       #get more information for the given parroquia
-      adhmp.getMoreParroquiaInfo = (parroquia)->
+      adhmp.getMoreParroquiaInfo = (parroquia, defered)->
         if not parroquia? or
         not parroquia.id? or
         not parroquia.diocesis_id?
@@ -265,35 +268,105 @@ angular.module('parroquias').directive 'dhmParse', ()->
                   days: days
                 }
             adhmp.updated += 1
+            if defered?
+              defered.resolve(parroquia)
         )
-        return
       adhmp.getAllParroquiasMoreInfo = ()->
         #update and get all information for each
         #church
         adhmp.updated = 0
-        if not adhmp.parroquias? or adhmp.parroquias.length == 0
-          adhmp.getParroquias()
-        for parroquia in adhmp.parroquias
-          adhmp.getMoreParroquiaInfo(parroquia)
-        return
-      adhmp.updateAllParroquias = ()->
-        adhmp.getAllParroquiasMoreInfo()
-        #save this information in mongo db
-        adhmp.inserted = 0
-        for parroquia in adhmp.parroquias
-          parroquia = _.clone(parroquia)
-          delete parroquia["$$hashKey"]
-          adhmp.call(
-            'parroquias.parse-upsert'
-            parroquia
-            (error, result)->
-              if not error?
-                console.log "inserted #{parroquia.name}"
-                adhmp.inserted += 1
-              else
-                console.log "error inserting #{parroquia.name}"
-                console.log result
+        defered = $q.defer()
+        #this function will return a defered promise that
+        #will resolve or reject after all of the parroquias
+        #have been updated
+        waitAllMoreParroquiasInfo = (parroquias)->
+          moreParroquiasInfo(parroquias).then(
+            (updatedParroquias)->
+              defered.resolve(updatedParroquias)
+            (error)->
+              reject.reject("getAllParroquiasMoreInfo -> waitAllMoreParroquiasInfo Error #{error}")
           )
-        return
+        moreParroquiasInfo = (parroquias)->
+          #get more information for all parroquias
+          defers = (for i in [0..(parroquias.length)]
+            $q.defer()
+          )
+          promises = (for defer in defers
+            defer.promise
+          )
+          allDefered = $q.all(promises)
+          #zip parroquias with their corresponding
+          #promises
+          requests = _.zip(defers, parroquias)
+          _.forEach(requests, (request)->
+            defer = request[0]
+            parroquia = request[1]
+            adhmp.getMoreParroquiaInfo(parroquia, defer)
+          )
+          #return promise to all parroquias
+          return allDefered.promise
+        if not adhmp.parroquias? or adhmp.parroquias.length == 0
+          #get all parroquias for current state and city
+          #configuration
+          adhmp.getParroquias().then(
+            waitAllMoreParroquiasInfo
+            (error)->
+              console.log "getAllParroquiasMoreInfo: Error - #{error}"
+              defered.reject(error)
+          )
+        else
+          #just update all parroquias with more info
+          waitAllMoreParroquiasInfo(adhmp.parroquias)
+        return defered.promise
+      adhmp.updateAllParroquias = ()->
+        defered = $q.defer()
+        adhmp.getAllParroquiasMoreInfo().then(
+          (parroquias)->
+            #save this information in mongo db
+            adhmp.inserted = 0
+            #make promises for each parroquia so that we
+            #can wait for all of them to be done
+            defers = (for i in [0..(adhmp.parroquias.length)]
+              $q.defer()
+            )
+            promises = (for defer in defers
+              defer.promise
+            )
+            allDefered = $q.all(promises)
+            requests = _.zip(defers, adhmp.parroquias)
+            #upsert each parroquia with newly updated 
+            #information
+            _.forEach(requests, (request)->
+              defer = request[0]
+              parroquia = _.clone(request[1])
+              delete parroquia["$$hashKey"]
+              adhmp.call(
+                'parroquias.parse-upsert'
+                parroquia
+                (error, result)->
+                  if not error?
+                    console.log "inserted #{parroquia.name}"
+                    adhmp.inserted += 1
+                    defer.resolve(parroquia)
+                  else
+                    console.log "error inserting #{parroquia.name}"
+                    console.log result
+                    defer.reject("Error: #{parroquia.name}")
+              )
+            )
+            #resolve the main promise after all parroquias have
+            #been upserted (defered)
+            allDefered.promise.then(
+              ()->
+                defered.resolve(adhmp.parroquias)
+              (error)->
+                defered.reject("updateAllParroquias (1) : Error #{error}")
+            )
+          (error)->
+            #if there is an error when getting more info for all
+            #parroquias then reject the main promise defered
+            defered.reject("updateAllParroquias (2) : Error #{error}")
+        )
+        return defered.promise
       return
   }
