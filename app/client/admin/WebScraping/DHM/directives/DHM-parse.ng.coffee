@@ -7,7 +7,7 @@ angular.module('parroquias').directive 'dhmParse', ()->
     }
     templateUrl: 'app/client/admin/WebScraping/DHM/views/DHM-parse.html'
     controllerAs: 'adhmp'
-    controller: ($scope, $reactive)->
+    controller: ($scope, $reactive, $q)->
       adhmp = @
       $reactive(adhmp).attach($scope)
       adhmp.states = []
@@ -304,7 +304,7 @@ angular.module('parroquias').directive 'dhmParse', ()->
             adhmp.getMoreParroquiaInfo(parroquia, defer)
           )
           #return promise to all parroquias
-          return allDefered.promise
+          return allDefered
         if not adhmp.parroquias? or adhmp.parroquias.length == 0
           #get all parroquias for current state and city
           #configuration
@@ -356,7 +356,7 @@ angular.module('parroquias').directive 'dhmParse', ()->
             )
             #resolve the main promise after all parroquias have
             #been upserted (defered)
-            allDefered.promise.then(
+            allDefered.then(
               ()->
                 defered.resolve(adhmp.parroquias)
               (error)->
