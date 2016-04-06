@@ -52,6 +52,7 @@ angular.module('parroquias').directive 'dhmParse', ()->
           )
       )
       adhmp.getParroquias = ()->
+        console.log "adhmp.getParroquias()"
         defered = $q.defer()
         adhmp.updated = 0
         if adhmp.city?
@@ -125,9 +126,11 @@ angular.module('parroquias').directive 'dhmParse', ()->
             defered.resolve(adhmp.parroquias)
             return
         )
+        console.log "END adhmp.getParroquias()"
         return defered.promise
       #get more information for the given parroquia
       adhmp.getMoreParroquiaInfo = (parroquia, defered)->
+        console.log "adhmp.getMoreParroquiasInfo()"
         if not parroquia? or
         not parroquia.id? or
         not parroquia.diocesis_id?
@@ -270,28 +273,36 @@ angular.module('parroquias').directive 'dhmParse', ()->
             adhmp.updated += 1
             if defered?
               defered.resolve(parroquia)
+            console.log "END adhmp.getMoreParroquiasInfo()"
         )
       adhmp.getAllParroquiasMoreInfo = ()->
         #update and get all information for each
         #church
         adhmp.updated = 0
         defered = $q.defer()
-        #this function will return a defered promise that
-        #will resolve or reject after all of the parroquias
-        #have been updated
+        # function waitAllMoreParroquiasInfo()
+        #   this function will return a defered promise that
+        #   will resolve or reject after all of the parroquias
+        #   have been updated
         waitAllMoreParroquiasInfo = (parroquias)->
+          console.log "waitAllMoreParroquiasInfo() - Inner"
           moreParroquiasInfo(parroquias).then(
             (updatedParroquias)->
+              console.log "gotParroquias"
               defered.resolve(updatedParroquias)
             (error)->
-              reject.reject("getAllParroquiasMoreInfo -> waitAllMoreParroquiasInfo Error #{error}")
+              defered.reject("getAllParroquiasMoreInfo -> waitAllMoreParroquiasInfo Error #{error}")
           )
+        # function moreParroquiasInfo()
         moreParroquiasInfo = (parroquias)->
           #get more information for all parroquias
-          defers = (for i in [0..(parroquias.length)]
+          console.log "moreParroquiasInfo()"
+          defers = (for i in [0..(parroquias.length-1)]
+            console.log "moreParroquiasInfo() - defer"
             $q.defer()
           )
           promises = (for defer in defers
+            console.log "moreParroquiasInfo() - promise"
             defer.promise
           )
           allDefered = $q.all(promises)
@@ -316,6 +327,7 @@ angular.module('parroquias').directive 'dhmParse', ()->
           )
         else
           #just update all parroquias with more info
+          console.log "getAllParroquiasMoreInfo : get more parroquia info from waitAllMoreParroquiasInfo"
           waitAllMoreParroquiasInfo(adhmp.parroquias)
         return defered.promise
       adhmp.updateAllParroquias = ()->
@@ -323,10 +335,11 @@ angular.module('parroquias').directive 'dhmParse', ()->
         adhmp.getAllParroquiasMoreInfo().then(
           (parroquias)->
             #save this information in mongo db
+            console.log "updateAllParroquias - updating all parroquias now"
             adhmp.inserted = 0
             #make promises for each parroquia so that we
             #can wait for all of them to be done
-            defers = (for i in [0..(adhmp.parroquias.length)]
+            defers = (for i in [0..(adhmp.parroquias.length-1)]
               $q.defer()
             )
             promises = (for defer in defers
@@ -339,7 +352,10 @@ angular.module('parroquias').directive 'dhmParse', ()->
             _.forEach(requests, (request)->
               defer = request[0]
               parroquia = _.clone(request[1])
-              delete parroquia["$$hashKey"]
+              for key in _.keys(parroquia) 
+                if _.startsWith(key, "$$")
+                  delete parroquia[key]
+              parroquia = JSON.parse(angular.toJson(parroquia))
               adhmp.call(
                 'parroquias.parse-upsert'
                 parroquia
@@ -366,7 +382,16 @@ angular.module('parroquias').directive 'dhmParse', ()->
             #if there is an error when getting more info for all
             #parroquias then reject the main promise defered
             defered.reject("updateAllParroquias (2) : Error #{error}")
+            console.log("updateAllParroquias (2) : Error #{error}")
         )
         return defered.promise
+      #TODO: fix issue with updateAll deferal of all
+      adhmp.testUpdateAll = ()->
+        adhmp.updateAllParroquias().then(
+          ()->
+            console.log "updatedAllParroquiqs!"
+          (error)->
+            console.log "#{error}"
+        )
       return
   }
