@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import url from 'url';
 
 angular.module('parroquias').directive('dhmParse', function() {
   return {
@@ -158,7 +159,7 @@ angular.module('parroquias').directive('dhmParse', function() {
           id: parroquia.id,
           d: parroquia.diocesis_id
         }, function(error, html) {
-          var addressHtml, addressLine2, addressText, datosGeneralesHtml, day, dayHtml, daySchedule, day_id, day_ids, days, daysHtml, doesNotExist, doesNotExistRegexp, eventHtml, eventInfo, eventRegexp, eventTime, eventTypeName, getInfo, hour, i, meridiem, mins, parroquiaHtml, pictureHtml, scheduleHtml, serviciosHtml, src, stACt, stACtRegexp, tDay, timeParts, timeRegexp;
+          var addressHtml, addressLine2, addressText, datosGeneralesHtml, day, dayHtml, daySchedule, day_id, day_ids, days, daysHtml, doesNotExist, doesNotExistRegexp, eventHtml, eventInfo, eventRegexp, eventTime, eventTypeName, getInfo, hour, i, meridiem, mins, parroquiaHtml, pictureHtml, scheduleHtml, serviciosHtml, src, stACt, stACtRegexp, tDay, timeParts, timeRegexp, mapaHtml;
           parroquiaHtml = $(html);
           if ((parroquiaHtml != null) && parroquiaHtml.length >= 1) {
             pictureHtml = parroquiaHtml.find("span.titulo2 > center > img");
@@ -236,6 +237,21 @@ angular.module('parroquias').directive('dhmParse', function() {
             if (serviciosHtml.length > 0) {
               parroquia.servicios = serviciosHtml.html();
             }
+            mapaHtml = parroquiaHtml.find("strong:contains('Mapa de ubicación')").closest("tr").next().find("iframe");
+            if (mapaHtml.length > 0) {
+              var urlObj = url.parse(mapaHtml.attr("src"));
+              if(urlObj != null){
+                var queryString = urlObj.query;
+                var llRegexp = /&ll=(-?\d+.\d+),(-?\d+.\d+)&/g
+                var ll = llRegexp.exec(queryString)
+                if(ll != null && ll.length >= 3){
+                  parroquia.location = {
+                    lat: ll[1],
+                    lon: ll[2]
+                  }
+                }
+              }
+            }
             scheduleHtml = parroquiaHtml.find("strong:contains(Misas)").closest("tr").next();
             if (scheduleHtml.length > 0) {
               daysHtml = scheduleHtml.find("b");
@@ -308,6 +324,7 @@ angular.module('parroquias').directive('dhmParse', function() {
               parroquia.schedule = {
                 days: days
               };
+              console.log(parroquia);
             }
           }
           adhmp.updated += 1;
