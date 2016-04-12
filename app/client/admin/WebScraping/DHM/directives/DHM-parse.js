@@ -324,7 +324,7 @@ angular.module('parroquias').directive('dhmParse', function() {
               parroquia.schedule = {
                 days: days
               };
-              console.log(parroquia);
+              //console.log(parroquia);
             }
           }
           adhmp.updated += 1;
