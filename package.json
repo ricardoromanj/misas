@@ -1,0 +1,26 @@
+{
+  "name": "misas",
+  "version": "1.0.0",
+  "description": "NPM modules for misas project",
+  "main": "parroquias.js",
+  "dependencies": {
+    "angular-ui-bootstrap": "^1.3.1",
+    "lodash": "^4.10.0",
+    "meteor-node-stubs": "^0.2.3",
+    "url": "^0.11.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/roman0316/misas.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/roman0316/misas/issues"
+  },
+  "homepage": "https://github.com/roman0316/misas"
+}
