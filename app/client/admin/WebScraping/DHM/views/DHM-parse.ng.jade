@@ -40,8 +40,8 @@
             ul
               li(ng-if="parroquia.address_line_1") Address Line 1: {{parroquia.address_line_1}}
               li(ng-if="parroquia.address_line_2") Address Line 2: {{parroquia.address_line_2}}
-              li(ng-if="parroquia.city") City: {{parroquia.city}}
-              li(ng-if="parroquia.state") State: {{parroquia.state}}
+              li(ng-if="parroquia.city.name") City: {{parroquia.city.name}}
+              li(ng-if="parroquia.state.name") State: {{parroquia.state.name}}
               li(ng-if="parroquia.postal_code") C.P.: {{parroquia.postal_code}}
               li(ng-if="parroquia.postal_code_a") A.P.: {{parroquia.postal_code_a}}
             p(ng-if="parroquia.phone") Phone: {{parroquia.phone}}

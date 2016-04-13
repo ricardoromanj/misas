@@ -70,15 +70,17 @@ if Meteor.isServer
       console.log "#{parroquia.name}"
       if not parroquia.diocesis_id? or
       not parroquia.id? or
-      not parroquia.state_id? or
-      not parroquia.city_id?
-        throw new Meteor.error "Missing Field", "Missing a field from [diocesis_id, id, state_id, city_id]"
+      not parroquia.state? or
+      not parroquia.state.id? or
+      not parroquia.city? or
+      not parroquia.city.id?
+        throw new Meteor.error "Missing Field", "Missing a field from [diocesis_id, id, state.id, city.id]"
       result = Parroquias.update(
         {
           id: parroquia.id
           diocesis_id: parroquia.diocesis_id
-          state_id: parroquia.state_id
-          city_id: parroquia.city_id
+          'state.id': parroquia.state.id
+          'city.id': parroquia.city.id
         },
         {
           $set: parroquia

@@ -71,14 +71,17 @@ angular.module('parroquias').directive('dhmParse', function() {
       });
       adhmp.getParroquias = function() {
         var cityId, defered, stateId;
+        var cityName, stateName;
         console.log("adhmp.getParroquias()");
         defered = $q.defer();
         adhmp.updated = 0;
         if (adhmp.city != null) {
           cityId = adhmp.city.id;
+          cityName = adhmp.city.name;
         }
         if (adhmp.state != null) {
           stateId = adhmp.state.id;
+          stateName = adhmp.state.name;
         }
         adhmp.call('DHM-parse-parroquias', {
           cityId: cityId,
@@ -129,6 +132,18 @@ angular.module('parroquias').directive('dhmParse', function() {
                   console.log("Error! please fix this: " + parroquiaHref);
                 }
               }
+              var cityRegexp = /,([^,]+)$/g;
+              var cityRes = cityRegexp.exec(address);
+              if (cityRes != null && cityRes.length >= 2){
+                var city = _.deburr(_.trim(cityRes[1]));
+                var cityInfo = _.find(adhmp.cities, function(obj){
+                  return city == _.deburr(obj.name);
+                });
+                if (cityInfo != null){
+                  cityId = cityInfo.id;
+                  cityName = cityInfo.name;
+                }
+              }
               parroquia = {
                 diocesis_name: diocesisName,
                 name: parroquiaName,
@@ -138,8 +153,14 @@ angular.module('parroquias').directive('dhmParse', function() {
                 href: parroquiaHref,
                 id: parroquiaId,
                 diocesis_id: diocesisId,
-                state_id: stateId,
-                city_id: cityId
+                state: {
+                  id: stateId,
+                  name: stateName
+                },
+                city: {
+                  id: cityId,
+                  name: cityName
+                }
               };
               results.push(parroquia);
             }
@@ -152,6 +173,7 @@ angular.module('parroquias').directive('dhmParse', function() {
       };
       adhmp.getMoreParroquiaInfo = function(parroquia, defered) {
         console.log("adhmp.getMoreParroquiasInfo()");
+        var cities = adhmp.cities;
         if ((parroquia == null) || (parroquia.id == null) || (parroquia.diocesis_id == null)) {
           return;
         }
@@ -189,18 +211,34 @@ angular.module('parroquias').directive('dhmParse', function() {
                 if ((addressLine2 != null) && addressLine2.length > 0) {
                   parroquia.address_line_2 = addressLine2.next().text();
                 }
+                /*
                 if ((addressText != null) && addressText.length >= 3) {
+                  console.log(addressText);
                   stACtRegexp = /(.*),(.*)/g;
                   stACt = stACtRegexp.exec(addressText[2].textContent);
                   if (stACt != null) {
                     if (stACt.length >= 2) {
-                      parroquia.city = _.trim(stACt[1]);
+                      parroquia.city.name = _.trim(stACt[1]);
+                      var city = _.deburr(parroquia.city.name);
+                      // find the first city that matches the given
+                      // name
+                      var cityInfo = _.find(cities, function(obj){
+                        return city == _.deburr(obj.name);
+                      });
+                      if (cityInfo != null) {
+                        parroquia.city = {
+                          id: fCity.id,
+                          name: fCity.name
+                        };
+                      }
                     }
+                    /*
                     if (stACt.length >= 3) {
-                      parroquia.state = _.trim(stACt[2]);
+                      parroquia.state.name = _.trim(stACt[2]);
                     }
                   }
                 }
+                */
               }
               getInfo = function(field, parroquiaField, parroquia) {
                 var elem;

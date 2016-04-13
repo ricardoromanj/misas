@@ -14,8 +14,8 @@ h3 address:
 ul
   li(ng-if="pc.parroquia.address_line_1") Address Line 1: {{pc.parroquia.address_line_1}}
   li(ng-if="pc.parroquia.address_line_2") Address Line 2: {{pc.parroquia.address_line_2}}
-  li(ng-if="pc.parroquia.city") City: {{pc.parroquia.city}}
-  li(ng-if="pc.parroquia.state") State: {{pc.parroquia.state}}
+  li(ng-if="pc.parroquia.city.name") City: {{pc.parroquia.city.name}}
+  li(ng-if="pc.parroquia.state.name") State: {{pc.parroquia.state.name}}
   li(ng-if="pc.parroquia.postal_code") C.P.: {{pc.parroquia.postal_code}}
   li(ng-if="pc.parroquia.postal_code_a") A.P.: {{pc.parroquia.postal_code_a}}
 h3 other:

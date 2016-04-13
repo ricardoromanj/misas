@@ -19,7 +19,7 @@ div(class="parroquias-search")
       tr(ng-repeat="parroquia in pssc.parroquias")
         td 
           a(ui-sref="parroquia({id: parroquia._id})") {{parroquia.name}}
-        td {{parroquia.city}}
-        td {{parroquia.state}}
+        td {{parroquia.city.name}}
+        td {{parroquia.state.name}}
         td {{parroquia.parroquia_type}}
         td {{parroquia.address}}
