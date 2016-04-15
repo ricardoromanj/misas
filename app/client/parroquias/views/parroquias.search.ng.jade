@@ -7,14 +7,19 @@ div(class="parroquias-search")
     select(ng-model="pssc.searchOrder")
       option(value="1")  ascending
       option(value="-1") discending
+  div(class="container")
   div(class="parroquias-results")
-    ul 
-      li(ng-repeat="parroquia in pssc.parroquias") 
-        a(ui-sref="parroquia({id: parroquia._id})") {{parroquia.name}}
-  //form(no-validate="")
-    input(type="search", ng-model="pssc.searchText", placeholder="search")
-    select(ng-model="pssc.searchOrder")
-      option(value="1")
-      option(value"-1")
-  //div(class"parroquias-results")
-    a(ng-repeat="parroquia in pssc.parroquias") {{parroquia.name}}
+    table(class="table") 
+      tr
+        th Name
+        th City
+        th State
+        th Type
+        th Address
+      tr(ng-repeat="parroquia in pssc.parroquias")
+        td 
+          a(ui-sref="parroquia({id: parroquia._id})") {{parroquia.name}}
+        td {{parroquia.city.name}}
+        td {{parroquia.state.name}}
+        td {{parroquia.parroquia_type}}
+        td {{parroquia.address}}

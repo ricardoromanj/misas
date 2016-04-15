@@ -36,4 +36,62 @@
 #        #Array of Objects containing days on which to repeat event
 
 @Parroquias = new Mongo.Collection("parroquias")
+Parroquias = @Parroquias
 
+Parroquias.allow(
+  insert: (userId, doc)->
+    if doc not instanceof object
+      return false
+    if(not doc.diocesis_id? or
+       not doc.id? or
+       not doc.state_id? or
+       not doc.city_id?)
+      return false
+    return true
+  update: ()->
+    if doc not instanceof object
+      return false
+    if(not doc.diocesis_id? or
+       not doc.id? or
+       not doc.state_id? or
+       not doc.city_id?)
+      return false
+    return true
+)
+if Meteor.isServer
+  Meteor.methods(
+    'parroquias.parse-upsert': (parroquia)->
+      #get parroquia with same else create a new parroquia
+      # diocesis_id
+      # id
+      # state_id
+      # city_id
+      #debugger
+      console.log "#{parroquia.name}"
+      if not parroquia.diocesis_id? or
+      not parroquia.id? or
+      not parroquia.state? or
+      not parroquia.state.id? or
+      not parroquia.city? or
+      not parroquia.city.id?
+        throw new Meteor.error "Missing Field", "Missing a field from [diocesis_id, id, state.id, city.id]"
+      result = Parroquias.update(
+        {
+          id: parroquia.id
+          diocesis_id: parroquia.diocesis_id
+          'state.id': parroquia.state.id
+          'city.id': parroquia.city.id
+        },
+        {
+          $set: parroquia
+        },
+        {
+          upsert: true
+        }
+      )
+      console.log result
+      return result
+    'parroquias.insert': (parroquia)->
+      #create a new parroquia
+      return
+  )

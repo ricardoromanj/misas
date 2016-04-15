@@ -1,0 +1,30 @@
+# You can read the Docker Compose documentation at:
+#
+#   https://docs.docker.com/compose/
+#
+# Run with file with `docker-compose up -d`.
+#
+# We use two separate Docker containers: one for the database and one for the
+# Misas application.
+#
+
+# Uncomment for production
+
+misasdb_prod:
+  image: mongo
+  volumes:
+    - ../data/runtime/db:/data/db
+    - ../data/dump:/dump
+  command: mongod --smallfiles --oplogSize 128
+  ports:
+    - 27017
+
+misas_prod:
+  build: .
+  links:
+    - misasdb_prod
+  environment:
+    - MONGO_URL=mongodb://misasdb_prod/misas
+    - ROOT_URL=http://localhost:3000
+  ports:
+    - "3100:3000"
