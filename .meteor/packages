@@ -17,6 +17,7 @@ insecure                # Allow all DB writes from clients (for prototyping)
 civilframe:angular-jade
 angularui:angular-ui-router
 angular
+angular-templates
 ndxbxrme:ng-coffeescript
 twbs:bootstrap
 http

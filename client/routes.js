@@ -19,7 +19,7 @@ angular.module('parroquias').config(function($urlRouterProvider, $stateProvider,
     }
   }).state('admin', {
     url: '/admin/',
-    templateUrl: 'app/client/admin/views/admin.html',
+    templateUrl: 'client/admin/views/admin.html',
     controller: function($scope) {
       return console.log("admin");
     }

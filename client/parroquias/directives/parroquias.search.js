@@ -3,7 +3,7 @@ console.log('Loaded parroquias directive!');
 angular.module('parroquias').directive('parroquiasSearch', function() {
   return {
     restrict: 'E',
-    templateUrl: 'app/client/parroquias/views/parroquias.search.html',
+    templateUrl: 'client/parroquias/views/parroquias.search.html',
     controllerAs: 'pssc',
     controller: function($scope, $reactive) {
       var pssc;

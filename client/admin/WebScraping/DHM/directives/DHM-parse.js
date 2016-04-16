@@ -5,7 +5,7 @@ angular.module('parroquias').directive('dhmParse', function() {
   return {
     restrict: 'E',
     scope: {},
-    templateUrl: 'app/client/admin/WebScraping/DHM/views/DHM-parse.html',
+    templateUrl: 'client/admin/WebScraping/DHM/views/DHM-parse.html',
     controllerAs: 'adhmp',
     controller: function($scope, $reactive, $q) {
       var adhmp;
