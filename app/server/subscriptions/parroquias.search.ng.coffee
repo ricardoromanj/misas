@@ -17,4 +17,7 @@ Meteor.publish 'parroquias.search', (options, q)->
       $regex: '.*' + ( "#{q}" || '') + ( "#{q}" && '.*')
       $options: 'i'
   }
+  Counts.publish(this, 'numParroquias', Parroquias.find(selector), {
+    onReady: true
+  })
   return Parroquias.find(selector, options)
