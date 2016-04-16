@@ -10,7 +10,7 @@ angular.module('parroquias').directive('parroquiasSearch', function() {
       $reactive(this).attach($scope);
       pssc = this;
       pssc.pageInfo = {
-        page: 0,
+        page: 1,
         perPage: 20
       };
       pssc.changePage = function(newPage){
@@ -28,7 +28,7 @@ angular.module('parroquias').directive('parroquiasSearch', function() {
       pssc.subscribe('parroquias.search', function() {
         return [
           {
-            skip: parseInt(pssc.getReactively('pageInfo.page')*pssc.getReactively('pageInfo.perPage')),
+            skip: parseInt((pssc.getReactively('pageInfo.page')-1)*pssc.getReactively('pageInfo.perPage')),
             limit: parseInt(pssc.getReactively('pageInfo.perPage'))
           }, 
           pssc.getReactively('searchText')
