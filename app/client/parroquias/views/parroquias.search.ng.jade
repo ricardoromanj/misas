@@ -1,7 +1,7 @@
 div(class="parroquias-search")
   //p {{ pssc | json }}
-  p {{ pssc.pageInfo | json }}
-  p {{ pssc.numParroquias | json }}
+  //p {{ pssc.pageInfo | json }}
+  strong {{ pssc.numParroquias | json }}
   h1 Parroquias Search
   form(novalidate)
     |Search: 
