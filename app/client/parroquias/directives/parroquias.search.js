@@ -9,13 +9,30 @@ angular.module('parroquias').directive('parroquiasSearch', function() {
       var pssc;
       $reactive(this).attach($scope);
       pssc = this;
+      pssc.pageInfo = {
+        page: 0,
+        perPage: 20
+      };
+      pssc.changePage = function(newPage){
+        console.log(newPage);
+        pssc.pageInfo.page = newPage;
+      };
       pssc.helpers({
         parroquias: function() {
           return Parroquias.find({});
-        }
+        },
+        numParroquias: function() { 
+          return Counts.get('numParroquias');
+        } 
       });
       pssc.subscribe('parroquias.search', function() {
-        return [{}, pssc.getReactively('searchText')];
+        return [
+          {
+            skip: parseInt(pssc.getReactively('pageInfo.page')*pssc.getReactively('pageInfo.perPage')),
+            limit: parseInt(pssc.getReactively('pageInfo.perPage'))
+          }, 
+          pssc.getReactively('searchText')
+        ];
       });
       return console.log('parroquias search loaded');
     }

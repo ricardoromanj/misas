@@ -7,6 +7,11 @@
       "from": "angular-ui-bootstrap@>=1.3.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/angular-ui-bootstrap/-/angular-ui-bootstrap-1.3.1.tgz"
     },
+    "angular-utils-pagination": {
+      "version": "0.11.1",
+      "from": "angular-utils-pagination@latest",
+      "resolved": "https://registry.npmjs.org/angular-utils-pagination/-/angular-utils-pagination-0.11.1.tgz"
+    },
     "lodash": {
       "version": "4.10.0",
       "from": "lodash@>=4.10.0 <5.0.0",
