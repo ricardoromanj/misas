@@ -1,5 +1,6 @@
-console.log('Loaded parroquia directive!');
+import { Parroquias } from '../../../api/parroquias/collection';
 
+console.log('Loaded parroquia directive!');
 angular.module('parroquias').directive('parroquia', function($stateParams) {
   return {
     restrict: 'E',

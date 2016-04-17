@@ -1,5 +1,6 @@
 import 'angular-ui-bootstrap';
 import utilsPagination from 'angular-utils-pagination';
+import { Parroquias } from '../../../api/parroquias/collection';
 
 console.log('Loaded parroquias!');
 

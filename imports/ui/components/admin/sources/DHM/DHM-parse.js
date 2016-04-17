@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import url from 'url';
+import { Parroquias } from '../../../../../api/parroquias/collection';
 
 angular.module('parroquias').directive('dhmParse', function() {
   return {
