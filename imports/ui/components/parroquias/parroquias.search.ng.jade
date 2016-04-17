@@ -21,7 +21,7 @@ div(class="parroquias-search")
         th Address
       tr(dir-paginate="parroquia in pssc.parroquias | itemsPerPage: pssc.pageInfo.perPage" total-items="pssc.numParroquias")
         td 
-          a(ui-sref="parroquia({id: parroquia._id})") {{parroquia.name}}
+          a(ui-sref="misas.parroquia({id: parroquia._id})") {{parroquia.name}}
         td {{parroquia.city.name}}
         td {{parroquia.state.name}}
         td {{parroquia.parroquia_type}}

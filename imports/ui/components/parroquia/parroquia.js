@@ -6,7 +6,7 @@ angular.module('parroquias').directive('parroquia', function($stateParams) {
     scope: {
       id: '='
     },
-    templateUrl: 'client/parroquia/views/parroquia.html',
+    templateUrl: 'imports/ui/components/parroquia/parroquia.html',
     controllerAs: 'pc',
     controller: function($scope, $reactive) {
       var pc;
