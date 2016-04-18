@@ -1,0 +1,28 @@
+div(class="parroquias-search")
+  //p {{ pssc | json }}
+  //p {{ pssc.pageInfo | json }}
+  strong {{ pssc.numParroquias | json }}
+  h1 Parroquias Search
+  form(novalidate)
+    |Search: 
+    input(type="search", ng-model="pssc.searchText")
+    select(ng-model="pssc.searchOrder")
+      option(value="1")  ascending
+      option(value="-1") discending
+  div(class="container")
+  div(class="parroquias-results")
+    dir-pagination-controls(on-page-change="pssc.changePage(newPageNumber)")
+    table(class="table") 
+      tr
+        th Name
+        th City
+        th State
+        th Type
+        th Address
+      tr(dir-paginate="parroquia in pssc.parroquias | itemsPerPage: pssc.pageInfo.perPage" total-items="pssc.numParroquias")
+        td 
+          a(ui-sref="misas.parroquia({id: parroquia._id})") {{parroquia.name}}
+        td {{parroquia.city.name}}
+        td {{parroquia.state.name}}
+        td {{parroquia.parroquia_type}}
+        td {{parroquia.address}}
