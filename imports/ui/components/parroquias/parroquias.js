@@ -12,6 +12,7 @@ angular.module('parroquias',
     'angular-meteor', 
     'ui.router', 
     'ui.bootstrap',
+    'accounts.ui',
     utilsPagination
   ]
 );
