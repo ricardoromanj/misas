@@ -14,9 +14,10 @@ tracker                 # Meteor's client-side reactive programming library
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 
 insecure                # Allow all DB writes from clients (for prototyping)
-civilframe:angular-jade
-angularui:angular-ui-router
-angular
+#civilframe:angular-jade
+pbastowski:angular-babel
+#angularui:angular-ui-router
+#angular
 angular-templates
 ndxbxrme:ng-coffeescript
 twbs:bootstrap
@@ -26,3 +27,5 @@ http
 standard-minifier-css
 standard-minifier-js
 tmeasday:publish-counts
+#dotansimha:accounts-ui-angular
+victor755:meteor-angular-jade

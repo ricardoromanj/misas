@@ -2,14 +2,89 @@
   "name": "misas",
   "version": "1.0.0",
   "dependencies": {
+    "angular": {
+      "version": "1.5.3",
+      "from": "angular@latest",
+      "resolved": "https://registry.npmjs.org/angular/-/angular-1.5.3.tgz"
+    },
+    "angular-meteor": {
+      "version": "1.3.10",
+      "from": "https://registry.npmjs.org/angular-meteor/-/angular-meteor-1.3.10.tgz",
+      "resolved": "https://registry.npmjs.org/angular-meteor/-/angular-meteor-1.3.10.tgz",
+      "dependencies": {
+        "jsondiffpatch": {
+          "version": "0.1.43",
+          "from": "jsondiffpatch@>=0.1.38 <0.2.0",
+          "resolved": "https://registry.npmjs.org/jsondiffpatch/-/jsondiffpatch-0.1.43.tgz",
+          "dependencies": {
+            "chalk": {
+              "version": "0.5.1",
+              "from": "chalk@>=0.5.1 <0.6.0",
+              "resolved": "https://registry.npmjs.org/chalk/-/chalk-0.5.1.tgz",
+              "dependencies": {
+                "ansi-styles": {
+                  "version": "1.1.0",
+                  "from": "ansi-styles@>=1.1.0 <2.0.0",
+                  "resolved": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-1.1.0.tgz"
+                },
+                "escape-string-regexp": {
+                  "version": "1.0.5",
+                  "from": "escape-string-regexp@>=1.0.0 <2.0.0",
+                  "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz"
+                },
+                "has-ansi": {
+                  "version": "0.1.0",
+                  "from": "has-ansi@>=0.1.0 <0.2.0",
+                  "resolved": "https://registry.npmjs.org/has-ansi/-/has-ansi-0.1.0.tgz",
+                  "dependencies": {
+                    "ansi-regex": {
+                      "version": "0.2.1",
+                      "from": "ansi-regex@>=0.2.1 <0.3.0",
+                      "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-0.2.1.tgz"
+                    }
+                  }
+                },
+                "strip-ansi": {
+                  "version": "0.3.0",
+                  "from": "strip-ansi@>=0.3.0 <0.4.0",
+                  "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-0.3.0.tgz",
+                  "dependencies": {
+                    "ansi-regex": {
+                      "version": "0.2.1",
+                      "from": "ansi-regex@>=0.2.1 <0.3.0",
+                      "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-0.2.1.tgz"
+                    }
+                  }
+                },
+                "supports-color": {
+                  "version": "0.2.0",
+                  "from": "supports-color@>=0.2.0 <0.3.0",
+                  "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-0.2.0.tgz"
+                }
+              }
+            }
+          }
+        },
+        "underscore": {
+          "version": "1.8.3",
+          "from": "underscore@>=1.0.4 <2.0.0",
+          "resolved": "https://registry.npmjs.org/underscore/-/underscore-1.8.3.tgz"
+        }
+      }
+    },
     "angular-ui-bootstrap": {
       "version": "1.3.1",
       "from": "angular-ui-bootstrap@>=1.3.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/angular-ui-bootstrap/-/angular-ui-bootstrap-1.3.1.tgz"
     },
+    "angular-ui-router": {
+      "version": "0.2.18",
+      "from": "angular-ui-router@latest",
+      "resolved": "https://registry.npmjs.org/angular-ui-router/-/angular-ui-router-0.2.18.tgz"
+    },
     "angular-utils-pagination": {
       "version": "0.11.1",
-      "from": "angular-utils-pagination@latest",
+      "from": "https://registry.npmjs.org/angular-utils-pagination/-/angular-utils-pagination-0.11.1.tgz",
       "resolved": "https://registry.npmjs.org/angular-utils-pagination/-/angular-utils-pagination-0.11.1.tgz"
     },
     "lodash": {
@@ -524,6 +599,11 @@
           }
         }
       }
+    },
+    "ui-router": {
+      "version": "1.0.0-alpha.3",
+      "from": "ui-router@latest",
+      "resolved": "https://registry.npmjs.org/ui-router/-/ui-router-1.0.0-alpha.3.tgz"
     },
     "url": {
       "version": "0.11.0",
