@@ -30,6 +30,13 @@ angular.module('parroquias').config(function($urlRouterProvider, $stateProvider,
       $scope.id = $stateParams.id;
       return console.log("parroquia state loaded");
     }
+  }).state('misas.parroquia-edit', {
+    url: 'parroquia/{id}/edit',
+    template: '<parroquia-edit id="id"></parroquia-edit>',
+    controller: function($scope, $stateParams) {
+      $scope.id = $stateParams.id;
+      return console.log("parroquia edit state loaded");
+    }
   }).state('misas.admin', {
     url: 'admin/',
     templateUrl: 'imports/ui/components/admin/admin.html',
