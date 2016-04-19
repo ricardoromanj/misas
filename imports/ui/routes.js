@@ -1,5 +1,6 @@
 import './components/parroquias/parroquias';
 import './components/parroquia/parroquia';
+import './components/parroquia/parroquia-edit';
 import './components/parroquias/parroquias.search';
 import './components/admin/sources/DHM/DHM-parse';
 
