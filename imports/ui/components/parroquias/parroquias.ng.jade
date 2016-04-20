@@ -1,10 +1,11 @@
-div 
+div.container
+  nav.navbar.navbar-default
+    ul.nav.navbar-nav
+      li
+        a(ui-sref="misas") Home
+      li
+        a(ui-sref="misas.parroquias.search") Search Parroquias
+      li
+        a(ui-sref="misas.admin") Admin
   h1 Parroquias:
-  ul
-    li
-      a(ui-sref="misas") Home
-    li
-      a(ui-sref="misas.parroquias.search") Search Parroquias
-    li
-      a(ui-sref="misas.admin") Admin
   ui-view

@@ -1,5 +1,6 @@
 h1 {{pc.parroquia.name}}
 h3 {{pc.parroquia.diocesis_name}}
+a(ui-sref="misas.parroquia-edit({id: pc.parroquia._id})").btn.btn-default Editar
 a(ng-href="http://www.dondehaymisa.com/dhm.asp?op=2&id={{pc.parroquia.id}}&d={{pc.parroquia.diocesis_id}}") DHM
 h3 type:  
 span {{pc.parroquia.parroquia_type}}
