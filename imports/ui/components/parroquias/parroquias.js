@@ -1,4 +1,5 @@
-import 'angular-ui-bootstrap';
+// import 'angular-ui-bootstrap';
+import ngMaterial from 'angular-material';
 import utilsPagination from 'angular-utils-pagination';
 import { Parroquias } from '../../../api/parroquias/collection';
 
@@ -8,7 +9,8 @@ angular.module('parroquias',
   [
     'angular-meteor', 
     'ui.router', 
-    'ui.bootstrap',
+    //'ui.bootstrap',
+    'ngMaterial',
     utilsPagination
   ]
 );
