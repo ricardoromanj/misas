@@ -9,9 +9,11 @@
     "angular-aria": "^1.5.5",
     "angular-material": "^1.0.7",
     "angular-messages": "^1.5.5",
+    "angular-ui-router": "https://registry.npmjs.org/angular-ui-router/-/angular-ui-router-0.2.18.tgz",
     "angular-utils-pagination": "^0.11.1",
     "lodash": "^4.10.0",
     "meteor-node-stubs": "^0.2.3",
+    "ui-router": "^1.0.0-alpha.3",
     "url": "^0.11.0"
   },
   "devDependencies": {},

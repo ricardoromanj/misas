@@ -1,3 +1,4 @@
+import angular from 'angular';
 import _ from 'lodash';
 import url from 'url';
 import { Parroquias } from '../../../../../api/parroquias/collection';
@@ -9,6 +10,7 @@ angular.module('parroquias').directive('dhmParse', function() {
     templateUrl: 'imports/ui/components/admin/sources/DHM/DHM-parse.html',
     controllerAs: 'adhmp',
     controller: function($scope, $reactive, $q) {
+      "ngInject";
       var adhmp;
       adhmp = this;
       $reactive(adhmp).attach($scope);

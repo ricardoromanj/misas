@@ -5,6 +5,7 @@ import './components/parroquias/parroquias.search';
 import './components/admin/sources/DHM/DHM-parse';
 
 angular.module('parroquias').config(function($urlRouterProvider, $stateProvider, $locationProvider) {
+  "ngInject";
   $locationProvider.html5Mode(true);
   $stateProvider.state('misas', {
     url: '/',
@@ -28,6 +29,7 @@ angular.module('parroquias').config(function($urlRouterProvider, $stateProvider,
     url: 'parroquia/{id}',
     template: '<parroquia id="id"></parroquia>',
     controller: function($scope, $stateParams) {
+      "ngInject";
       $scope.id = $stateParams.id;
       return console.log("parroquia state loaded");
     }
@@ -42,11 +44,13 @@ angular.module('parroquias').config(function($urlRouterProvider, $stateProvider,
     url: 'admin/',
     templateUrl: 'imports/ui/components/admin/admin.html',
     controller: function($scope) {
+      "ngInject";
       return console.log("admin");
     }
   }).state('misas.admin.dhm-parse', {
     url: 'dhm-parse/',
     controller: function($scope) {
+      "ngInject";
       return console.log("dhm parsing");
     },
     views: {

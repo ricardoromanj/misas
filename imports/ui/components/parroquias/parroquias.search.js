@@ -1,3 +1,4 @@
+import angular from 'angular';
 import { Parroquias } from '../../../api/parroquias/collection';
 
 console.log('Loaded parroquias directive!');
@@ -7,6 +8,7 @@ angular.module('parroquias').directive('parroquiasSearch', function() {
     templateUrl: 'imports/ui/components/parroquias/parroquias.search.html',
     controllerAs: 'pssc',
     controller: function($scope, $reactive) {
+      "ngInject";
       var pssc;
       $reactive(this).attach($scope);
       pssc = this;

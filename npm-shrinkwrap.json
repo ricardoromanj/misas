@@ -27,6 +27,11 @@
       "from": "angular-messages@>=1.5.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/angular-messages/-/angular-messages-1.5.5.tgz"
     },
+    "angular-ui-router": {
+      "version": "0.2.18",
+      "from": "angular-ui-router@latest",
+      "resolved": "https://registry.npmjs.org/angular-ui-router/-/angular-ui-router-0.2.18.tgz"
+    },
     "angular-utils-pagination": {
       "version": "0.11.1",
       "from": "https://registry.npmjs.org/angular-utils-pagination/-/angular-utils-pagination-0.11.1.tgz",
@@ -527,6 +532,11 @@
           }
         }
       }
+    },
+    "ui-router": {
+      "version": "1.0.0-alpha.3",
+      "from": "ui-router@latest",
+      "resolved": "https://registry.npmjs.org/ui-router/-/ui-router-1.0.0-alpha.3.tgz"
     },
     "url": {
       "version": "0.11.0",
