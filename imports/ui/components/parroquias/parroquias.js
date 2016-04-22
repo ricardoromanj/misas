@@ -1,9 +1,9 @@
-import 'angular-ui-bootstrap';
-import angular from 'angular';
-import 'angular-meteor';
-import uiRouter from 'angular-ui-router';
+// import 'angular-ui-bootstrap';
+import ngMaterial from 'angular-material';
 import utilsPagination from 'angular-utils-pagination';
 import { Parroquias } from '../../../api/parroquias/collection';
+import 'angular-ui-router';
+
 
 console.log('Loaded parroquias!');
 
@@ -11,8 +11,8 @@ angular.module('parroquias',
   [
     'angular-meteor', 
     'ui.router', 
-    'ui.bootstrap',
-    'accounts.ui',
+    //'ui.bootstrap',
+    'ngMaterial',
     utilsPagination
   ]
 );

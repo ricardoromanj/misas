@@ -24,7 +24,7 @@ ndxbxrme:ng-coffeescript
 pbastowski:angular-babel
 victor755:meteor-angular-jade
 angular-templates
-twbs:bootstrap
+#twbs:bootstrap
 http
 
 
