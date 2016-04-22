@@ -17,6 +17,9 @@ angular.module('parroquias').directive('parroquiaEdit', function($stateParams) {
       pec.helpers({
         parroquia: function() {
           return Parroquias.findOne({});
+        },
+	states: function() {
+          return ['Chihuahua','Coahuila','Jalisco'];
         }
       });
       pec.subscribe('parroquia', function() {

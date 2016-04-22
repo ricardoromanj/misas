@@ -4,18 +4,28 @@ md-content( layout-padding layout="row" )
 md-content( layout-padding layout="column" )
   div( md-whiteframe="1" )
     md-content( layout-xs="column" layout-gt-xs="row" )
-      md-input-container( flex="100" flex-gt-xs="50" )
+      md-input-container( flex="100" flex-gt-xs="40" )
         label Nombre
         input(ng-model="pec.parroquia.name")
-      md-input-container( flex="100" flex-gt-xs="50" )
+      md-input-container( flex="100" flex-gt-xs="40" )
         label Diocesis
         input(ng-model="pec.parroquia.diocesis_name")
-    md-content( layout-xs="column" layout-gt-xs="row" )
       md-input-container( flex="100" flex-gt-xs="20" )
         label Type
         md-select( ng-model="pec.parroquia.parroquia_type")
           md-option( value="{{ pec.parroquia.parroquia_type }}")
             {{ pec.parroquia.parroquia_type }}
+    md-content( layout-xs="column" layout-gt-xs="row" )
+      md-input-container( flex="100" flex-gt-xs="30" )
+        label Estado
+        md-select( ng-model="pec.parroquia.state.name")
+          md-option( value="{{ pec.parroquia.state.name }}")
+            {{ pec.parroquia.state.name }}
+      md-input-container( flex="100" flex-gt-xs="50" )
+        label Ciudad
+        md-select( ng-model="pec.parroquia.city.name")
+          md-option( value="{{ pec.parroquia.city.name }}")
+            {{ pec.parroquia.city.name }}
   br
   md-content( layout="column")
     h1 {{pec.parroquia.name}}
