@@ -1,0 +1,30 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'shrinkwrap' ]
+2 info using npm@3.8.3
+3 info using node@v5.10.1
+4 verbose stack Error: Problems were encountered
+4 verbose stack Please correct and try again.
+4 verbose stack extraneous: angular-meteor@1.3.10 /home/chingaman/misas/node_modules/angular-meteor
+4 verbose stack extraneous: angular-ui-bootstrap@1.3.1 /home/chingaman/misas/node_modules/angular-ui-bootstrap
+4 verbose stack     at shrinkwrap_ (/usr/lib/node_modules/npm/lib/shrinkwrap.js:101:15)
+4 verbose stack     at /usr/lib/node_modules/npm/lib/shrinkwrap.js:36:5
+4 verbose stack     at /usr/lib/node_modules/npm/node_modules/iferr/index.js:13:50
+4 verbose stack     at /usr/lib/node_modules/npm/lib/install/deps.js:121:5
+4 verbose stack     at LOOP (/usr/lib/node_modules/npm/node_modules/slide/lib/chain.js:7:26)
+4 verbose stack     at /usr/lib/node_modules/npm/node_modules/slide/lib/chain.js:18:7
+4 verbose stack     at cb (/usr/lib/node_modules/npm/node_modules/slide/lib/async-map.js:47:24)
+4 verbose stack     at /usr/lib/node_modules/npm/lib/install/deps.js:121:5
+4 verbose stack     at LOOP (/usr/lib/node_modules/npm/node_modules/slide/lib/chain.js:7:26)
+4 verbose stack     at /usr/lib/node_modules/npm/node_modules/slide/lib/chain.js:18:7
+5 verbose cwd /home/chingaman/misas
+6 error Linux 4.2.0-35-generic
+7 error argv "/usr/bin/nodejs" "/usr/bin/npm" "shrinkwrap"
+8 error node v5.10.1
+9 error npm  v3.8.3
+10 error Problems were encountered
+10 error Please correct and try again.
+10 error extraneous: angular-meteor@1.3.10 /home/chingaman/misas/node_modules/angular-meteor
+10 error extraneous: angular-ui-bootstrap@1.3.1 /home/chingaman/misas/node_modules/angular-ui-bootstrap
+11 error If you need help, you may report this error at:
+11 error     <https://github.com/npm/npm/issues>
+12 verbose exit [ 1, true ]

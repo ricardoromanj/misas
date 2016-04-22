@@ -11,8 +11,20 @@ export default angular.module(
   ]  
 ).factory(
   'user',
-  () => {
+  ($q) => {
+    "ngInject";
     return {
+      checkLoggedIn(){
+        var deferred = $q.deferred()
+        if (Meteor.userId() != null) {
+          return deferred.resolve(Meteor.user());
+        }
+        else
+        {
+          return deferred.reject('AUTH_REQUIRED');
+        }
+      },
+      /* Some useful helper methods */
       setupUserHelpers(vm) {
         vm.helpers({
           currentUser() {
