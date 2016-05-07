@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
+import { Roles } from 'meteor/alanning:roles';
 
 const users = [ 
   {
@@ -25,6 +26,9 @@ if(Meteor.isServer){
     for(let user of users){
       var result = Accounts.createUser(user);
       console.log(result);
+      if(result != null){
+        Roles.addUsersToRoles(result, 'root', Roles.GLOBAL_GROUP);
+      }
     }
   }
 }

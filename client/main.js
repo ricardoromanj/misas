@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 
-import '../imports/ui/components/parroquias/parroquias';
 import '../imports/ui/routes';
 
 function onReady() {

@@ -2,6 +2,7 @@ import angular from 'angular';
 import { Parroquias } from '../../../api/parroquias/collection';
 
 console.log('Loaded parroquias directive!');
+
 angular.module('parroquias').directive('parroquiasSearch', function() {
   return {
     restrict: 'E',

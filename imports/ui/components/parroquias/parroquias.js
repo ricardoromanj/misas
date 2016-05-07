@@ -1,22 +1,27 @@
 // import 'angular-ui-bootstrap';
 import ngMaterial from 'angular-material';
 import utilsPagination from 'angular-utils-pagination';
+import angular from 'angular';
 import 'angular-ui-router';
 import { Parroquias } from '../../../api/parroquias/collection';
-import '../../services/user';
+import { name as ServicesModule } from '../../services/module';
+import '../../services/userHelpers';
+import { name as loginModule } from '../auth/login/login';
+import { name as passwordModule } from '../auth/password/password';
 
 
-console.log('Loaded parroquias!');
+console.log('initializing parroquias module');
 
-angular.module('parroquias', 
+export default angular.module('parroquias', 
   [
     'angular-meteor', 
     'ui.router', 
-    //'ui.bootstrap',
     'accounts.ui',
     'ngMaterial',
-    'misas.users',
-    utilsPagination
+    ServicesModule,
+    utilsPagination,
+    loginModule,
+    passwordModule
   ]
 );
 
@@ -25,12 +30,13 @@ angular.module('parroquias').directive('parroquias', function() {
     restrict: 'E',
     templateUrl: 'imports/ui/components/parroquias/parroquias.html',
     controllerAs: 'vm',
-    controller: function($scope, $reactive, user) {
+    replace: true,
+    controller: function($scope, $reactive, userHelpers) {
       "ngInject";
       var vm;
       $reactive(this).attach($scope);
       vm = this;
-      user.setupUserHelpers(vm);
+      userHelpers.setupUserHelpers(vm);
       return console.log('parroquias loaded');
     }
   };
