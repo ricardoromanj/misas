@@ -26,5 +26,11 @@ misas_prod:
   environment:
     - MONGO_URL=mongodb://misasdb_prod/misas
     - ROOT_URL=http://localhost:3000
+    - FACEBOOK_CLIENT_ID='yourclientidhere'
+    - FACEBOOK_SECRET='yoursecrethere'
+    - GOOGLE_CIENT_ID='yourclientidhere'
+    - GOOGLE_SECRET='yoursecrethere'
+    - TWITTER_CLIENT_ID='yourclientidhere'
+    - TWITTER_SECRET='yoursecrethere'
   ports:
     - "3100:3000"
