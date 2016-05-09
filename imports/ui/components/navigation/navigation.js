@@ -51,7 +51,8 @@ angular.module('parroquias').directive('navigation', function() {
             $log.error(err);  
             return;
           }  
-          $state.reload();
+          //$state.reload();
+          $state.go('misas');
         })  
       }
       vm.openMenu = function($mdOpenMenu, ev) {

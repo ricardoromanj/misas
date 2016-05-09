@@ -1,5 +1,5 @@
 md-toolbar
-  div.md-toolbar-tools.md-whiteframe-5dp.move-up
+  div.md-toolbar-tools.md-whiteframe-5dp.md-whiteframe-4z.move-up
     md-button(ui-sref='misas') Misas 
     md-button(ui-sref='misas.parroquias.search') Search
     login-buttons
@@ -12,7 +12,9 @@ md-toolbar
         span(ng-if="!vm.hasName() && vm.hasEmail()") {{ vm.currentUser.emails[0].address }}
       md-menu-content
         md-menu-item
-          md-button(ng-click='vm.logout()') Logout
+          md-button(ui-sref='misas.user.profile') Profile
         md-menu-item
-          md-button Profile
+          md-button(ui-sref='misas.user.settings') Settings 
+        md-menu-item
+          md-button(ng-click='vm.logout()') Logout
 //  span {{ vm.currentUser | json }}

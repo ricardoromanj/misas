@@ -25,6 +25,7 @@ ndxbxrme:ng-coffeescript
 pbastowski:angular-babel
 victor755:meteor-angular-jade
 angular-templates
+#angular-meteor-auth
 http
 
 

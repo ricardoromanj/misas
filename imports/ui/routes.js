@@ -1,10 +1,12 @@
 import parroquias from './components/parroquias/parroquias';
+import angularMeteorAuth from 'angular-meteor-auth';
 import './components/parroquia/parroquia';
 import './components/parroquia/parroquia-edit';
 import './components/parroquias/parroquias.search';
 import './components/admin/sources/DHM/DHM-parse';
 import './services/module';
 import './components/navigation/navigation';
+import './components/user/settings/settings';
 
 
 parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider, $mdIconProvider) {
@@ -43,7 +45,9 @@ parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider
         $scope.id = $stateParams.id;
         return console.log("parroquia edit state loaded");
       }
-    }).state('misas.admin', {
+    })
+    //--ADMIN-- RELATED STATES
+    .state('misas.admin', {
       url: 'admin/',
       templateUrl: 'imports/ui/components/admin/admin.html',
       controller: function($scope) {
@@ -55,7 +59,8 @@ parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider
           return userHelpers.checkIsRootP();
         }
       } 
-    }).state('misas.admin.dhm-parse', {
+    })
+    .state('misas.admin.dhm-parse', {
       url: 'dhm-parse/',
       controller: function($scope) {
         "ngInject";
@@ -71,10 +76,31 @@ parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider
           return userHelpers.checkIsRootP();
         }
       } 
-    }).state('misas.login', {
+    })
+    //--USER-- states
+    .state('misas.login', {
       url: 'login/',
       template: '<login></login>' 
-    });
+    })
+    .state(
+      'misas.user', 
+      {
+        url: 'user/',
+        templateUrl: 'imports/ui/components/user/user.html'
+      }
+    )
+    .state(
+      'misas.user.settings', 
+      {
+        url: 'settings/',
+        template: '<settings></settings>',
+        resolve: {
+          loggedIn: function(userHelpers){
+            return userHelpers.checkIsLoggedInP();
+          }
+        }
+      }
+    );
 
     $urlRouterProvider.otherwise('/parroquias');
 

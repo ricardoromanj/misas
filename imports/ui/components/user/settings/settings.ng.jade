@@ -1,0 +1,42 @@
+div(layout='row', layout-align='center stretch', layout-fill)
+  md-whiteframe.md-whiteframe-2dp(flex='80')
+    div(layout='column', layout-align='center center', layout-padding)
+      h3.md-headline User Settings
+    div(layout='column')
+      div(layout='row')
+        div(flex='20', layout='row', layout-align='end top')
+          h4.md-subhead name 
+        div(flex='5')
+        div(flex, layout='column', layout-align='center top')
+          md-list-item.md-line
+            div.md-list-item-text
+              p {{ settings.currentUser.profile.name }}
+        div(flex='10')
+      div(layout='row')
+        div(flex='20', layout='row', layout-align='end top')
+          h4.md-subhead email
+        div(flex='5')
+        div(flex)
+          md-list-item.md-2-line(ng-repeat='email in settings.currentUser.emails')
+            div.md-list-item-text
+              p {{ email.address }}
+              span verified: 
+                span {{ email.verified }}
+        div(flex='10')
+      div(layout='row')
+        div(flex='20', layout='row', layout-align='end top')
+          h4.md-subhead username 
+        div(flex='5')
+        div(flex, layout='column', layout-align='center top')
+          md-list-item.md-line
+            div.md-list-item-text
+              p {{ settings.currentUser.username }}
+        div(flex='10')
+      div(layout='row')
+        div(flex='20', layout='row', layout-align='end top')
+          h4.md-subhead password
+        div(flex='5')
+        div(flex, layout='column', layout-align='center top')
+          div
+            md-button(ng-click='changePassword()') change password
+        div(flex='10')

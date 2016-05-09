@@ -12,7 +12,7 @@ angular.module(
   ServicesModule
 ).factory(
   'userHelpers',
-  function userHelpersFactory($q) {
+  function userHelpersFactory($q, $auth) {
     "ngInject";
     var checkIsRoot = () => {
       let userId = Meteor.userId();
@@ -22,18 +22,24 @@ angular.module(
       return false;
     };
     var checkIsRootP = () => {
-      if(checkIsRoot()){
-        return $q.resolve();
-      }else{
-        return $q.reject('AUTH_REQUIRED');
-      }
+      return $auth.awaitUser(
+        (user) => {
+          return Roles.userIsInRole(user, ['root'], Roles.GLOBAL_GROUP);
+        }
+      );
+    }
+    var checkIsLoggedInP = () => {
+      return $auth.awaitUser();
     }
     var checkIsLoggedIn = () => {
       return !!Meteor.userId();
     };
+    /* Factory object used throughtout the code is returned here
+     * as a object with various functons */
     return {
       checkIsRoot: checkIsRoot,
       checkIsRootP: checkIsRootP,
+      checkIsLoggedInP: checkIsLoggedInP,
       checkIsLoggedIn(){
         var deferred = $q.deferred();
         if (Meteor.userId() != null) {
