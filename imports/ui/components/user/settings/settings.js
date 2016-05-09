@@ -1,6 +1,7 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import angularMeteorAuth from 'angular-meteor-auth';
+import angularMessages from 'angular-messages';
 import { name as userHelpersModule } from '../../../services/module';
 
 const moduleName = 'settings';
@@ -11,6 +12,21 @@ class Settings {
     'ngInject';
     $reactive(this).attach($scope);
     userHelpers.setupUserHelpers(this);
+    this.isChangingPassword = false;
+  }
+  startChangePassword(){
+    this.isChangingPassword = true;
+    this.oldPassword = '';
+    this.newPassword = '';
+    this.newPasswordCheck = '';
+  }
+  endChangePassword(){
+    this.isChangingPassword = false;
+  }
+  checkSamePassword(){
+    return (this.newPassword == this.newPasswordCheck);
+  }
+  changePassword(){
   }
 }
 
@@ -19,7 +35,8 @@ export default angular.module(
     [
       angularMeteor,
       angularMeteorAuth,
-      userHelpersModule
+      userHelpersModule,
+      angularMessages
     ] 
 )
 .component(

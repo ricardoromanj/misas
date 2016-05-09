@@ -12,6 +12,7 @@ div(layout='row', layout-align='center stretch', layout-fill)
             div.md-list-item-text
               p {{ settings.currentUser.profile.name }}
         div(flex='10')
+      md-divider
       div(layout='row')
         div(flex='20', layout='row', layout-align='end top')
           h4.md-subhead email
@@ -23,6 +24,7 @@ div(layout='row', layout-align='center stretch', layout-fill)
               span verified: 
                 span {{ email.verified }}
         div(flex='10')
+      md-divider
       div(layout='row')
         div(flex='20', layout='row', layout-align='end top')
           h4.md-subhead username 
@@ -32,11 +34,38 @@ div(layout='row', layout-align='center stretch', layout-fill)
             div.md-list-item-text
               p {{ settings.currentUser.username }}
         div(flex='10')
+      md-divider
+      //password change
       div(layout='row')
         div(flex='20', layout='row', layout-align='end top')
           h4.md-subhead password
         div(flex='5')
-        div(flex, layout='column', layout-align='center top')
-          div
-            md-button(ng-click='changePassword()') change password
+        div(ng-show='!settings.isChangingPassword'
+          flex, 
+          layout='column', 
+          layout-align='center top')
+          div()
+            md-button(ng-click='settings.startChangePassword()') change password
+        div(ng-show='settings.isChangingPassword',
+          flex, 
+          layout='column', 
+          layout-align='center top', 
+          layout-padding)
+          md-whiteframe.md-whiteframe-1dp
+            form(name='passwordChangeForm', layout='column')
+              md-input-container
+                label old password
+                input(type='password', ng-model='settings.oldPassword', required)
+              md-input-container
+                label new password
+                input(type='password', ng-model='settings.newPassword', required)
+              md-input-container
+                label confirm new password 
+                input(type='password', ng-model='settings.newPasswordCheck', required)
+              div(layout='row')
+                div(flex)
+                md-button(
+                  ng-disabled='!passwordChangeForm.$valid && !settings.checkSamePassword()'
+                ) change password
+                md-button(ng-click='settings.endChangePassword()') cancel
         div(flex='10')
