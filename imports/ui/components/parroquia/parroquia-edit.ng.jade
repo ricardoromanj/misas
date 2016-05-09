@@ -1,0 +1,43 @@
+md-content(layout-padding, layout="row")
+  md-content
+    h1.md-display-2 Editar
+md-content(layout-padding, layout="column")
+  div( md-whiteframe="1" )
+    md-content(layout-xs="column", layout-gt-xs="row" )
+      md-input-container(flex="100", flex-gt-xs="50" )
+        label Nombre
+        input(ng-model="pec.parroquia.name")
+      md-input-container(flex="100", flex-gt-xs="50")
+        label Diocesis
+        input(ng-model="pec.parroquia.diocesis_name")
+    md-content( layout-xs="column", layout-gt-xs="row")
+      md-input-container(flex="100", flex-gt-xs="20")
+        label Type
+        md-select(ng-model="pec.parroquia.parroquia_type")
+          md-option(value="{{ pec.parroquia.parroquia_type }}") {{ pec.parroquia.parroquia_type }}
+  br
+  md-content( layout="column")
+    h1 {{pec.parroquia.name}}
+    h3 {{pec.parroquia.diocesis_name}}
+    a(ng-href="http://www.dondehaymisa.com/dhm.asp?op=2&id={{pec.parroquia.id}}&d={{pec.parroquia.diocesis_id}}") DHM
+    h3 type:  
+    span {{pec.parroquia.parroquia_type}}
+    h3 schedule:
+    ul(ng-if="pec.parroquia.schedule.days")
+     li(ng-repeat="day in pec.parroquia.schedule.days") {{day.id}} {{day.name}}
+      ul(ng-if="day.events")
+        li(ng-repeat="event in day.events") {{event.type}} | {{event.start_time | json}}
+  p(ng-if="pec.parroquia.img.url") {{pec.parroquia.img.url}}
+  p(ng-if="pec.parroquia.address") {{pec.parroquia.address}} {{pec.parroquia.postal_code}}
+  h3 address:
+  ul
+    li(ng-if="pec.parroquia.address_line_1") Address Line 1: {{pec.parroquia.address_line_1}}
+    li(ng-if="pec.parroquia.address_line_2") Address Line 2: {{pec.parroquia.address_line_2}}
+    li(ng-if="pec.parroquia.city.name") City: {{pec.parroquia.city.name}}
+    li(ng-if="pec.parroquia.state.name") State: {{pec.parroquia.state.name}}
+    li(ng-if="pec.parroquia.postal_code") C.P.: {{pec.parroquia.postal_code}}
+    li(ng-if="pec.parroquia.postal_code_a") A.P.: {{pec.parroquia.postal_code_a}}
+  h3 other:
+  p(ng-if="pec.parroquia.phone") Phone: {{pec.parroquia.phone}}
+  p(ng-if="pec.parroquia.email") Mail: {{pec.parroquia.email}}
+  p(ng-if="pec.parroquia.website") Website: {{pec.parroquia.website}}

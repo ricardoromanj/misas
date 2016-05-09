@@ -1,7 +1,9 @@
+import angular from 'angular';
 import { Parroquias } from '../../../api/parroquias/collection';
 
 console.log('Loaded parroquia directive!');
 angular.module('parroquias').directive('parroquia', function($stateParams) {
+  "ngInject";
   return {
     restrict: 'E',
     scope: {
@@ -10,6 +12,7 @@ angular.module('parroquias').directive('parroquia', function($stateParams) {
     templateUrl: 'imports/ui/components/parroquia/parroquia.html',
     controllerAs: 'pc',
     controller: function($scope, $reactive) {
+      "ngInject";
       var pc;
       $reactive(this).attach($scope);
       pc = this;

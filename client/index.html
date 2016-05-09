@@ -1,6 +1,13 @@
 <head>
   <base href="/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.7/angular-material.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
 </head>
 <body>
-  <ui-view></ui-view>
+    <div layout='column', layout-fill>
+      <navigation></navigation>
+      <md-content flex>
+        <ui-view></ui-view>
+      </md-content>
+    </div>
 </body>

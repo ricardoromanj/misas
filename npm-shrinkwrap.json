@@ -2,24 +2,124 @@
   "name": "misas",
   "version": "1.0.0",
   "dependencies": {
+    "angular": {
+      "version": "1.5.5",
+      "from": "https://registry.npmjs.org/angular/-/angular-1.5.5.tgz",
+      "resolved": "https://registry.npmjs.org/angular/-/angular-1.5.5.tgz"
+    },
+    "angular-animate": {
+      "version": "1.5.5",
+      "from": "https://registry.npmjs.org/angular-animate/-/angular-animate-1.5.5.tgz",
+      "resolved": "https://registry.npmjs.org/angular-animate/-/angular-animate-1.5.5.tgz"
+    },
+    "angular-aria": {
+      "version": "1.5.5",
+      "from": "https://registry.npmjs.org/angular-aria/-/angular-aria-1.5.5.tgz",
+      "resolved": "https://registry.npmjs.org/angular-aria/-/angular-aria-1.5.5.tgz"
+    },
+    "angular-material": {
+      "version": "1.0.7",
+      "from": "https://registry.npmjs.org/angular-material/-/angular-material-1.0.7.tgz",
+      "resolved": "https://registry.npmjs.org/angular-material/-/angular-material-1.0.7.tgz"
+    },
+    "angular-messages": {
+      "version": "1.5.5",
+      "from": "https://registry.npmjs.org/angular-messages/-/angular-messages-1.5.5.tgz",
+      "resolved": "https://registry.npmjs.org/angular-messages/-/angular-messages-1.5.5.tgz"
+    },
+    "angular-meteor": {
+      "version": "1.3.10",
+      "from": "https://registry.npmjs.org/angular-meteor/-/angular-meteor-1.3.10.tgz",
+      "resolved": "https://registry.npmjs.org/angular-meteor/-/angular-meteor-1.3.10.tgz",
+      "dependencies": {
+        "jsondiffpatch": {
+          "version": "0.1.43",
+          "from": "https://registry.npmjs.org/jsondiffpatch/-/jsondiffpatch-0.1.43.tgz",
+          "resolved": "https://registry.npmjs.org/jsondiffpatch/-/jsondiffpatch-0.1.43.tgz",
+          "dependencies": {
+            "chalk": {
+              "version": "0.5.1",
+              "from": "https://registry.npmjs.org/chalk/-/chalk-0.5.1.tgz",
+              "resolved": "https://registry.npmjs.org/chalk/-/chalk-0.5.1.tgz",
+              "dependencies": {
+                "ansi-styles": {
+                  "version": "1.1.0",
+                  "from": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-1.1.0.tgz",
+                  "resolved": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-1.1.0.tgz"
+                },
+                "escape-string-regexp": {
+                  "version": "1.0.5",
+                  "from": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz",
+                  "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz"
+                },
+                "has-ansi": {
+                  "version": "0.1.0",
+                  "from": "https://registry.npmjs.org/has-ansi/-/has-ansi-0.1.0.tgz",
+                  "resolved": "https://registry.npmjs.org/has-ansi/-/has-ansi-0.1.0.tgz",
+                  "dependencies": {
+                    "ansi-regex": {
+                      "version": "0.2.1",
+                      "from": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-0.2.1.tgz",
+                      "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-0.2.1.tgz"
+                    }
+                  }
+                },
+                "strip-ansi": {
+                  "version": "0.3.0",
+                  "from": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-0.3.0.tgz",
+                  "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-0.3.0.tgz",
+                  "dependencies": {
+                    "ansi-regex": {
+                      "version": "0.2.1",
+                      "from": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-0.2.1.tgz",
+                      "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-0.2.1.tgz"
+                    }
+                  }
+                },
+                "supports-color": {
+                  "version": "0.2.0",
+                  "from": "https://registry.npmjs.org/supports-color/-/supports-color-0.2.0.tgz",
+                  "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-0.2.0.tgz"
+                }
+              }
+            }
+          }
+        },
+        "underscore": {
+          "version": "1.8.3",
+          "from": "https://registry.npmjs.org/underscore/-/underscore-1.8.3.tgz",
+          "resolved": "https://registry.npmjs.org/underscore/-/underscore-1.8.3.tgz"
+        }
+      }
+    },
+    "angular-meteor-auth": {
+      "version": "1.0.3",
+      "from": "angular-meteor-auth@latest",
+      "resolved": "https://registry.npmjs.org/angular-meteor-auth/-/angular-meteor-auth-1.0.3.tgz"
+    },
     "angular-ui-bootstrap": {
-      "version": "1.3.1",
-      "from": "angular-ui-bootstrap@>=1.3.1 <2.0.0",
-      "resolved": "https://registry.npmjs.org/angular-ui-bootstrap/-/angular-ui-bootstrap-1.3.1.tgz"
+      "version": "1.3.2",
+      "from": "angular-ui-bootstrap@latest",
+      "resolved": "https://registry.npmjs.org/angular-ui-bootstrap/-/angular-ui-bootstrap-1.3.2.tgz"
+    },
+    "angular-ui-router": {
+      "version": "0.2.18",
+      "from": "https://registry.npmjs.org/angular-ui-router/-/angular-ui-router-0.2.18.tgz",
+      "resolved": "https://registry.npmjs.org/angular-ui-router/-/angular-ui-router-0.2.18.tgz"
     },
     "angular-utils-pagination": {
       "version": "0.11.1",
-      "from": "angular-utils-pagination@latest",
+      "from": "https://registry.npmjs.org/angular-utils-pagination/-/angular-utils-pagination-0.11.1.tgz",
       "resolved": "https://registry.npmjs.org/angular-utils-pagination/-/angular-utils-pagination-0.11.1.tgz"
     },
     "lodash": {
       "version": "4.10.0",
-      "from": "lodash@>=4.10.0 <5.0.0",
+      "from": "https://registry.npmjs.org/lodash/-/lodash-4.10.0.tgz",
       "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.10.0.tgz"
     },
     "meteor-node-stubs": {
       "version": "0.2.3",
-      "from": "meteor-node-stubs@>=0.2.3 <0.3.0",
+      "from": "https://registry.npmjs.org/meteor-node-stubs/-/meteor-node-stubs-0.2.3.tgz",
       "resolved": "https://registry.npmjs.org/meteor-node-stubs/-/meteor-node-stubs-0.2.3.tgz",
       "dependencies": {
         "assert": {
@@ -482,23 +582,6 @@
           "from": "https://registry.npmjs.org/tty-browserify/-/tty-browserify-0.0.0.tgz",
           "resolved": "https://registry.npmjs.org/tty-browserify/-/tty-browserify-0.0.0.tgz"
         },
-        "url": {
-          "version": "0.11.0",
-          "from": "https://registry.npmjs.org/url/-/url-0.11.0.tgz",
-          "resolved": "https://registry.npmjs.org/url/-/url-0.11.0.tgz",
-          "dependencies": {
-            "punycode": {
-              "version": "1.3.2",
-              "from": "https://registry.npmjs.org/punycode/-/punycode-1.3.2.tgz",
-              "resolved": "https://registry.npmjs.org/punycode/-/punycode-1.3.2.tgz"
-            },
-            "querystring": {
-              "version": "0.2.0",
-              "from": "https://registry.npmjs.org/querystring/-/querystring-0.2.0.tgz",
-              "resolved": "https://registry.npmjs.org/querystring/-/querystring-0.2.0.tgz"
-            }
-          }
-        },
         "util": {
           "version": "0.10.3",
           "from": "https://registry.npmjs.org/util/-/util-0.10.3.tgz",
@@ -525,19 +608,24 @@
         }
       }
     },
+    "ui-router": {
+      "version": "1.0.0-alpha.3",
+      "from": "https://registry.npmjs.org/ui-router/-/ui-router-1.0.0-alpha.3.tgz",
+      "resolved": "https://registry.npmjs.org/ui-router/-/ui-router-1.0.0-alpha.3.tgz"
+    },
     "url": {
       "version": "0.11.0",
-      "from": "url@>=0.11.0 <0.12.0",
+      "from": "https://registry.npmjs.org/url/-/url-0.11.0.tgz",
       "resolved": "https://registry.npmjs.org/url/-/url-0.11.0.tgz",
       "dependencies": {
         "punycode": {
           "version": "1.3.2",
-          "from": "punycode@1.3.2",
+          "from": "https://registry.npmjs.org/punycode/-/punycode-1.3.2.tgz",
           "resolved": "https://registry.npmjs.org/punycode/-/punycode-1.3.2.tgz"
         },
         "querystring": {
           "version": "0.2.0",
-          "from": "querystring@0.2.0",
+          "from": "https://registry.npmjs.org/querystring/-/querystring-0.2.0.tgz",
           "resolved": "https://registry.npmjs.org/querystring/-/querystring-0.2.0.tgz"
         }
       }
