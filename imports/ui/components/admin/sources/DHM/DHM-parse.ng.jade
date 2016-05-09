@@ -1,0 +1,49 @@
+.dhm-parse(class="container")
+  div(class="row")
+    div(class="col-md-12")
+      .states
+      h2 States
+        select(name="statesOptions",
+          ng-options="state.name for state in adhmp.states track by state.id",
+          ng-model="adhmp.state")
+      .municipios(ng-if="adhmp.state")
+        // p {{ adhmp.state | json }}
+        // p {{ adhmp.cities | json }}
+        h2 Municipios
+          .state-info
+            // ul
+              // li {{adhmp.state.name}} with value {{adhmp.state.id}}
+            select(name="cityOptions",
+              ng-options="city.name for city in adhmp.cities track by city.id",
+              ng-model="adhmp.city")
+      .parroquias(ng-if="adhmp.state || adhmp.city")   
+        button(ng-click="adhmp.getParroquias()") Get Parroquias
+        button(ng-click="adhmp.getAllParroquiasMoreInfo()") Get All Parroquias W/ More Info
+        button(ng-click="adhmp.testUpdateAll()") Update All Parroquias W/ More Info 
+        div(ng-if="adhmp.parroquias && adhmp.parroquias.length > 0 && adhmp.updated >= 0 ")
+          p Parroquias updated {{adhmp.updated}} / {{adhmp.parroquias.length}}
+          uib-progressbar(ng-if="adhmp.parroquias.length", max="adhmp.parroquias.length", value="adhmp.updated", style="width: 100%")
+            span(style="color:white; white-space:nowrap;") {{adhmp.updated}} / {{adhmp.parroquias.length}} 
+        // {{adhmp.parroquias}}
+        ul
+          li(ng-repeat="parroquia in adhmp.parroquias")
+            // Display all information of the parroquia
+            h4 {{parroquia.name}} 
+            button(ng-click="adhmp.getMoreParroquiaInfo(parroquia)") Get More Info
+            ul(ng-if="parroquia.schedule.days")
+              li(ng-repeat="day in parroquia.schedule.days") {{day.id}} {{day.name}}
+                ul(ng-if="day.events")
+                  li(ng-repeat="event in day.events") {{event.type}} | {{event.start_time | json}}
+            p {{parroquia.parroquia_type}}
+            p(ng-if="parroquia.img.url") {{parroquia.img.url}}
+            p(ng-if="parroquia.address") {{parroquia.address}} {{parroquia.postal_code}}
+            ul
+              li(ng-if="parroquia.address_line_1") Address Line 1: {{parroquia.address_line_1}}
+              li(ng-if="parroquia.address_line_2") Address Line 2: {{parroquia.address_line_2}}
+              li(ng-if="parroquia.city.name") City: {{parroquia.city.name}}
+              li(ng-if="parroquia.state.name") State: {{parroquia.state.name}}
+              li(ng-if="parroquia.postal_code") C.P.: {{parroquia.postal_code}}
+              li(ng-if="parroquia.postal_code_a") A.P.: {{parroquia.postal_code_a}}
+            p(ng-if="parroquia.phone") Phone: {{parroquia.phone}}
+            p(ng-if="parroquia.email") Mail: {{parroquia.email}}
+            p(ng-if="parroquia.website") Website: {{parroquia.website}}

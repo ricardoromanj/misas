@@ -1,0 +1,42 @@
+div(layout='row', layout-align='center top', layout-fill, layout-margin)
+  md-whiteframe.md-whiteframe-3dp(layout='column', flex, flex-md='50', flex-lg='50', flex-gt-lg='33', layout-fill)
+    md-toolbar.md-primary.md-tall(layout='column', layout-align='end')
+      .md-toolbar-tools.md-toolbar-tools-bottom(layout='row', layout-padding)
+        h3.md-display-1 Sign in
+    div(layout='column', layout-margin, layout-padding)
+      div(layout='row', layout-margin)
+        p.md-body-2
+          | Use existing account
+      div(layout='row', layout-margin)
+        md-button.md-raised(flex, ng-click="login.loginWithService('google')") 
+          i(class="fa fa-google-plus", aria-hidden="true", style='color: #DC4A38;')
+          span(style='padding-left: 5px;') Google
+        md-button.md-raised(flex, ng-click="login.loginWithService('facebook')")
+          i(class="fa fa-facebook-official", aria-hidden="true", style='color: #3F62B4;')
+          span(style='padding-left: 5px;') Facebook
+        md-button.md-raised(flex, ng-click="login.loginWithService('twitter')")
+          i(class="fa fa-twitter", aria-hidden="true", style='color: #3F62B4;')
+          span(style='padding-left: 5px;') Twitter
+      md-divider
+      div.md-block(layout-margin)
+        p.md-body-2
+          | Sign in with your email
+      form(name='loginForm', layout-margin)
+        md-input-container.md-block
+          label
+            | Email
+          input(type='text', ng-model='login.credentials.email', aria-label='email', required='')
+        md-input-container.md-block
+          label
+            | Password
+          input(type='password', ng-model='login.credentials.password', aria-label='password', required='')
+        div(layout='row', layout-align='space-between center')
+          a.md-button(ui-sref='misas.password') Forgot password?
+          md-button.md-raised.md-primary(ng-click='login.login()', aria-label='login', ng-disabled='login.loginForm.$invalid()')
+            | Sign In
+        md-toolbar.md-warn(ng-show='login.error', layout='row', layout-fill='', layout-padding='', layout-margin='')
+          p.md-body-1 {{ login.error }}
+      md-divider
+      div(layout='row', layout-align='center')
+        a.md-button(href='/register') Need an account?
+
