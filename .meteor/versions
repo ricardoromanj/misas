@@ -91,6 +91,7 @@ templating@1.1.8
 templating-tools@1.0.3
 tmeasday:check-npm-versions@0.1.1
 tmeasday:publish-counts@0.7.3
+toystars:elasticsearch-sync@0.0.8
 tracker@1.0.12
 twitter@1.1.8
 ui@1.0.10
