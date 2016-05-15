@@ -1,10 +1,14 @@
 import { ESMongoSync } from 'meteor/toystars:elasticsearch-sync';
 
-let finalCallback = () => {
+export default function init(){
+  ESMongoSync.init(null, null, finalCallback, watcherArray, batchCount);
+}
+
+const finalCallback = () => {
   return;
 };
 
-let transformFunction = (watcher, document, callback) => {
+const transformFunction = (watcher, document, callback) => {
   if(document != null){
     document.id = document._id;
     delete document._id;
@@ -18,7 +22,7 @@ let transformFunction = (watcher, document, callback) => {
   callback(document);
 };
 
-let sampleWatcher = {
+const sampleWatcher = {
   collectionName: 'users',
   index: 'misas',
   type: 'users',
@@ -28,9 +32,8 @@ let sampleWatcher = {
   priority: 0
 };
 
-let watcherArray = [];
+const watcherArray = [];
 watcherArray.push(sampleWatcher);
 
-let batchCount = 1;
+const batchCount = 1;
 
-ESMongoSync.init(null, null, finalCallback, watcherArray, batchCount);

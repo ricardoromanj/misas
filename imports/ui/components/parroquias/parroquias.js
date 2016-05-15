@@ -4,6 +4,7 @@ import utilsPagination from 'angular-utils-pagination';
 import angular from 'angular';
 import angularMeteorAuth from 'angular-meteor-auth';
 import uiRouter from 'angular-ui-router';
+//import uiRouterLogger from 'ui-router-logger';
 import { Parroquias } from '../../../api/parroquias/collection';
 import { name as ServicesModule } from '../../services/module';
 import '../../services/userHelpers';
@@ -18,8 +19,9 @@ console.log('initializing parroquias module');
 export default angular.module('parroquias', 
   [
     'angular-meteor', 
-    'angular-meteor.auth',
+    angularMeteorAuth,
     uiRouter, 
+    //uiRouterLogger,
     'accounts.ui',
     'ngMaterial',
     ServicesModule,

@@ -9,10 +9,10 @@ import './components/navigation/navigation';
 import './components/user/settings/settings';
 import './components/admin/users/users';
 
-parroquias.run(function($rootScope) {
+/*parroquias.run(function($rootScope) {
   'ngInject';
   $rootScope.$on("$stateChangeError", console.log.bind(console));
-});
+});*/
 
 parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider, $mdIconProvider) {
     "ngInject";
@@ -56,8 +56,9 @@ parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider
       url: 'admin/',
       templateUrl: 'imports/ui/components/admin/admin.html',
       resolve: {
-        Admin: function(userHelpers){
-          return userHelpers.checkIsRootP();
+        adminCheck: function(userHelpers){
+          let result = userHelpers.checkIsRootP();
+          return result;
         }
       }
     });
@@ -74,9 +75,11 @@ parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider
         url: 'users/',
         template: '<admin-users></admin-users>',
         resolve: {
-          good: function(Admin){
+          good: function(adminCheck){
             return true;
           }
+        },
+        controller: function(adminCheck){
         }
       }
     );

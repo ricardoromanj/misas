@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import angular from 'angular';
 import { name as ServicesModule } from './module';
+import { Tracker } from 'meteor/tracker';
 import 'angular-meteor';
  
 export const name = 'misas.services';
@@ -22,11 +23,45 @@ angular.module(
       return false;
     };
     var checkIsRootP = () => {
-      return $auth.awaitUser(
+      let deferred = $q.defer();
+      $auth.awaitUser().then(
         (user) => {
-          return Roles.userIsInRole(user, ['root'], Roles.GLOBAL_GROUP);
+          console.log('checkIsRootP()');
+          console.log(user);
+          if(!_.has(user, 'roles')){
+            //if roles is not defined in the user, then check in the server to
+            //see if the given user has thoser permissions
+            Meteor.call('misas.users.checkIsRoot', (error, result) => {
+              if(!_.isNil(error)){
+                deferred.reject('AUTH_REQUIRED');
+                return;
+              }
+              if(!_.isBoolean(result) || !result){
+                deferred.reject('AUTH_REQUIRED');
+                console.log('AUTH_REQUIRED');
+                return;
+              }
+              deferred.resolve(user);
+            });
+          } else {
+            //check in the roles when it is available
+            console.log("checkIsRootP():");
+            let isRoot = Roles.userIsInRole(user._id, ['root'], Roles.GLOBAL_GROUP);
+            if(!isRoot){
+              deferred.reject('AUTH_REQUIRED');
+              console.log('AUTH_REQUIRED');
+              return;
+            } 
+            deferred.resolve(user);
+          }
+        }, 
+        (error) => {
+          deferred.reject('AUTH_REQUIRED');
         }
       );
+      //promise to the used in resolved or other methods to check whether user
+      //is root
+      return deferred.promise;
     }
     var checkIsLoggedInP = () => {
       return $auth.awaitUser();
