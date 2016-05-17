@@ -1,5 +1,15 @@
 div(layout="column", layout-padding)
+  p {{ users.q | json }}
   md-input-container
     label search
-    md-icon(md-font-icon="fa fa-search")
-    input 
+    md-icon(
+      md-font-icon="fa fa-search", 
+      )
+    input(
+      ng-model="users.q",
+      debounce="300",
+      ng-change="users.search()")
+  h1 Users
+  ul
+    li(ng-repeat="user in users._searched_users") 
+      p {{ user | json }}

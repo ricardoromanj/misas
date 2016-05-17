@@ -1,8 +1,5 @@
 import { ESMongoSync } from 'meteor/toystars:elasticsearch-sync';
 
-export default function init(){
-  ESMongoSync.init(null, null, finalCallback, watcherArray, batchCount);
-}
 
 const finalCallback = () => {
   return;
@@ -37,3 +34,6 @@ watcherArray.push(sampleWatcher);
 
 const batchCount = 1;
 
+export default function init(){
+  ESMongoSync.init(null, null, finalCallback, watcherArray, batchCount);
+};

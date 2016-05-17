@@ -13,6 +13,8 @@
     "angular-ui-bootstrap": "^1.3.2",
     "angular-ui-router": "^1.0.0-alpha.5",
     "angular-utils-pagination": "^0.11.1",
+    "debounce": "^1.0.0",
+    "elasticsearch": "^11.0.1",
     "lodash": "^4.10.0",
     "meteor-node-stubs": "^0.2.3",
     "ui-router": "^1.0.0-alpha.3",
@@ -31,5 +33,6 @@
   "bugs": {
     "url": "https://github.com/roman0316/misas/issues"
   },
-  "homepage": "https://github.com/roman0316/misas"
+  "homepage": "https://github.com/roman0316/misas",
+  "readme": "README.md"
 }

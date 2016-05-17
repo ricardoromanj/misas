@@ -4,6 +4,7 @@ import utilsPagination from 'angular-utils-pagination';
 import angular from 'angular';
 import angularMeteorAuth from 'angular-meteor-auth';
 import uiRouter from 'angular-ui-router';
+//import ngDebounce from 'ng-debounce';
 //import uiRouterLogger from 'ui-router-logger';
 import { Parroquias } from '../../../api/parroquias/collection';
 import { name as ServicesModule } from '../../services/module';
@@ -21,6 +22,7 @@ export default angular.module('parroquias',
     'angular-meteor', 
     angularMeteorAuth,
     uiRouter, 
+    //ngDebounce,
     //uiRouterLogger,
     'accounts.ui',
     'ngMaterial',

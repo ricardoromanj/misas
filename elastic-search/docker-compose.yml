@@ -1,0 +1,7 @@
+version: "2.0"
+services:
+  search:
+    image: "victor755555/elasticsearch-hq:2.3.2"
+    ports: 
+      - "9201:9200"
+      - "9301:9300"
