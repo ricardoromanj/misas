@@ -1,5 +1,6 @@
 div(layout="column", layout-padding)
-  p {{ users.q | json }}
+  //p {{ users.q | json }}
+  h1 Users Administration
   md-input-container
     label search
     md-icon(
@@ -9,7 +10,40 @@ div(layout="column", layout-padding)
       ng-model="users.q",
       debounce="300",
       ng-change="users.search()")
-  h1 Users
-  ul
-    li(ng-repeat="user in users._searched_users") 
-      p {{ user | json }}
+  md-table-container
+    table(
+      md-table, 
+      md-row-select, 
+      multiple, 
+      ng-model='users.selected', 
+      md-progress='users.promise')
+      thead(md-head='', md-order='users.order', md-on-reorder='getDesserts')
+        tr(md-row='')
+          th(md-column) name
+          th(md-column) email 
+          th(md-column) verified 
+      tbody(md-body)
+        tr(
+          md-row, 
+          md-select='dessert', 
+          md-select-id='name', 
+          md-auto-select, 
+          ng-repeat='user in users._searched_users')
+          td(md-cell) {{ user.profile.name }}
+          td(md-cell) {{ user.emails[0].address }}
+          td(md-cell) {{ user.emails[0].verified }}
+//
+  md-table-container
+    table(md-table)
+      thead(md-head)
+        tr(md-row)
+          th(md-column) name
+          th(md-column) email 
+          th(md-column) verified 
+          th(md-column) other
+      tbody(md-body)
+        tr(md-row, ng-repeat="user in users._searched_users") 
+          td(md-cell) {{ user.profile.name }}
+          td(md-cell) {{ user.emails[0].address }}
+          td(md-cell) {{ user.emails[0].verified }}
+          td(md-cell) hey

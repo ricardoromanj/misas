@@ -8,6 +8,8 @@ import './services/module';
 import './components/navigation/navigation';
 import './components/user/settings/settings';
 import './components/admin/users/users';
+import './components/admin/admin.html';
+import './components/user/user.html';
 
 /*parroquias.run(function($rootScope) {
   'ngInject';
@@ -64,8 +66,10 @@ parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider
     });
     $stateProvider.state('misas.admin.dhm-parse', {
       url: 'dhm-parse/',
-      controller: function($scope) {
-        return console.log("dhm parsing");
+      resolve: {
+        good: function(adminCheck){
+          return true;
+        }
       },
       template: '<dhm-parse></dhm-parse>'
     });

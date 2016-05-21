@@ -3,5 +3,8 @@ services:
   search:
     image: "victor755555/elasticsearch-hq:2.3.2"
     ports: 
-      - "9201:9200"
-      - "9301:9300"
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - SEARCH_ELASTIC_URL='http://localhost:9200' 
+      - SEARCH_MONGO_URL='mongodb://localhost:3001/meteor' 

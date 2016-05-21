@@ -1,4 +1,4 @@
-curl -XPUT "$ELASTIC_SEARCH_URL/misas/_mapping/users?pretty" -d '
+curl -XPUT "$SEARCH_ELASTIC_URL/misas/_mapping/users?pretty" -d '
   {
     "users": {
       "dynamic": false,

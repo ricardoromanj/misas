@@ -3,6 +3,7 @@ import { Roles } from 'meteor/alanning:roles';
 import angular from 'angular';
 import { name as ServicesModule } from './module';
 import { Tracker } from 'meteor/tracker';
+import _ from 'lodash';
 import 'angular-meteor';
  
 export const name = 'misas.services';
@@ -15,6 +16,32 @@ angular.module(
   'userHelpers',
   function userHelpersFactory($q, $auth) {
     "ngInject";
+    var hasEmail = (userI = null) => {
+      let user =  Meteor.user();
+      if(!_.isNil(userI)){
+        user = userI;
+      }
+      if(user == null || user.emails == null){
+        return false;
+      }
+      if(user.emails.length <= 0){
+        return false;
+      } 
+      return true;
+    };
+    var hasName = (userI = null) => {
+      let user =  Meteor.user();
+      if(!_.isNil(userI)){
+        user = userI;
+      }
+      if(user == null){
+        return false;
+      }
+      if(user.profile == null || user.profile.name == null){
+        return false;
+      } 
+      return true;
+    };
     var checkIsRoot = () => {
       let userId = Meteor.userId();
       if(userId != null){
@@ -89,6 +116,8 @@ angular.module(
       setupUserHelpers(vm) {
         vm.checkIsRoot = checkIsRoot;
         vm.checkIsLoggedIn = checkIsLoggedIn;
+        vm.hasEmail = hasEmail
+        vm.hasName = hasName
         vm.helpers({
           currentUser() {
             return Meteor.user(); 

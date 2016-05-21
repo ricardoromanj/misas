@@ -9,6 +9,8 @@ import { name as ServicesModule } from '../../services/module';
 import '../../services/userHelpers';
 import { name as loginModuleName } from '../auth/login/login';
 import { parroquiasModule } from '../parroquias/parroquias';
+import './navigation.html';
+//import 'imports/ui/components/parroquias/parroquias.html';
 
 
 console.log('initializing navigation module');
@@ -25,26 +27,6 @@ angular.module('parroquias').directive('navigation', function() {
       $reactive(this).attach($scope);
       vm = this;
       userHelpers.setupUserHelpers(vm);
-      vm.hasEmail = () => {
-        let user =  vm.currentUser;
-        if(user == null || user.emails == null){
-          return false;
-        }
-        if(user.emails.length <= 0){
-          return false;
-        } 
-        return true;
-      }
-      vm.hasName = () => {
-        let user =  vm.currentUser;
-        if(user == null){
-          return false;
-        }
-        if(user.profile == null || user.profile.name == null){
-          return false;
-        } 
-        return true;
-      }
       vm.logout = () => {
         Meteor.logout((err) => {
           if(err != null){

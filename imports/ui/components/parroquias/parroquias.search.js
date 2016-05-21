@@ -1,5 +1,6 @@
 import angular from 'angular';
 import { Parroquias } from '../../../api/parroquias/collection';
+import './parroquias.search.html';
 
 console.log('Loaded parroquias directive!');
 

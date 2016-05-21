@@ -1,3 +1,5 @@
+import 'angular-material-data-table/dist/md-data-table.css'
+import 'angular-material/angular-material.css'
 import { Meteor } from 'meteor/meteor';
 
 import '../imports/ui/routes';

@@ -1,4 +1,5 @@
 import { Parroquias } from '../../../api/parroquias/collection';
+import './parroquia-edit.html';
 
 console.log('Loaded parroquia-edit directive!');
 angular.module('parroquias').directive('parroquiaEdit', function($stateParams) {

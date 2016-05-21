@@ -9,27 +9,30 @@
     },
     "angular-animate": {
       "version": "1.5.5",
-      "from": "https://registry.npmjs.org/angular-animate/-/angular-animate-1.5.5.tgz",
+      "from": "angular-animate@>=1.5.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/angular-animate/-/angular-animate-1.5.5.tgz"
     },
     "angular-aria": {
       "version": "1.5.5",
-      "from": "https://registry.npmjs.org/angular-aria/-/angular-aria-1.5.5.tgz",
+      "from": "angular-aria@>=1.5.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/angular-aria/-/angular-aria-1.5.5.tgz"
     },
     "angular-material": {
-      "version": "1.0.7",
-      "from": "https://registry.npmjs.org/angular-material/-/angular-material-1.0.7.tgz",
-      "resolved": "https://registry.npmjs.org/angular-material/-/angular-material-1.0.7.tgz"
+      "version": "1.0.7"
+    },
+    "angular-material-data-table": {
+      "version": "0.10.9",
+      "from": "angular-material-data-table@latest",
+      "resolved": "https://registry.npmjs.org/angular-material-data-table/-/angular-material-data-table-0.10.9.tgz"
     },
     "angular-messages": {
       "version": "1.5.5",
-      "from": "https://registry.npmjs.org/angular-messages/-/angular-messages-1.5.5.tgz",
+      "from": "angular-messages@>=1.5.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/angular-messages/-/angular-messages-1.5.5.tgz"
     },
     "angular-meteor": {
       "version": "1.3.10",
-      "from": "https://registry.npmjs.org/angular-meteor/-/angular-meteor-1.3.10.tgz",
+      "from": "angular-meteor@>=1.3.9 <2.0.0",
       "resolved": "https://registry.npmjs.org/angular-meteor/-/angular-meteor-1.3.10.tgz",
       "dependencies": {
         "jsondiffpatch": {
@@ -94,12 +97,12 @@
     },
     "angular-meteor-auth": {
       "version": "1.0.3",
-      "from": "angular-meteor-auth@latest",
+      "from": "https://registry.npmjs.org/angular-meteor-auth/-/angular-meteor-auth-1.0.3.tgz",
       "resolved": "https://registry.npmjs.org/angular-meteor-auth/-/angular-meteor-auth-1.0.3.tgz"
     },
     "angular-ui-bootstrap": {
       "version": "1.3.2",
-      "from": "angular-ui-bootstrap@latest",
+      "from": "https://registry.npmjs.org/angular-ui-bootstrap/-/angular-ui-bootstrap-1.3.2.tgz",
       "resolved": "https://registry.npmjs.org/angular-ui-bootstrap/-/angular-ui-bootstrap-1.3.2.tgz"
     },
     "angular-ui-router": {
@@ -112,10 +115,107 @@
       "from": "https://registry.npmjs.org/angular-utils-pagination/-/angular-utils-pagination-0.11.1.tgz",
       "resolved": "https://registry.npmjs.org/angular-utils-pagination/-/angular-utils-pagination-0.11.1.tgz"
     },
+    "debounce": {
+      "version": "1.0.0",
+      "from": "debounce@latest",
+      "resolved": "https://registry.npmjs.org/debounce/-/debounce-1.0.0.tgz",
+      "dependencies": {
+        "date-now": {
+          "version": "1.0.1",
+          "from": "date-now@1.0.1",
+          "resolved": "https://registry.npmjs.org/date-now/-/date-now-1.0.1.tgz"
+        }
+      }
+    },
+    "elasticsearch": {
+      "version": "11.0.1",
+      "from": "elasticsearch@latest",
+      "resolved": "https://registry.npmjs.org/elasticsearch/-/elasticsearch-11.0.1.tgz",
+      "dependencies": {
+        "chalk": {
+          "version": "1.1.3",
+          "from": "chalk@>=1.0.0 <2.0.0",
+          "resolved": "https://registry.npmjs.org/chalk/-/chalk-1.1.3.tgz",
+          "dependencies": {
+            "ansi-styles": {
+              "version": "2.2.1",
+              "from": "ansi-styles@>=2.2.1 <3.0.0",
+              "resolved": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-2.2.1.tgz"
+            },
+            "escape-string-regexp": {
+              "version": "1.0.5",
+              "from": "escape-string-regexp@>=1.0.2 <2.0.0",
+              "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz"
+            },
+            "has-ansi": {
+              "version": "2.0.0",
+              "from": "has-ansi@>=2.0.0 <3.0.0",
+              "resolved": "https://registry.npmjs.org/has-ansi/-/has-ansi-2.0.0.tgz",
+              "dependencies": {
+                "ansi-regex": {
+                  "version": "2.0.0",
+                  "from": "ansi-regex@>=2.0.0 <3.0.0",
+                  "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-2.0.0.tgz"
+                }
+              }
+            },
+            "strip-ansi": {
+              "version": "3.0.1",
+              "from": "strip-ansi@>=3.0.0 <4.0.0",
+              "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-3.0.1.tgz",
+              "dependencies": {
+                "ansi-regex": {
+                  "version": "2.0.0",
+                  "from": "ansi-regex@>=2.0.0 <3.0.0",
+                  "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-2.0.0.tgz"
+                }
+              }
+            },
+            "supports-color": {
+              "version": "2.0.0",
+              "from": "supports-color@>=2.0.0 <3.0.0",
+              "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-2.0.0.tgz"
+            }
+          }
+        },
+        "forever-agent": {
+          "version": "0.6.1",
+          "from": "forever-agent@>=0.6.0 <0.7.0",
+          "resolved": "https://registry.npmjs.org/forever-agent/-/forever-agent-0.6.1.tgz"
+        },
+        "lodash": {
+          "version": "3.10.1",
+          "from": "lodash@>=3.10.0 <4.0.0",
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz"
+        },
+        "lodash-compat": {
+          "version": "3.10.2",
+          "from": "lodash-compat@>=3.0.0 <4.0.0",
+          "resolved": "https://registry.npmjs.org/lodash-compat/-/lodash-compat-3.10.2.tgz"
+        },
+        "promise": {
+          "version": "7.1.1",
+          "from": "promise@>=7.1.1 <8.0.0",
+          "resolved": "https://registry.npmjs.org/promise/-/promise-7.1.1.tgz",
+          "dependencies": {
+            "asap": {
+              "version": "2.0.4",
+              "from": "asap@>=2.0.3 <2.1.0",
+              "resolved": "https://registry.npmjs.org/asap/-/asap-2.0.4.tgz"
+            }
+          }
+        }
+      }
+    },
     "lodash": {
       "version": "4.10.0",
       "from": "https://registry.npmjs.org/lodash/-/lodash-4.10.0.tgz",
       "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.10.0.tgz"
+    },
+    "m": {
+      "version": "1.1.0",
+      "from": "m@latest",
+      "resolved": "https://registry.npmjs.org/m/-/m-1.1.0.tgz"
     },
     "meteor-node-stubs": {
       "version": "0.2.3",

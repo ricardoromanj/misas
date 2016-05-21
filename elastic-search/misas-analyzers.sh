@@ -1,5 +1,5 @@
-curl -XPOST "$ELASTIC_SEARCH_URL/misas/_close"
-curl -XPUT "$ELASTIC_SEARCH_URL/misas/_settings?pretty" -d '{
+curl -XPOST "$SEARCH_ELASTIC_URL/misas/_close"
+curl -XPUT "$SEARCH_ELASTIC_URL/misas/_settings?pretty" -d '{
   "analysis": {
     "analyzer": {
       "misas_text_analyzer": {
@@ -24,4 +24,4 @@ curl -XPUT "$ELASTIC_SEARCH_URL/misas/_settings?pretty" -d '{
   }
 }
 '
-curl -XPOST "$ELASTIC_SEARCH_URL/misas/_open"
+curl -XPOST "$SEARCH_ELASTIC_URL/misas/_open"
