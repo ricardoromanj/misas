@@ -1,4 +1,6 @@
 import { ESMongoSync } from 'meteor/toystars:elasticsearch-sync';
+import ElasticSearch from './setup';
+import _ from 'lodash';
 
 
 const finalCallback = () => {
@@ -32,8 +34,36 @@ const sampleWatcher = {
 const watcherArray = [];
 watcherArray.push(sampleWatcher);
 
-const batchCount = 1;
+const batchCount = 20;
 
-export default function init(){
+function syncInit(){
   ESMongoSync.init(null, null, finalCallback, watcherArray, batchCount);
 };
+
+ElasticSearch.instance.addType({
+  name: 'users',
+  mapping: {
+    dynamic: false,
+    properties: {
+      createdAt: {
+        type: "date"
+      },
+      username: {
+        type: "string"
+      },
+      emails: {
+        properties: {
+          address: { type: "string" },
+          verified: { type: "boolean" }
+        }
+      },
+      profile: {
+        properties: {
+          name: { type: "string" }
+        }
+      }
+    }
+  },
+  sync_init: syncInit
+});
+

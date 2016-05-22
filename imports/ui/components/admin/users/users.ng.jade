@@ -18,14 +18,14 @@ div(layout="column", layout-padding)
       ng-model='users.selected', 
       md-progress='users.promise')
       thead(md-head='', md-order='users.order', md-on-reorder='getDesserts')
-        tr(md-row='')
+        tr(md-row)
           th(md-column) name
           th(md-column) email 
           th(md-column) verified 
       tbody(md-body)
         tr(
           md-row, 
-          md-select='dessert', 
+          md-select='', 
           md-select-id='name', 
           md-auto-select, 
           ng-repeat='user in users._searched_users')

@@ -1,13 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import usersInit from './users-sync'
+//import usersInit from './users-sync'
 import _ from 'lodash';
 import elasticsearch from 'elasticsearch';
 
 let singleton = Symbol();
 let singletonEnforcer = Symbol();
 
-class ElasticSearch {
+export default class ElasticSearch {
   /**
    * Initialize variables that will be used by the singleton. _syncs is a 
    * map of collection names to others maps that contain properties like init
@@ -20,11 +20,7 @@ class ElasticSearch {
     if (enforcer !== singletonEnforcer) {
         throw "Cannot construct singleton"
     }
-    this._syncs = {
-      "users": {
-        "init": usersInit
-      }
-    }
+    this._types = []
     this._index = 'misas';
     this._syncs_started = false;
     this._setup_done = false;
@@ -87,13 +83,18 @@ class ElasticSearch {
    *
    */
   setupSyncs(){
-    _.forEach(this._syncs, (syncProperties, collectionName) => {
-      //check collection is available in Meteor
-      let init = syncProperties["init"];
-      console.log(`ElasticSearch.setupSyncs(): initializing \
-                  ${collectionName}`);
-      init();
-    });
+    for(let type of this._types){
+      if(_.isNil(type.sync_init)){
+        console.log(`ElasticSearch.setupSyncs(): ${name} uninitialized`);
+        continue;
+      }
+      let name = type.name;
+      console.log(
+`ElasticSearch.setupSyncs(): initializing ${name}`
+      );
+      let init = type.sync_init;
+      init(); 
+    }
     this._syncs_started = true;
     return true;
   }
@@ -104,6 +105,12 @@ class ElasticSearch {
    */
   setupElasticSearch(){
     let elasticUrl = this.getEnvVar('SEARCH_ELASTIC_URL')
+    /**
+     * we can't setup elasticsearch without a url 
+     */
+    if(_.isNil(elasticUrl)){
+      return false;
+    }
     this.client = new elasticsearch.Client(
       {
         host: elasticUrl,
@@ -113,13 +120,126 @@ class ElasticSearch {
     console.log('ElasticSearch.setupElasticSearch: client setup\'d');
     //TODO:ping elastic search to check it is up and running and can receive 
     let ping = Meteor.wrapAsync(this.client.ping, this.client);
-    let result = ping({
-      requestTimeout: 10000  
-    });
-    if(result){
-      console.log('ElasticSearch.setupElasticSearch: ping\'d');
+    try {
+      let result = ping({
+        requestTimeout: 10000  
+      });
+      if(result){
+        console.log('ElasticSearch.setupElasticSearch: ping\'d');
+      }
+    } catch (e) {
+      console.log(`ElasticSearch.setupElasticSearch: failed to ping\'d @ \
+                  ${elasticUrl}`);
+      return false;
     }
-    return result;
+    return true;
+  }
+  /**
+   * Sets up the misas index if not already available
+   */
+  setupElasticSearchIndex(){
+    //check if misas index exists
+    let exists = Meteor.wrapAsync(this.client.indices.exists, this.client);
+    try {
+      if(exists({index: this._index})){
+        return true;
+      }
+    } catch(e) {
+      console.log(
+'ElasticSearch.setupElasticSearchIndex(): Error trying to check if \'misas\' \
+index exists'
+      );
+      console.log(e);
+      return false;
+    }
+    //if it does not exist create it
+    let createIndex = Meteor.wrapAsync(
+      this.client.indices.create, 
+      this.client);
+    let result;
+    try {
+      result = createIndex({index: this._index});
+      console.log(result);
+    } catch(e) {
+      console.log(
+'ElasticSearch.setupElasticSearchIndex(): Error creating \'misas\''
+      );
+      console.log(e);
+      return false;
+    }
+    return true;
+  }
+  /**
+   * Adds a type and all of it's setup methods.
+   */
+  addType(type){
+    if(_.isNil(type.name)){
+      throw `ElasticSearch.setupElasticSearchTypes(): type has nil name`;
+    }
+    if(_.isNil(type.mapping)){
+      throw `ElasticSearch.setupElasticSearchTypes(): ${type.name} has nil\
+mapping`;
+    }
+    //TODO: check if type is already in array
+    this._types.push(type);
+  }
+  /**
+   * Checks if the types exists in the index. If it does return true else 
+   * return false. 
+   */
+  checkTypeExists(type){
+    if(_.isNil(type)){
+      throw 'ElasticSearch.checkTypeExists(): type should not be null';
+    }
+    let exists = Meteor.wrapAsync(this.client.indices.existsType, this.client);
+    try {
+      return exists({index: this._index, type: type});
+    } catch(e){
+      console.log(
+`ElasticSearch.checkTypeExists(): Error checking \'${this._index}\'.\'${type}\
+\' exists`
+      );
+      console.log(e);
+    }
+    return false;
+  }
+  /**
+   * For each of the added types check if they exists, else add that new types.
+   * When adding the new type the mapping for that type will always be added so
+   * if there is an old mapping in elastic search that will always be reaplaced
+   */
+  setupElasticSearchTypes(){
+    //for each sync setup it's type if it does not exist
+    putMapping = Meteor.wrapAsync(this.client.indices.putMapping, this.client);
+    for (let type of this._types){
+      //TODO: put all the mappings everytime for now... in the future this will 
+      //change
+      let name = type.name;
+      let mapping = type.mapping;
+      try {
+        let result = putMapping(
+          {
+            index: this._index,
+            type: name,
+            body: mapping 
+          }
+        );
+        console.log(
+`ElasticSearch.setupElasticSearchTypes(): Adding mapping for \'${name}\'`
+        );
+        console.log(result);
+      } catch(e) {
+        console.log(
+`ElasticSearch.setupElasticSearchTypes(): Failed to add mapping for \'${name}\
+\'`
+        );
+        console.log(e);
+        //stop adding new types since this type failed
+        return false;
+      }
+      //continue on to the next type
+    }
+    return true;
   }
   /**
    * Sets up both the client and sync watchers for Elastic Search. Probably
@@ -136,17 +256,29 @@ class ElasticSearch {
       return false;
     }
     /**
-     * TODO: how would we check if the correct mappings are already in elastic
-     * search or whether they need to be changed? This could be done with json
-     * diff on the current mapping and the mapping in the code. If they are
-     * the same then you know :P
+     * setup elastic search client
      */
     if(!this.setupElasticSearch()){
       return false;
     }
+    /**
+     * setup indices, types, analyzers, and maps
+     */
+console.log(`ElasticSearch.setup(): initialize index`);
+    if(!this.setupElasticSearchIndex()){
+      return false;
+    }
+console.log(`ElasticSearch.setup(): initialize index types`);
+    if(!this.setupElasticSearchTypes()){
+      return false;
+    }
+console.log(`ElasticSearch.setup(): initialize syncs`);
     if(!this.setupSyncs()){
       return false;
     }
+    /**
+     * if this point is reached then everything was setup correctly.
+     */
     this._setup_done = true;
     return true;
   }
@@ -157,14 +289,18 @@ class ElasticSearch {
    * passed as mongos db cursor.
    */
   search(type = '', body = {}, onlyIds = true, page = null){
+    /**
+     * check setup before searching elastic
+     */
+    if(!this.setup()){
+      return null;
+    }
     let search = Meteor.wrapAsync(this.client.search, this.client);
     let query = {
       index: this._index,
       type: type,
       body: body
     };
-    console.log('querying');
-    console.log(query);
     let result = search(query); 
     // if no result came back then return nil else return a mongo cursor with
     // the documents in it.
@@ -194,6 +330,13 @@ class ElasticSearch {
     return results;
   }
   /**
+   * This method initalizes everything after all information for all types has
+   * been setup
+   */
+  init(){
+    this.setup();
+  }
+  /**
    * Use this method go the the single instance of ElasticSearch that will
    * be used throughout the application to to make queries to ElasticSearch
    *
@@ -202,12 +345,8 @@ class ElasticSearch {
   static get instance() {
     if (!this[singleton]) {
         this[singleton] = new ElasticSearch(singletonEnforcer);
-        this[singleton].setup();
     }
     return this[singleton];
   }
 }
 
-
-
-export default ElasticSearch;
