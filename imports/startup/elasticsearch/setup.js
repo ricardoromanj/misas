@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 //import usersInit from './users-sync'
+import { ESMongoSync } from 'meteor/toystars:elasticsearch-sync';
 import _ from 'lodash';
 import elasticsearch from 'elasticsearch';
 
@@ -24,6 +25,7 @@ export default class ElasticSearch {
     this._index = 'misas';
     this._syncs_started = false;
     this._setup_done = false;
+		this.batchCount = 20;
   }
   /**
    * Check if MONGO_URL, if does then check if SEARCH_MONGO_URL exists, if it
@@ -83,8 +85,9 @@ export default class ElasticSearch {
    *
    */
   setupSyncs(){
+		let watchers = [];
     for(let type of this._types){
-      if(_.isNil(type.sync_init)){
+      if(_.isNil(type.watcher)){
         console.log(`ElasticSearch.setupSyncs(): ${name} uninitialized`);
         continue;
       }
@@ -92,9 +95,13 @@ export default class ElasticSearch {
       console.log(
 `ElasticSearch.setupSyncs(): initializing ${name}`
       );
-      let init = type.sync_init;
-      init(); 
+			watchers.push(type.watcher);
     }
+		//startup es mongo syncs
+		ESMongoSync.init(null, null, 
+			this.finishedInitSyncs, 
+			watchers, 
+			this.batchCount);
     this._syncs_started = true;
     return true;
   }
@@ -140,7 +147,7 @@ export default class ElasticSearch {
   setupElasticSearchIndex(){
     //check if misas index exists
     let exists = Meteor.wrapAsync(this.client.indices.exists, this.client);
-    try {
+    /*try {
       if(exists({index: this._index})){
         return true;
       }
@@ -152,20 +159,63 @@ index exists'
       console.log(e);
       return false;
     }
+		*/
     //if it does not exist create it
     let createIndex = Meteor.wrapAsync(
       this.client.indices.create, 
       this.client);
-    let result;
+		let openIndex = Meteor.wrapAsync(this.client.indices.open, this.client);
+		let closeIndex = Meteor.wrapAsync(this.client.indices.close, this.client);
     try {
-      result = createIndex({index: this._index});
-      console.log(result);
+      if(!exists({index: this._index})){
+				createIndex({index: this._index});
+      }
     } catch(e) {
       console.log(
-'ElasticSearch.setupElasticSearchIndex(): Error creating \'misas\''
+'ElasticSearch.setupElasticSearchIndex(): Error setting up \'misas\' index'
       );
       console.log(e);
       return false;
+    }
+    //add analyzers to the misas index
+    let putSettings = Meteor.wrapAsync(
+      this.client.indices.putSettings, 
+      this.client);
+    try {
+			closeIndex({index: this._index});
+      putSettings({
+				index: this._index,
+				body: {
+					analysis: {
+						analyzer: {
+							misas_text_analyzer: {
+								type: "custom",
+								filter: ["standard", "asciifolding", "lowercase"],
+								tokenizer: "standard"
+							},
+							misas_word_edges_analyzer: {
+								type: "custom",
+								filter: ["standard", "asciifolding", "lowercase"],
+								tokenizer: "misas_edge_ngram_tokenizer"
+							}
+						},
+						tokenizer: {
+							misas_edge_ngram_tokenizer: {
+								type: "edgeNGram",
+								min_gram: "1",
+								max_gram: "5",
+								token_chars: ["letter", "digit"]
+							}
+						}
+					}
+				}
+      });
+			openIndex({index: this._index});
+    } catch(e) {
+      console.log(
+'ElasticSearch.setupElasticSearchIndex(): Error settings for \'misas\''
+      );
+			console.log(e);
     }
     return true;
   }
@@ -180,6 +230,10 @@ index exists'
       throw `ElasticSearch.setupElasticSearchTypes(): ${type.name} has nil\
 mapping`;
     }
+    if(_.isNil(type.watcher)){
+      throw `ElasticSearch.setupElasticSearchTypes(): ${type.name} has nil\
+watcher`;
+		}
     //TODO: check if type is already in array
     this._types.push(type);
   }
@@ -282,6 +336,10 @@ console.log(`ElasticSearch.setup(): initialize syncs`);
     this._setup_done = true;
     return true;
   }
+	finishedInitSyncs(){
+console.log(`ElasticSearch: finished initial syncs`);
+		return true;
+	}
   /**
    * Pass in the type which is the name of the collection all lower cases name
    * the body is the query that will be sent to elasticsearch. As for the

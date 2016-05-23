@@ -1,11 +1,7 @@
-import { ESMongoSync } from 'meteor/toystars:elasticsearch-sync';
 import ElasticSearch from './setup';
 import _ from 'lodash';
 
 
-const finalCallback = () => {
-  return;
-};
 
 const transformFunction = (watcher, document, callback) => {
   if(document != null){
@@ -21,23 +17,13 @@ const transformFunction = (watcher, document, callback) => {
   callback(document);
 };
 
-const sampleWatcher = {
+const watcher = {
   collectionName: 'users',
   index: 'misas',
   type: 'users',
   transformFunction: transformFunction,
-  //transformFunction: null,
   fetchExistingDocuments: true,
   priority: 0
-};
-
-const watcherArray = [];
-watcherArray.push(sampleWatcher);
-
-const batchCount = 20;
-
-function syncInit(){
-  ESMongoSync.init(null, null, finalCallback, watcherArray, batchCount);
 };
 
 ElasticSearch.instance.addType({
@@ -49,7 +35,8 @@ ElasticSearch.instance.addType({
         type: "date"
       },
       username: {
-        type: "string"
+        type: "string",
+				analyzer: "misas_text_analyzer"
       },
       emails: {
         properties: {
@@ -59,11 +46,14 @@ ElasticSearch.instance.addType({
       },
       profile: {
         properties: {
-          name: { type: "string" }
+          name: { 
+						type: "string",
+						analyzer: "misas_text_analyzer"
+					}
         }
       }
     }
   },
-  sync_init: syncInit
+	watcher: watcher
 });
 

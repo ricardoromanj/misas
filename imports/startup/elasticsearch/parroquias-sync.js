@@ -1,11 +1,5 @@
-import { ESMongoSync } from 'meteor/toystars:elasticsearch-sync';
 import ElasticSearch from './setup';
 import _ from 'lodash';
-
-
-const finalCallback = () => {
-  return;
-};
 
 const transformFunction = (watcher, document, callback) => {
   if(document != null){
@@ -21,7 +15,7 @@ const transformFunction = (watcher, document, callback) => {
   callback(document);
 };
 
-const sampleWatcher = {
+const watcher = {
   collectionName: 'parroquias',
   index: 'misas',
   type: 'parroquias',
@@ -29,15 +23,6 @@ const sampleWatcher = {
   //transformFunction: null,
   fetchExistingDocuments: true,
   priority: 0
-};
-
-const watcherArray = [];
-watcherArray.push(sampleWatcher);
-
-const batchCount = 10;
-
-function syncInit(){
-  ESMongoSync.init(null, null, finalCallback, watcherArray, batchCount);
 };
 
 ElasticSearch.instance.addType({
@@ -48,7 +33,8 @@ ElasticSearch.instance.addType({
       city: {
         properties: {
           name: {
-            type: "string"
+            type: "string",
+						analyzer: "misas_text_analyzer"
           },
           id: {
             type: "integer"
@@ -66,25 +52,32 @@ ElasticSearch.instance.addType({
         }
       },
       name: {
-        type: "string"
+        type: "string",
+				analyzer: "misas_text_analyzer"
       },
       diocesis_name: {
-        type: "string"
+        type: "string",
+				analyzer: "misas_text_analyzer"
       },
       parroquia_type: { 
-        type: "string"
+        type: "string",
+				analyzer: "misas_text_analyzer"
       },
       address: {
-        type: "string"
+        type: "string",
+				analyzer: "misas_text_analyzer"
       },
       address_line_1: {
-        type: "string"
+        type: "string",
+				analyzer: "misas_text_analyzer"
       },
       address_line_2: {
-        type: "string"
+        type: "string",
+				analyzer: "misas_text_analyzer"
       },
       postal_code: {
-        type: "string"
+        type: "string",
+				analyzer: "misas_text_analyzer"
       },
       postal_code_a: {
         type: "string"
@@ -94,6 +87,6 @@ ElasticSearch.instance.addType({
       }
     }
   },
-  sync_init: syncInit
+	watcher: watcher
 });
 
