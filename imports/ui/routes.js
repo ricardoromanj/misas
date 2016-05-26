@@ -30,13 +30,6 @@ parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider
       abstract: true,
       url: 'parroquias/',
       template: '<ui-view/>'
-    }).state('misas.parroquias.search', {
-      url: 'search',
-      views: {
-        '@misas': {
-          template: '<parroquias-search></parroquias-search>'
-        }
-      }
     }).state('misas.parroquia', {
       url: 'parroquia/{id}',
       template: '<parroquia id="id"></parroquia>',

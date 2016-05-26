@@ -353,6 +353,18 @@ console.log(`ElasticSearch: finished initial syncs`);
     if(!this.setup()){
       return null;
     }
+		let from = 0;
+		let size = 0; 
+		if(!_.isNil(page) && !_.isNil(page.page) && !_.isNil(page.perPage)){
+			from = page.page;
+			size = page.perPage;	
+		}
+		let queryPage = {
+			from: from,
+			size: size
+		};
+		//merge page information into the body of the search
+		_.merge(body, queryPage);
     let search = Meteor.wrapAsync(this.client.search, this.client);
     let query = {
       index: this._index,
@@ -369,12 +381,12 @@ console.log(`ElasticSearch: finished initial syncs`);
     let hits = result.hits.hits;
     let time = result.took;
     let total = result.hits.total;
-    let results = [];
+    let results = {};
     let properties = ['_id', '_score'];
     if(!onlyIds){
       properties.push('_source');
     }
-    results = _.map(hits, (hit) => {
+    results.hits = _.map(hits, (hit) => {
       let obj = _.pick(hit, properties);
       if(!_.isNil(obj._source)){
         let source = obj._source;
@@ -385,6 +397,7 @@ console.log(`ElasticSearch: finished initial syncs`);
       }
       return obj;
     });
+		results.total = result.hits.total; 
     return results;
   }
   /**

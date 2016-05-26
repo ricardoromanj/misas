@@ -1,17 +1,19 @@
 div(class="parroquias-search")
-  //p {{ pssc | json }}
-  //p {{ pssc.pageInfo | json }}
-  strong {{ pssc.numParroquias | json }}
+  //p {{ search | json }}
+  //p {{ search.pageInfo | json }}
+  strong {{ search.numParroquias | json }}
   h1 Parroquias Search
   form(novalidate)
     |Search: 
-    input(type="search", ng-model="pssc.searchText")
-    select(ng-model="pssc.searchOrder")
+    input(type="search", 
+      ng-model="search.q", 
+      ng-change="search.search()")
+    select(ng-model="search.searchOrder")
       option(value="1")  ascending
       option(value="-1") discending
   div(class="container")
   div(class="parroquias-results")
-    dir-pagination-controls(on-page-change="pssc.changePage(newPageNumber)")
+    dir-pagination-controls(on-page-change="search.changePage(newPageNumber)")
     table(class="table", md-table) 
       tr
         th Name
@@ -19,7 +21,7 @@ div(class="parroquias-search")
         th State
         th Type
         th Address
-      tr(dir-paginate="parroquia in pssc.parroquias | itemsPerPage: pssc.pageInfo.perPage" total-items="pssc.numParroquias")
+      tr(dir-paginate="parroquia in search._searched_parroquias | itemsPerPage: search.pageInfo.perPage" total-items="search.numParroquias")
         td 
           a(ui-sref="misas.parroquia({id: parroquia._id})") {{parroquia.name}}
         td {{parroquia.city.name}}

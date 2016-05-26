@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Parroquias } from './collection';
+import ElasticSearch from '../../startup/elasticsearch/setup';
 
 Meteor.methods({
   'parroquias.parse-upsert': function(parroquia) {
@@ -28,5 +29,21 @@ Meteor.methods({
      console.log(result);
      return result;
   },
-  'parroquias.insert': function(parroquia) {}
+  'parroquias.insert': function(parroquia) {},
+  'parroquias.search': (query, page) => {
+    let result = null;
+    result = ElasticSearch.instance.search(
+      'parroquias', 
+      {
+        query: {
+          match: {
+            name: query 
+          }
+        }  
+      },
+      false,
+      page 
+    );
+    return result;
+  } 
 });

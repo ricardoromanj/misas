@@ -14,6 +14,7 @@ import { name as loginModule } from '../auth/login/login';
 import { name as passwordModule } from '../auth/password/password';
 import { name as userSettingsModule } from '../user/settings/settings';
 import { name as adminUsersModule } from '../admin/users/users';
+import { name as parroquiasSearch } from './parroquias.search';
 import './parroquias.html';
 
 
@@ -34,9 +35,11 @@ export default angular.module('parroquias',
     loginModule,
     passwordModule,
     userSettingsModule,
-    adminUsersModule
+    adminUsersModule,
+		parroquiasSearch
   ]
 );
+
 
 angular.module('parroquias').directive('parroquias', function() {
   return {
