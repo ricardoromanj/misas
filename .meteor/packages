@@ -35,5 +35,6 @@ tmeasday:publish-counts
 alanning:roles
 fortawesome:fontawesome
 service-configuration
-toystars:elasticsearch-sync
+#toystars:elasticsearch-sync
+victor755:elasticsearch-sync
 fourseven:scss

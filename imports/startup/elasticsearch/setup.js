@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 //import usersInit from './users-sync'
-import { ESMongoSync } from 'meteor/toystars:elasticsearch-sync';
+import { ESMongoSync } from 'meteor/victor755:elasticsearch-sync';
 import _ from 'lodash';
 import elasticsearch from 'elasticsearch';
 
@@ -121,7 +121,7 @@ export default class ElasticSearch {
     this.client = new elasticsearch.Client(
       {
         host: elasticUrl,
-        log: 'trace'
+        log: 'error'
       }
     );
     console.log('ElasticSearch.setupElasticSearch: client setup\'d');
@@ -356,7 +356,7 @@ console.log(`ElasticSearch: finished initial syncs`);
 		let from = 0;
 		let size = 0; 
 		if(!_.isNil(page) && !_.isNil(page.page) && !_.isNil(page.perPage)){
-			from = page.page;
+			from = (page.page*page.perPage);
 			size = page.perPage;	
 		}
 		let queryPage = {

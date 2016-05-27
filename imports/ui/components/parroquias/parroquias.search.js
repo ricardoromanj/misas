@@ -56,7 +56,7 @@ class ParroquiasSearch {
   }
   changePage(newPage){
     console.log(newPage);
-    this.pageInfo.page = newPage;
+    this.pageInfo.page = newPage-1;
     this.search();
   }
 }
