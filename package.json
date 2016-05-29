@@ -17,11 +17,14 @@
     "angular-utils-pagination": "https://registry.npmjs.org/angular-utils-pagination/-/angular-utils-pagination-0.11.1.tgz",
     "debounce": "^1.0.0",
     "elasticsearch": "^11.0.1",
+    "google-maps": "^3.2.1",
     "lodash": "^4.10.0",
+    "m": "^1.1.0",
     "meteor-node-stubs": "^0.2.3",
+    "promise": "^7.1.1",
+    "pubsub-js": "^1.5.3",
     "ui-router": "^1.0.0-alpha.3",
-    "url": "^0.11.0",
-    "m": "^1.1.0"
+    "url": "^0.11.0"
   },
   "devDependencies": {},
   "scripts": {

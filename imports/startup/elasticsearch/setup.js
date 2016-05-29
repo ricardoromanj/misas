@@ -160,7 +160,9 @@ index exists'
       return false;
     }
 		*/
-    //if it does not exist create it
+    /**
+     * if it does not exist create it
+     */
     let createIndex = Meteor.wrapAsync(
       this.client.indices.create, 
       this.client);
@@ -177,7 +179,31 @@ index exists'
       console.log(e);
       return false;
     }
-    //add analyzers to the misas index
+    /**
+     * wait for index to get yellow status and thereby allow the setting up of
+     * the index with more settings like analyzers and mappers and such.
+     */
+		let indexStatus = Meteor.wrapAsync(
+      this.client.cluster.health, 
+      this.client);
+    try {
+      result = indexStatus({
+        waitForStatus: 'yellow',
+        index: this._index
+      });
+      console.log('ElasticSearch.setupElasticSearchIndex(): index status');
+      console.log(result);
+    } catch (e) {
+      console.log(
+'ElasticSearch.setupElasticSearchIndex(): Error waiting for \'misas\' index \
+setup'
+      );
+      console.log(e);
+      return false;
+    }
+    /**
+     * add analyzers to the misas index
+     */
     let putSettings = Meteor.wrapAsync(
       this.client.indices.putSettings, 
       this.client);
@@ -346,7 +372,7 @@ console.log(`ElasticSearch: finished initial syncs`);
    * results, they will be transformed into a mongodb query that can be directly
    * passed as mongos db cursor.
    */
-  search(type = '', body = {}, onlyIds = true, page = null){
+  search(type = '', body = {}, onlyIds = true, page = null, options = {}){
     /**
      * check setup before searching elastic
      */
@@ -365,6 +391,8 @@ console.log(`ElasticSearch: finished initial syncs`);
 		};
 		//merge page information into the body of the search
 		_.merge(body, queryPage);
+    //merge options into body
+    _.merge(body, options);
     let search = Meteor.wrapAsync(this.client.search, this.client);
     let query = {
       index: this._index,

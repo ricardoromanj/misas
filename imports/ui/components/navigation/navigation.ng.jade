@@ -3,7 +3,7 @@ md-toolbar
     md-button(ui-sref='misas', aria-label='home') Misas 
     md-button(ui-sref='misas.parroquias.search', aria-label='search') Search
     //login-buttons
-    span(flex)
+    div(flex, ui-view="navigation.center")
     md-button(ng-if='vm.checkIsRoot()', ui-sref="misas.admin", aria-label='admin tools') Admin
     md-button(ng-if='!vm.checkIsLoggedIn()', ui-sref="misas.login", aria-label='user login') Login 
     md-menu(ng-if='vm.checkIsLoggedIn()')

@@ -1,7 +1,6 @@
 // import 'angular-ui-bootstrap';
 import ngMaterial from 'angular-material';
 import ngMaterialTable from 'angular-material-data-table';
-import utilsPagination from 'angular-utils-pagination';
 import angular from 'angular';
 import angularMeteorAuth from 'angular-meteor-auth';
 import uiRouter from 'angular-ui-router';
@@ -15,6 +14,7 @@ import { name as passwordModule } from '../auth/password/password';
 import { name as userSettingsModule } from '../user/settings/settings';
 import { name as adminUsersModule } from '../admin/users/users';
 import { name as parroquiasSearch } from './parroquias.search';
+import Navigation from '../navigation/navigation';
 import './parroquias.html';
 
 
@@ -30,8 +30,8 @@ export default angular.module('parroquias',
     'accounts.ui',
     ngMaterial,
     ngMaterialTable,
+    Navigation,
     ServicesModule,
-    utilsPagination,
     loginModule,
     passwordModule,
     userSettingsModule,

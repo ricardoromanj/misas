@@ -129,9 +129,9 @@ parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider
 )
 .run(function($rootScope, $state) {
     'ngInject';
-    
     $rootScope.$on('$stateChangeError',
       (event, toState, toParams, fromState, fromParams, error) => {
+        console.log(error);
         if (error === 'AUTH_REQUIRED') {
           $state.go('misas.login');
         }

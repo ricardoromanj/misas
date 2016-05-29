@@ -8,3 +8,5 @@ services:
     environment:
       - SEARCH_ELASTIC_URL='http://localhost:9200' 
       - SEARCH_MONGO_URL='mongodb://localhost:3001/meteor' 
+    volumes:
+      - ./esdata:/usr/share/elasticsearch/data

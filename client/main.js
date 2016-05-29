@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor';
 
 import '../imports/ui/routes';
 
+console.log(process);
 function onReady() {
   angular.bootstrap(document, [
     'parroquias' 
