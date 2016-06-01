@@ -1,5 +1,6 @@
 import angular from 'angular';
 import { Parroquias } from '../../../api/parroquias/collection';
+import './parroquia.html';
 
 console.log('Loaded parroquia directive!');
 angular.module('parroquias').directive('parroquia', function($stateParams) {

@@ -7,7 +7,14 @@ import './components/admin/sources/DHM/DHM-parse';
 import './services/module';
 import './components/navigation/navigation';
 import './components/user/settings/settings';
+import './components/admin/users/users';
+import './components/admin/admin.html';
+import './components/user/user.html';
 
+/*parroquias.run(function($rootScope) {
+  'ngInject';
+  $rootScope.$on("$stateChangeError", console.log.bind(console));
+});*/
 
 parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider, $mdIconProvider) {
     "ngInject";
@@ -23,13 +30,6 @@ parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider
       abstract: true,
       url: 'parroquias/',
       template: '<ui-view/>'
-    }).state('misas.parroquias.search', {
-      url: 'search',
-      views: {
-        '@misas': {
-          template: '<parroquias-search></parroquias-search>'
-        }
-      }
     }).state('misas.parroquia', {
       url: 'parroquia/{id}',
       template: '<parroquia id="id"></parroquia>',
@@ -45,43 +45,47 @@ parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider
         $scope.id = $stateParams.id;
         return console.log("parroquia edit state loaded");
       }
-    })
+    });
     //--ADMIN-- RELATED STATES
-    .state('misas.admin', {
+    $stateProvider.state('misas.admin', {
       url: 'admin/',
       templateUrl: 'imports/ui/components/admin/admin.html',
-      controller: function($scope) {
-        "ngInject";
-        return console.log("admin");
-      },
       resolve: {
-        admin: function(userHelpers){
-          return userHelpers.checkIsRootP();
+        adminCheck: function(userHelpers){
+          let result = userHelpers.checkIsRootP();
+          return result;
         }
-      } 
-    })
-    .state('misas.admin.dhm-parse', {
+      }
+    });
+    $stateProvider.state('misas.admin.dhm-parse', {
       url: 'dhm-parse/',
-      controller: function($scope) {
-        "ngInject";
-        return console.log("dhm parsing");
-      },
-      views: {
-        '@misas': {
-          template: '<dhm-parse></dhm-parse>'
-        }
-      },
       resolve: {
-        admin: function(userHelpers){
-          return userHelpers.checkIsRootP();
+        good: function(adminCheck){
+          return true;
         }
-      } 
-    })
+      },
+      template: '<dhm-parse></dhm-parse>'
+    });
+    $stateProvider.state(
+      'misas.admin.users', 
+      {
+        url: 'users/',
+        template: '<admin-users></admin-users>',
+        resolve: {
+          good: function(adminCheck){
+            return true;
+          }
+        },
+        controller: function(adminCheck){
+        }
+      }
+    );
     //--USER-- states
-    .state('misas.login', {
+    $stateProvider.state('misas.login', {
       url: 'login/',
       template: '<login></login>' 
-    })
+    }
+    )
     .state(
       'misas.user', 
       {
@@ -125,9 +129,9 @@ parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider
 )
 .run(function($rootScope, $state) {
     'ngInject';
-    
     $rootScope.$on('$stateChangeError',
       (event, toState, toParams, fromState, fromParams, error) => {
+        console.log(error);
         if (error === 'AUTH_REQUIRED') {
           $state.go('misas.login');
         }

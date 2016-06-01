@@ -9,6 +9,10 @@
 #
 
 # Uncomment for production
+search_dev:
+  image: "victor755555/elasticsearch-hq:2.3.2"
+  volumes:
+    - ./esdata:/usr/share/elasticsearch/data
 
 misasbundledb_dev:
   image: mongo
@@ -23,16 +27,15 @@ misasbundle_dev:
   build: .
   links:
     - misasbundledb_dev
+    - search_dev
+  env_file:
+    - ./dev/dev.env
   environment:
     - MONGO_URL=mongodb://misasbundledb_dev/misas
     - ROOT_URL=http://localhost:3000
-    - FACEBOOK_CLIENT_ID='yourclientidhere'
-    - FACEBOOK_SECRET='yoursecrethere'
-    - GOOGLE_CIENT_ID='yourclientidhere'
-    - GOOGLE_SECRET='yoursecrethere'
-    - TWITTER_CLIENT_ID='yourclientidhere'
-    - TWITTER_SECRET='yoursecrethere'
- 
+    - SEARCH_MONGO_URL=mongodb://misasbundledb_dev/misas
+    - SEARCH_ELASTIC_URL=http://search_dev:9200
+     
   volumes:
     - ./:/app
   command: meteor

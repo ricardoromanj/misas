@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Parroquias } from './collection';
+import ElasticSearch from '../../startup/elasticsearch/setup';
+import _ from 'lodash';
 
 Meteor.methods({
   'parroquias.parse-upsert': function(parroquia) {
@@ -28,5 +30,34 @@ Meteor.methods({
      console.log(result);
      return result;
   },
-  'parroquias.insert': function(parroquia) {}
+  'parroquias.insert': function(parroquia) {},
+  'parroquias.search': (query, page) => {
+    let body = {};
+    if(_.isNil(query)){
+      return {};
+    }
+    if(query === ""){
+      body = {
+        query: {
+          match_all: {}
+        } 
+      }; 
+    } else {
+      body = {
+        query: {
+          match: {
+            name: query 
+          }
+        }  
+      };
+    }
+    let result = null;
+    result = ElasticSearch.instance.search(
+      'parroquias', 
+      body,
+      false,
+      page 
+    );
+    return result;
+  } 
 });

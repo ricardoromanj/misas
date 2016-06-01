@@ -3,6 +3,7 @@ import angularMeteor from 'angular-meteor';
 import angularMeteorAuth from 'angular-meteor-auth';
 import angularMessages from 'angular-messages';
 import { name as userHelpersModule } from '../../../services/module';
+import './settings.html';
 
 const moduleName = 'settings';
 export const name = `user.${moduleName}`;
@@ -27,6 +28,7 @@ class Settings {
     return (this.newPassword == this.newPasswordCheck);
   }
   changePassword(){
+
   }
 }
 

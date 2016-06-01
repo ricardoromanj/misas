@@ -4,6 +4,7 @@ import angularMeteor from 'angular-meteor';
 import uiRouter from 'angular-ui-router';
 import { name as authName } from '../auth';
 
+console.log(`adding uiRouter as ${uiRouter} here`);
 
 const moduleName = 'password';
 export const name = `${authName}.${moduleName}`;

@@ -29,9 +29,15 @@ angular-templates
 http
 
 
-standard-minifier-css
+#sass instead of css
+#standard-minifier-css
+seba:minifiers-autoprefixer
+fourseven:scss
 standard-minifier-js
 tmeasday:publish-counts
 alanning:roles
 fortawesome:fontawesome
 service-configuration
+#toystars:elasticsearch-sync
+victor755:elasticsearch-sync
+#mrt:allow-env

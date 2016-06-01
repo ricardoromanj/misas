@@ -1,28 +1,94 @@
-div(class="parroquias-search")
-  //p {{ pssc | json }}
-  //p {{ pssc.pageInfo | json }}
-  strong {{ pssc.numParroquias | json }}
-  h1 Parroquias Search
-  form(novalidate)
-    |Search: 
-    input(type="search", ng-model="pssc.searchText")
-    select(ng-model="pssc.searchOrder")
-      option(value="1")  ascending
-      option(value="-1") discending
-  div(class="container")
-  div(class="parroquias-results")
-    dir-pagination-controls(on-page-change="pssc.changePage(newPageNumber)")
-    table(class="table", md-table) 
-      tr
-        th Name
-        th City
-        th State
-        th Type
-        th Address
-      tr(dir-paginate="parroquia in pssc.parroquias | itemsPerPage: pssc.pageInfo.perPage" total-items="pssc.numParroquias")
-        td 
-          a(ui-sref="misas.parroquia({id: parroquia._id})") {{parroquia.name}}
-        td {{parroquia.city.name}}
-        td {{parroquia.state.name}}
-        td {{parroquia.parroquia_type}}
-        td {{parroquia.address}}
+//p {{ search | json }}
+//p {{ search.pageInfo | json }}
+//strong {{ search.numParroquias | json }}
+div(layout="column", flex)
+  md-content(flex, layout-padding)
+    // parroquia name search
+    div(layout="row")
+      div( 
+        flex-offset-xs="0",
+        flex-xs="100",
+        flex-offset-sm="15",
+        flex-sm="70",
+        flex-offset-gt-sm="20",
+        flex-gt-sm="60",
+        layout="column"
+        )
+        div( 
+          layout="row", 
+          layout-align="center center"
+          )
+          div(layout="column", flex, layout-margin)
+            form(ng-submit="$event.preventDefault()")
+              div(layout="row"
+                layout-align="start center"
+                )
+                // search icon
+                md-icon(
+                  md-font-icon="fa fa-search", 
+                  layout-margin
+                  )
+                // search field for parroquia name
+                md-autocomplete(
+                  flex,
+                  ng-disabled="search.disabled",
+                  md-no-cache="search.noCache",
+                  md-search-text-change="search.search()",
+                  md-search-text="search.q",
+                  md-items="item in []",
+                  md-items-text="item.display",
+                  md-min-length="1",
+                  placeholder="escriba... para buscar parroquias"
+                  )
+                  // suggestions template
+                  md-item-template
+                    span {{ item.display }}
+                  // suggestions template when no suggestions found
+                  md-not-found
+                    span No encontramos la parroquia, crees que deberiamos de tenerla?
+                // map icon to show/hide map
+                md-button.md-icon-button(ng-click="search.toggleShowMap()")
+                  md-icon(
+                    md-font-icon="fa fa-map", 
+                    )
+    // parroquias map
+    div(ng-show="search.showMap", layout="row")
+      div(
+        flex-offset-xs="0",
+        flex-xs="100",
+        flex-offset-md="10",
+        flex-md="80",
+        flex-offset-gt-md="15",
+        flex-gt-md="70",
+        flex="100",
+        layout="column"
+        )
+        .md-whiteframe-3dp(id="map", style="height: 400px;")
+    // parroquias results
+    div(layout="row")
+      div( 
+        flex-offset-xs="0",
+        flex-xs="100",
+        flex-offset-sm="15",
+        flex-sm="70",
+        flex-offset-gt-sm="20",
+        flex-gt-sm="60",
+        layout="column"
+        )
+        .md-whiteframe-3dp(flex, layout="column")
+          div(layout="column", layout-align="center center")
+            dir-pagination-controls(
+              template-url="imports/ui/components/parroquias/parroquias.search.pagination.html",
+              on-page-change="search.changePage(newPageNumber)"
+              )
+          md-list
+            md-list-item.md-3-line(
+              dir-paginate="parroquia in search._searched_parroquias | itemsPerPage: search.pageInfo.perPage" 
+              total-items="search.numParroquias")
+              div.md-list-item-text(layout="column", style="overflow: hidden")
+                h3 
+                  a(ui-sref="misas.parroquia({id: parroquia._id})").
+                    {{ parroquia.name }}
+                h4 {{ parroquia.address }}
+                p {{ parroquia.diocesis_name }} 
+
