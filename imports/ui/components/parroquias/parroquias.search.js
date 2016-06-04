@@ -5,6 +5,7 @@ import angularMeteorAuth from 'angular-meteor-auth';
 import angularMessages from 'angular-messages';
 import ngMaterial from 'angular-material';
 import ngMaterialTable from 'angular-material-data-table';
+import ngSanitize from 'angular-sanitize';
 import debounce from 'debounce';
 import parroquias from './parroquias.js';
 import { Parroquias } from '../../../api/parroquias/collection';
@@ -28,7 +29,7 @@ console.log('Loaded parroquias directive!');
  *
  */
 class ParroquiasSearch {
-  constructor($scope, $reactive, userHelpers, googleLoader) {
+  constructor($scope, $reactive, $sce, userHelpers, googleLoader) {
     'ngInject';
     console.log(`started ${componentName}`);
     $reactive(this).attach($scope);
@@ -57,6 +58,7 @@ class ParroquiasSearch {
       perPage: 10
     }; 
     this._search();
+    this.$sce = $sce;
   }
   /**
    * toggle maps show flag
@@ -106,6 +108,7 @@ export default angular.module(
     `${name}`,
     [
       angularMeteor,
+      ngSanitize,
       angularMeteorAuth,
       ngMaterial,
       ngMaterialTable,

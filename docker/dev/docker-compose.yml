@@ -8,7 +8,11 @@
 # Misas application.
 #
 
-# Uncomment for production
+#search_dev
+#
+# NOTE: search_dev should be erased every time it is runned
+# in the future I hope we can figure out a better way to do
+# this.
 search_dev:
   image: "victor755555/elasticsearch-hq:2.3.2"
   volumes:
@@ -29,15 +33,15 @@ misasbundle_dev:
     - misasbundledb_dev
     - search_dev
   env_file:
-    - ./dev/dev.env
+    - ./dev.env
   environment:
     - MONGO_URL=mongodb://misasbundledb_dev/misas
     - ROOT_URL=http://localhost:3000
-    - SEARCH_MONGO_URL=mongodb://misasbundledb_dev/misas
+    - SEARCH_MONGO_URL=mongodb://misasbundledb_dev/local
     - SEARCH_ELASTIC_URL=http://search_dev:9200
      
   volumes:
     - ./:/app
   command: meteor
   ports:
-    - "3201:3000"
+    - 3000

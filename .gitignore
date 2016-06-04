@@ -8,3 +8,4 @@ env-*
 */esdata/
 *settings.json
 *.env
+packages/

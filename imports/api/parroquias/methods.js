@@ -31,6 +31,21 @@ Meteor.methods({
      return result;
   },
   'parroquias.insert': function(parroquia) {},
+  'parroquias.suggest': (query) => {
+    if(query === ""){
+      return null;
+    }
+    let body = {
+      search_suggestion: {
+        analyzer: "misas_text_analyzer",
+        field: "name",
+        gram_size: 2
+      }
+    }
+    let result = ElasticSearch.instance.suggest(
+    );
+    return result;
+  },
   'parroquias.search': (query, page) => {
     let body = {};
     if(_.isNil(query)){
@@ -45,10 +60,19 @@ Meteor.methods({
     } else {
       body = {
         query: {
-          match: {
-            name: query 
+          multi_match: {
+            query: query,
+            fields: ["name^2", "diocesis_name"]
           }
-        }  
+        },
+        highlight: {
+          pre_tags: ["<strong>"],
+          post_tags: ["</strong>"],
+          fields: {
+            name: { force_source: true },
+            diocesis_name: { force_source: true }
+          }
+        }
       };
     }
     let result = null;

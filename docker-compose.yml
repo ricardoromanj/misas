@@ -10,17 +10,19 @@
 
 # Uncomment for production
 search_dev:
-  image: "victor755555/elasticsearch-hq:2.3.2"
+  image: "elasticsearch:latest"
   volumes:
     - ./esdata:/usr/share/elasticsearch/data
+  ports:
+    - "9200:9200"
 misasbundledb_dev:
   image: mongo
   volumes:
     - ./data/runtime/db:/data/db
     - ./data/dump:/dump
-  command: mongod --smallfiles --oplogSize 128
+  command: mongod --replSet test
   ports:
-    - 27017
+    - "27017:27017"
 misasbundle_dev:
   build: .
   links:
@@ -31,10 +33,11 @@ misasbundle_dev:
   environment:
     - MONGO_URL=mongodb://misasbundledb_dev/misas
     - ROOT_URL=http://localhost:3000
-    - SEARCH_MONGO_URL=mongodb://misasbundledb_dev/misas
+    - SEARCH_MONGO_URL=mongodb://misasbundledb_dev/local
     - SEARCH_ELASTIC_URL=http://search_dev:9200
+     
   volumes:
     - ./:/app
-  command: meteor --settings dev.settings.json
+  command: meteor
   ports:
-    - "3201:3000"
+    - "3000:3000"

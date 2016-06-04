@@ -1,8 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 //import usersInit from './users-sync'
-import { ESMongoSync } from 'meteor/victor755:elasticsearch-sync';
+import { ESMongoSync } from 'meteor/toystars:elasticsearch-sync';
 import _ from 'lodash';
+import pj from 'printable-json';
 import elasticsearch from 'elasticsearch';
 
 let singleton = Symbol();
@@ -366,6 +367,20 @@ console.log(`ElasticSearch.setup(): initialize syncs`);
 console.log(`ElasticSearch: finished initial syncs`);
 		return true;
 	}
+  suggest(body = {}){
+    /**
+     * check setup before searching elastic
+     */
+    if(!this.setup()){
+      return null;
+    }
+    if(body === ""){
+      return null;
+    } 
+    let suggest = Meteor.wrapAsync(this.client.search, this.client);
+    let result = suggest(body);
+    return result;
+  }
   /**
    * Pass in the type which is the name of the collection all lower cases name
    * the body is the query that will be sent to elasticsearch. As for the
@@ -410,10 +425,14 @@ console.log(`ElasticSearch: finished initial syncs`);
     let time = result.took;
     let total = result.hits.total;
     let results = {};
-    let properties = ['_id', '_score'];
+    let properties = ['_id', '_score', 'highlight'];
     if(!onlyIds){
       properties.push('_source');
     }
+    console.log(pj.toString(result));
+    _.forEach(hits, (hit) => {
+      console.log(pj.toString(hit))
+    });
     results.hits = _.map(hits, (hit) => {
       let obj = _.pick(hit, properties);
       if(!_.isNil(obj._source)){

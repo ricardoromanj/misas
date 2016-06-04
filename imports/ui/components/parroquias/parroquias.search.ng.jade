@@ -87,8 +87,13 @@ div(layout="column", flex)
               total-items="search.numParroquias")
               div.md-list-item-text(layout="column", style="overflow: hidden")
                 h3 
-                  a(ui-sref="misas.parroquia({id: parroquia._id})").
-                    {{ parroquia.name }}
+                  a(ui-sref="misas.parroquia({id: parroquia._id})")
+                    span(ng-if="parroquia.highlight.name[0]",
+                      ng-bind-html="parroquia.highlight.name[0]") 
+                    span(ng-if="!parroquia.highlight.name[0]") {{ parroquia.name }}
                 h4 {{ parroquia.address }}
-                p {{ parroquia.diocesis_name }} 
+                p(ng-if="parroquia.highlight.diocesis_name[0]",
+                  ng-bind-html="parroquia.highlight.diocesis_name[0]") 
+                p(ng-if="!parroquia.highlight.diocesis_name[0]").
+                  {{ parroquia.diocesis_name }} 
 

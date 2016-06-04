@@ -1,21 +1,20 @@
-{{ $mdMedia('sm') }}
 div.pagination(layout="row", ng-if='1 < pages.length || !autoHide')
-	md-button.md-small(ng-if='boundaryLinks', 
-		ng-class='{ disabled : pagination.current == 1 }')
-		a(href='', ng-click='setCurrent(1)') «
-	md-button.md-small(
-		ng-if='directionLinks', 
-		ng-class='{ disabled : pagination.current == 1 }'
-		ng-click='setCurrent(pagination.current - 1)'
-		) ‹
-	md-button.md-small(
-		ng-repeat='pageNumber in pages track by tracker(pageNumber, $index)', 
-		ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }"
-		ng-click='setCurrent(pageNumber)'
-		) {{ pageNumber }}
-	md-button.md-small(ng-if='directionLinks', 
-		ng-class='{ disabled : pagination.current == pagination.last }',
-		ng-click='setCurrent(pagination.current + 1)') ›
-	md-button.md-small(ng-if='boundaryLinks', 
-		ng-class='{ disabled : pagination.current == pagination.last }', 
-		ng-click='setCurrent(pagination.last)') »
+  md-button.md-small(ng-if='boundaryLinks', 
+    ng-class='{ disabled : pagination.current == 1 }')
+    a(href='', ng-click='setCurrent(1)') «
+  md-button.md-small(
+    ng-if='directionLinks', 
+    ng-class='{ disabled : pagination.current == 1 }'
+    ng-click='setCurrent(pagination.current - 1)'
+    ) ‹
+  md-button.md-small(
+    ng-repeat='pageNumber in pages track by tracker(pageNumber, $index)', 
+    ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }"
+    ng-click='setCurrent(pageNumber)'
+    ) {{ pageNumber }}
+  md-button.md-small(ng-if='directionLinks', 
+    ng-class='{ disabled : pagination.current == pagination.last }',
+    ng-click='setCurrent(pagination.current + 1)') ›
+  md-button.md-small(ng-if='boundaryLinks', 
+    ng-class='{ disabled : pagination.current == pagination.last }', 
+    ng-click='setCurrent(pagination.last)') »
