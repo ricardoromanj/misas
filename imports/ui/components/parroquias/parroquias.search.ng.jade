@@ -19,7 +19,8 @@ div(layout="column", flex)
           layout-align="center center"
           )
           div(layout="column", flex, layout-margin)
-            form(ng-submit="$event.preventDefault()")
+            //form(ng-submit="$event.preventDefault()")
+            form(ng-submit="search.search()")
               div(layout="row"
                 layout-align="start center"
                 )
@@ -31,23 +32,28 @@ div(layout="column", flex)
                 // search field for parroquia name
                 md-autocomplete(
                   flex,
-                  ng-disabled="search.disabled",
-                  md-no-cache="search.noCache",
-                  md-search-text-change="search.search()",
+                  ng-disabled="fals",
+                  md-no-cache="true",
+                  md-selected-item="search.selectedSuggestion",
+                  md-selected-item-change="search.suggestionSelected()",
+                  md-search-text-change="search.suggest()",
                   md-search-text="search.q",
-                  md-items="item in []",
-                  md-items-text="item.display",
+                  md-items="suggestion in search.suggestions",
+                  md-items-text="suggestion.text",
                   md-min-length="1",
                   placeholder="escriba... para buscar parroquias"
                   )
                   // suggestions template
                   md-item-template
-                    span {{ item.display }}
+                    span {{ suggestion.text }}
                   // suggestions template when no suggestions found
-                  md-not-found
+                  //md-not-found
                     span No encontramos la parroquia, crees que deberiamos de tenerla?
                 // map icon to show/hide map
-                md-button.md-icon-button(ng-click="search.toggleShowMap()")
+                md-button.md-icon-button(
+                  ng-click="search.toggleShowMap()",
+                  aria-label="show/hide map"
+                  )
                   md-icon(
                     md-font-icon="fa fa-map", 
                     )
@@ -63,7 +69,7 @@ div(layout="column", flex)
         flex="100",
         layout="column"
         )
-        .md-whiteframe-3dp(id="map", style="height: 400px;")
+        .md-whiteframe-3dp(id="map", style="height: 400px; overflow: visible;")
     // parroquias results
     div(layout="row")
       div( 
@@ -75,6 +81,8 @@ div(layout="column", flex)
         flex-gt-sm="60",
         layout="column"
         )
+        div(layout="row")
+          md-progress-linear(flex, md-mode="query", ng-show="search.isSearching")
         .md-whiteframe-3dp(flex, layout="column")
           div(layout="column", layout-align="center center")
             dir-pagination-controls(

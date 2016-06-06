@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Parroquias } from './collection';
 import ElasticSearch from '../../startup/elasticsearch/setup';
+import pj from 'printable-json';
 import _ from 'lodash';
 
 Meteor.methods({
@@ -31,20 +32,37 @@ Meteor.methods({
      return result;
   },
   'parroquias.insert': function(parroquia) {},
-  'parroquias.suggest': (query) => {
+  'parroquias.search.suggest': (query) => {
     if(query === ""){
-      return null;
+      return { options: [] };
     }
     let body = {
       search_suggestion: {
-        analyzer: "misas_text_analyzer",
-        field: "name",
-        gram_size: 2
+        text: query,
+        phrase: {
+          field: "name",
+          analyzer: "misas_text_analyzer",
+          max_errors: 2,
+          size: 5, 
+          direct_generator: [ 
+            {
+              suggest_mode: "popular",
+              field: "name"
+            }
+          ]
+        }
       }
     }
-    let result = ElasticSearch.instance.suggest(
-    );
-    return result;
+    let result = null;
+    try {
+      result = ElasticSearch.instance.suggest(
+        body
+      );
+    } catch (e) {
+      console.log(pj.toString(result));
+      throw new Meteor.Error('suggestion-error', 'error while suggesting phrase completion');
+    }
+    return result.search_suggestion[0];
   },
   'parroquias.search': (query, page) => {
     let body = {};

@@ -374,11 +374,12 @@ console.log(`ElasticSearch: finished initial syncs`);
     if(!this.setup()){
       return null;
     }
-    if(body === ""){
-      return null;
-    } 
-    let suggest = Meteor.wrapAsync(this.client.search, this.client);
-    let result = suggest(body);
+    let suggest = Meteor.wrapAsync(this.client.suggest, this.client);
+    let result = suggest({
+      index: this._index,
+      body: body
+    });
+    //console.log(pj.toString(result.search_suggestion[0]));
     return result;
   }
   /**
@@ -429,10 +430,10 @@ console.log(`ElasticSearch: finished initial syncs`);
     if(!onlyIds){
       properties.push('_source');
     }
-    console.log(pj.toString(result));
-    _.forEach(hits, (hit) => {
+    //console.log(pj.toString(result));
+    /*_.forEach(hits, (hit) => {
       console.log(pj.toString(hit))
-    });
+    });*/
     results.hits = _.map(hits, (hit) => {
       let obj = _.pick(hit, properties);
       if(!_.isNil(obj._source)){

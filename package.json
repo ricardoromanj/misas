@@ -19,6 +19,7 @@
     "debounce": "^1.0.0",
     "elasticsearch": "^11.0.1",
     "google-maps": "^3.2.1",
+    "jquery": "^2.2.4",
     "lodash": "^4.10.0",
     "m": "^1.1.0",
     "meteor-node-stubs": "^0.2.3",

@@ -6,8 +6,8 @@ import { Meteor } from 'meteor/meteor';
 
 var googleInstance = null;
 
-googleMapsLoader.KEY = process.env['DEV_SERVICES_GOOGLE_MAPS_KEY'];
-googleMapsLoader.VERSION = process.env['DEV_SERVICES_GOOGLE_MAPS_VERSION'];
+googleMapsLoader.KEY = Meteor.settings.public.SERVICES_GOOGLE_MAPS_KEY;
+googleMapsLoader.VERSION = Meteor.settings.public.SERVICES_GOOGLE_MAPS_VERSION;
 googleMapsLoader.LIBRARIES = ['geometry'];
 googleMapsLoader.LANGUAGE = 'es';
 googleMapsLoader.REGION = 'MX';
