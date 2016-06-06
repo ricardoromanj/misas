@@ -26,7 +26,7 @@ export default class ElasticSearch {
     this._index = 'misas';
     this._syncs_started = false;
     this._setup_done = false;
-		this.batchCount = 20;
+		this.batchCount = 200;
   }
   /**
    * Check if MONGO_URL, if does then check if SEARCH_MONGO_URL exists, if it
