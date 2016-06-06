@@ -80,7 +80,7 @@ Meteor.methods({
         query: {
           multi_match: {
             query: query,
-            fields: ["name^2", "diocesis_name"]
+            fields: ["name", "diocesis_name"]
           }
         },
         highlight: {

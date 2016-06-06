@@ -184,11 +184,19 @@ class ParroquiasSearch {
           lat: _.toNumber(pLocation.lat),
           lng: _.toNumber(pLocation.lon)
         }; 
-        return new this.google.maps.Marker({
+        let infoWindow = new this.google.maps.InfoWindow({
+          content: `<div>${parroquia.name}</div>`
+        });
+        let marker = new this.google.maps.Marker({
           position: location,
           map: this.map,
           title: parroquia.name    
         });
+        marker.addListener('click', () => {
+          let iWindow = infoWindow;  
+          iWindow.open(this.map, marker);
+        });
+        return marker; 
       }
     );
     // change map to fit markers
