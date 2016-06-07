@@ -8,16 +8,18 @@
 #
 
 misases_prod:
-  image: "victor755555/elasticsearch-hq:2.3.2"
+  image: "elasticsearch:latest"
   volumes:
     - ./esdata:/usr/share/elasticsearch/data
+  ports:
+    - "9200"
 
 misasdb_prod:
   image: mongo
   volumes:
-    - ../data/runtime/db:/data/db
-    - ../data/dump:/dump
-  command: mongod --smallfiles --oplogSize 128
+    - ./data/runtime/db:/data/db
+    - ./data/dump:/dump
+  command: mongod --replSet test
   ports:
     - 27017
 
@@ -31,7 +33,7 @@ misas_prod:
   environment:
     - MONGO_URL=mongodb://misasdb_prod/misas
     - ROOT_URL=http://localhost:3000
-    - SEARCH_MONGO_URL=http://misasdb_prod/misas
+    - SEARCH_MONGO_URL=mongodb://misasdb_prod/local
     - SEARCH_ELASTIC_URL=http://misases_prod:9200
   ports:
     - "3100:3000"
