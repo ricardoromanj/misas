@@ -4,11 +4,13 @@
 #
 # Run with file with `docker-compose up -d`.
 #
-# We use two separate Docker containers: one for the database and one for the
 # Misas application.
 #
 
-# Uncomment for production
+misases_prod:
+  image: "victor755555/elasticsearch-hq:2.3.2"
+  volumes:
+    - ./esdata:/usr/share/elasticsearch/data
 
 misasdb_prod:
   image: mongo
@@ -23,14 +25,22 @@ misas_prod:
   build: .
   links:
     - misasdb_prod
+    - misases_prod
+  env_file:
+    - ./prod.env
   environment:
     - MONGO_URL=mongodb://misasdb_prod/misas
     - ROOT_URL=http://localhost:3000
-    - FACEBOOK_CLIENT_ID='yourclientidhere'
-    - FACEBOOK_SECRET='yoursecrethere'
-    - GOOGLE_CIENT_ID='yourclientidhere'
-    - GOOGLE_SECRET='yoursecrethere'
-    - TWITTER_CLIENT_ID='yourclientidhere'
-    - TWITTER_SECRET='yoursecrethere'
+    - SEARCH_MONGO_URL=http://misasdb_prod/misas
+    - SEARCH_ELASTIC_URL=http://misases_prod:9200
   ports:
     - "3100:3000"
+
+misasnginx_prod:
+  image: nginx
+  links:
+    - misas_prod
+  volumes:
+    - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+  ports:
+    - "80:80"
