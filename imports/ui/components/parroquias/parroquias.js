@@ -1,15 +1,21 @@
 // import 'angular-ui-bootstrap';
 import ngMaterial from 'angular-material';
-import utilsPagination from 'angular-utils-pagination';
+import ngMaterialTable from 'angular-material-data-table';
 import angular from 'angular';
 import angularMeteorAuth from 'angular-meteor-auth';
-import 'angular-ui-router';
+import uiRouter from 'angular-ui-router';
+//import ngDebounce from 'ng-debounce';
+//import uiRouterLogger from 'ui-router-logger';
 import { Parroquias } from '../../../api/parroquias/collection';
 import { name as ServicesModule } from '../../services/module';
 import '../../services/userHelpers';
 import { name as loginModule } from '../auth/login/login';
 import { name as passwordModule } from '../auth/password/password';
 import { name as userSettingsModule } from '../user/settings/settings';
+import { name as adminUsersModule } from '../admin/users/users';
+import { name as parroquiasSearch } from './parroquias.search';
+import Navigation from '../navigation/navigation';
+import './parroquias.html';
 
 
 console.log('initializing parroquias module');
@@ -17,17 +23,23 @@ console.log('initializing parroquias module');
 export default angular.module('parroquias', 
   [
     'angular-meteor', 
-    'angular-meteor.auth',
-    'ui.router', 
+    angularMeteorAuth,
+    uiRouter, 
+    //ngDebounce,
+    //uiRouterLogger,
     'accounts.ui',
-    'ngMaterial',
+    ngMaterial,
+    ngMaterialTable,
+    Navigation,
     ServicesModule,
-    utilsPagination,
     loginModule,
     passwordModule,
-    userSettingsModule
+    userSettingsModule,
+    adminUsersModule,
+		parroquiasSearch
   ]
 );
+
 
 angular.module('parroquias').directive('parroquias', function() {
   return {

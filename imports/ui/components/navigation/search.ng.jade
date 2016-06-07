@@ -1,0 +1,26 @@
+div(layout="column", flex, layout-margin)
+  form(ng-submit="$event.preventDefault()")
+    div(layout="row"
+      layout-align="start center"
+      )
+      // search icon
+      md-icon(
+        md-font-icon="fa fa-search", 
+        layout-margin
+        )
+      // autocomplete field
+      md-autocomplete(
+        flex,
+        ng-disabled="search.disabled",
+        md-no-cache="search.noCache",
+        md-search-text-change="search.search()",
+        md-search-text="search.q",
+        md-items="item in []",
+        md-items-text="item.display",
+        md-min-length="1",
+        placeholder="escriba... para buscar parroquias"
+        )
+        md-item-template
+          span {{ item.display }}
+        md-not-found
+          span No encontramos la parroquia, crees que deberiamos de tenerla?

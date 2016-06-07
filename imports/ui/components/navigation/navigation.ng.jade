@@ -1,20 +1,19 @@
 md-toolbar
   div.md-toolbar-tools.md-whiteframe-5dp.md-whiteframe-4z.move-up
-    md-button(ui-sref='misas') Misas 
-    md-button(ui-sref='misas.parroquias.search') Search
+    md-button(ui-sref='misas', aria-label='home') Misas 
+    md-button(ui-sref='misas.parroquias.search', aria-label='search') Search
     //login-buttons
-    span(flex)
-    md-button(ng-if='vm.checkIsRoot()', ui-sref="misas.admin") Admin
-    md-button(ng-if='!vm.checkIsLoggedIn()', ui-sref="misas.login") Login 
+    div(flex, ui-view="navigation.center")
+    md-button(ng-if='vm.checkIsRoot()', ui-sref="misas.admin", aria-label='admin tools') Admin
+    md-button(ng-if='!vm.checkIsLoggedIn()', ui-sref="misas.login", aria-label='user login') Login 
     md-menu(ng-if='vm.checkIsLoggedIn()')
-      md-button(ng-click='vm.openMenu($mdOpenMenu, $event)') 
+      md-button(ng-click='vm.openMenu($mdOpenMenu, $event)', aria-label='open user menu') 
         span(ng-if="vm.hasName()") {{ vm.currentUser.profile.name }}
         span(ng-if="!vm.hasName() && vm.hasEmail()") {{ vm.currentUser.emails[0].address }}
       md-menu-content
         md-menu-item
-          md-button(ui-sref='misas.user.profile') Profile
+          md-button(ui-sref='misas.user.profile', aria-label='user profile') Profile
         md-menu-item
-          md-button(ui-sref='misas.user.settings') Settings 
+          md-button(ui-sref='misas.user.settings', aria-label='user settings') Settings 
         md-menu-item
-          md-button(ng-click='vm.logout()') Logout
-//  span {{ vm.currentUser | json }}
+          md-button(ng-click="vm.logout()", aria-label='user logout') Logout

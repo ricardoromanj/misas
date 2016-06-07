@@ -2,6 +2,7 @@ import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import ngMaterial from 'angular-material';
 import { name as authName } from '../auth';
+import './login.html';
 
 const moduleName = 'login';
 export const name = `${authName}.${moduleName}`;

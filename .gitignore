@@ -1,5 +1,11 @@
 *.swp
 node_modules/*
-data
+data/
+esdata/
+env/
 build
-env-*
+env*
+*/esdata/
+*settings.json
+*.env
+packages/
