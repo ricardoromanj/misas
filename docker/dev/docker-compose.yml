@@ -8,40 +8,51 @@
 # Misas application.
 #
 
-#search_dev
-#
-# NOTE: search_dev should be erased every time it is runned
-# in the future I hope we can figure out a better way to do
-# this.
-search_dev:
-  image: "victor755555/elasticsearch-hq:2.3.2"
+# Uncomment for production
+#elasticsearch server
+misases_dev:
+  image: elasticsearch:2.3.3
   volumes:
     - ./esdata:/usr/share/elasticsearch/data
-
-misasbundledb_dev:
-  image: mongo
+  ports:
+    - 9200
+  log_driver: "gelf"
+  log_opt:
+    gelf-address: "udp://212.47.231.164:12201"
+#mongo server
+misasdb_dev:
+  image: mongo:2.6.12
   volumes:
     - ./data/runtime/db:/data/db
     - ./data/dump:/dump
-  command: mongod --smallfiles --oplogSize 128
+  command: mongod --replSet test
   ports:
     - 27017
-
-misasbundle_dev:
+  log_driver: "gelf"
+  log_opt:
+    gelf-address: "udp://212.47.231.164:12201"
+#meteor server
+misas_dev:
   build: .
   links:
-    - misasbundledb_dev
-    - search_dev
+    - misasdb_dev
+    - misases_dev
   env_file:
     - ./dev.env
   environment:
-    - MONGO_URL=mongodb://misasbundledb_dev/misas
+    - MONGO_URL=mongodb://misasdb_dev/misas
     - ROOT_URL=http://localhost:3000
-    - SEARCH_MONGO_URL=mongodb://misasbundledb_dev/local
-    - SEARCH_ELASTIC_URL=http://search_dev:9200
-     
+    - SEARCH_MONGO_URL=mongodb://misasdb_dev/misas
+    - SEARCH_ELASTIC_URL=http://misases_dev:9200
   volumes:
     - ./:/app
   command: meteor
   ports:
     - 3000
+  log_driver: "gelf"
+  log_opt:
+    gelf-address: "udp://212.47.231.164:12201"
+  labels:
+    - "traefik.backend=misasdev"
+    - "traefik.port=3000"
+    - "traefik.frontend.rule=Host:dev.misas.online"

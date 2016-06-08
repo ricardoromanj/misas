@@ -9,13 +9,18 @@
 #
 
 # Uncomment for production
-search_dev:
+#elasticsearch server
+misases_test:
   image: elasticsearch:2.3.3
   volumes:
     - ./esdata:/usr/share/elasticsearch/data
   ports:
     - 9200
-misasbundledb_dev:
+  log_driver: "gelf"
+  log_opt:
+    gelf-address: "udp://212.47.231.164:12201"
+#mongo server
+misasdb_test:
   image: mongo:2.6.12
   volumes:
     - ./data/runtime/db:/data/db
@@ -23,21 +28,31 @@ misasbundledb_dev:
   command: mongod --replSet test
   ports:
     - 27017
-misas_dev:
+  log_driver: "gelf"
+  log_opt:
+    gelf-address: "udp://212.47.231.164:12201"
+#meteor server
+misas_test:
   build: .
   links:
-    - misasbundledb_dev
-    - search_dev
+    - misasdb_test
+    - misases_test
   env_file:
-    - ./dev.env
+    - ./test.env
   environment:
-    - MONGO_URL=mongodb://misasbundledb_dev/misas
+    - MONGO_URL=mongodb://misasdb_test/misas
     - ROOT_URL=http://localhost:3000
-    - SEARCH_MONGO_URL=mongodb://misasbundledb_dev/misas
-    - SEARCH_ELASTIC_URL=http://search_dev:9200
-     
+    - SEARCH_MONGO_URL=mongodb://misasdb_test/misas
+    - SEARCH_ELASTIC_URL=http://misases_test:9200
   volumes:
     - ./:/app
   command: meteor
   ports:
     - 3000
+  log_driver: "gelf"
+  log_opt:
+    gelf-address: "udp://212.47.231.164:12201"
+  labels:
+    - "traefik.backend=misastest"
+    - "traefik.port=3000"
+    - "traefik.frontend.rule=Host:test.misas.online"
