@@ -26,6 +26,7 @@ export default class ElasticSearch {
     this._index = 'misas';
     this._syncs_started = false;
     this._setup_done = false;
+    this._pinged = false;
 		this.batchCount = 200;
   }
   /**
@@ -107,11 +108,38 @@ export default class ElasticSearch {
     return true;
   }
   /**
+   * Ping server until it successfully responds
+   */
+  pingElasticSearch(){
+    let ping = Meteor.wrapAsync(this.client.ping, this.client);
+    /* ping until successful */
+    try {
+      let result = ping({
+        requestTimeout: 10000  
+      });
+      if(result){
+        console.log('ElasticSearch.setupElasticSearch: ping\'d');
+      }
+    } catch (e) {
+      console.log(`ElasticSearch.setupElasticSearch: failed to ping\'d @ \
+                  ${elasticUrl}`);
+      /* keep pinging every 5 seconds if unsucessful */
+      this._pinged = false;
+      Meteor.setTimeout(this.pingElasticSearch(), 5000);
+    }
+    /* if successfull and nothing has been setup yet, then setup
+     * everything */  
+    if(!this._setup_done){
+      setupElasticSearch();
+    } 
+    /* if successfull and everything is setup, then do nothing */
+  }
+  /**
    * Connects to elastic search and sets up mappings and other stuff to 
    * analyze documents for indexing.
    *
    */
-  setupElasticSearch(){
+  setupElasticSearchClient(){
     let elasticUrl = this.getEnvVar('SEARCH_ELASTIC_URL')
     /**
      * we can't setup elasticsearch without a url 
@@ -126,7 +154,7 @@ export default class ElasticSearch {
       }
     );
     console.log('ElasticSearch.setupElasticSearch: client setup\'d');
-    //TODO:ping elastic search to check it is up and running and can receive 
+    /* ping until the elasticsearch server responds */
     let ping = Meteor.wrapAsync(this.client.ping, this.client);
     try {
       let result = ping({
@@ -138,8 +166,12 @@ export default class ElasticSearch {
     } catch (e) {
       console.log(`ElasticSearch.setupElasticSearch: failed to ping\'d @ \
                   ${elasticUrl}`);
+      this._pinged = false;
+      Meteor.setTimeout(this.pingElasticSearch(), 5000);
       return false;
     }
+    /* if did not ping succesfully then ping again */
+    this._pinged = true;
     return true;
   }
   /**
@@ -323,24 +355,17 @@ watcher`;
     return true;
   }
   /**
-   * Sets up both the client and sync watchers for Elastic Search. Probably
-   * in the future it would also be nice if mappings for those collection
-   * were also setup there. This would eliminate having that be setup outside
-   * of Meteor.
+   * setupElasticSearch
+   *
+   * This sets up elasticsearch configuration, indexes, etc
    */
-  setup(){
-    // already did the setup so don't do it anymore
+  setupElasticSearch(){
+    /**
+     * if already did the elasticsearch setup, then don't do
+     * it again 
+     */
     if(this._setup_done){
       return true;
-    }
-    if(!this.checkEnv()){
-      return false;
-    }
-    /**
-     * setup elastic search client
-     */
-    if(!this.setupElasticSearch()){
-      return false;
     }
     /**
      * setup indices, types, analyzers, and maps
@@ -361,6 +386,31 @@ console.log(`ElasticSearch.setup(): initialize syncs`);
      * if this point is reached then everything was setup correctly.
      */
     this._setup_done = true;
+
+  }
+  /**
+   * Sets up both the client and sync watchers for Elastic Search. Probably
+   * in the future it would also be nice if mappings for those collection
+   * were also setup there. This would eliminate having that be setup outside
+   * of Meteor.
+   */
+  setup(){
+    // already did the setup so don't do it anymore
+    if(this._pinged && this._setup_done){
+      return true;
+    }
+    if(!this.checkEnv()){
+      return false;
+    }
+    /**
+     * setup elastic search client
+     */
+    if(!this.setupElasticSearchClient()){
+      return false;
+    }
+    if(!this.setupElasticSearch()){
+      return false;
+    }
     return true;
   }
 	finishedInitSyncs(){
