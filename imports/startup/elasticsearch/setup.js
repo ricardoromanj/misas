@@ -131,7 +131,7 @@ export default class ElasticSearch {
     /* if successfull and nothing has been setup yet, then setup
      * everything */  
     if(!this._setup_done){
-      setupElasticSearch();
+      this.setupElasticSearch();
     } 
     /* if successfull and everything is setup, then do nothing */
   }
