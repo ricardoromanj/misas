@@ -44,9 +44,6 @@ misas_test:
     - ROOT_URL=http://localhost:3000
     - SEARCH_MONGO_URL=mongodb://misasdb_test/misas
     - SEARCH_ELASTIC_URL=http://misases_test:9200
-  volumes:
-    - ./:/app
-  command: meteor
   ports:
     - 3000
   log_driver: "gelf"
