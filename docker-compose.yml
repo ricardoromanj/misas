@@ -14,7 +14,7 @@ search_dev:
   volumes:
     - ./esdata:/usr/share/elasticsearch/data
   ports:
-    - "9200:9200"
+    - 9200
 misasbundledb_dev:
   image: mongo:2.6.12
   volumes:
@@ -22,7 +22,7 @@ misasbundledb_dev:
     - ./data/dump:/dump
   command: mongod --replSet test
   ports:
-    - "27017:27017"
+    - 27017
 misas_dev:
   build: .
   links:
@@ -40,4 +40,4 @@ misas_dev:
     - ./:/app
   command: meteor
   ports:
-    - "3000:3000"
+    - 3000
