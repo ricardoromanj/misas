@@ -111,6 +111,7 @@ export default class ElasticSearch {
    * Ping server until it successfully responds
    */
   pingElasticSearch(){
+    let elasticUrl = this.getEnvVar('SEARCH_ELASTIC_URL')
     let ping = Meteor.wrapAsync(this.client.ping, this.client);
     /* ping until successful */
     try {
