@@ -126,7 +126,7 @@ export default class ElasticSearch {
                   ${elasticUrl}`);
       /* keep pinging every 5 seconds if unsucessful */
       this._pinged = false;
-      Meteor.setTimeout(this.pingElasticSearch(), 5000);
+      Meteor.setTimeout(this.pingElasticSearch, 5000);
     }
     /* if successfull and nothing has been setup yet, then setup
      * everything */  
@@ -168,7 +168,7 @@ export default class ElasticSearch {
       console.log(`ElasticSearch.setupElasticSearch: failed to ping\'d @ \
                   ${elasticUrl}`);
       this._pinged = false;
-      Meteor.setTimeout(this.pingElasticSearch(), 5000);
+      Meteor.setTimeout(this.pingElasticSearch, 5000);
       return false;
     }
     /* if did not ping succesfully then ping again */
