@@ -1,0 +1,23 @@
+div(layout="column")
+  h1 Data Sources
+  div(layout="row", layout-align="start center")
+    md-menu
+      md-button(
+        md-menu-origin,
+        ng-click="$mdOpenMenu()"
+        ) Select Data Source
+      // source selection
+      md-menu-content(width="4", md-menu-align-target)
+        md-menu-item(
+          type="radio", 
+          value="dhm-parse",
+          ng-model="sources.source",
+          ng-change="sources.useSource(sources.source)"
+          ) DHM Misas
+        md-menu-item(
+          type="radio", 
+          value="dhm-images",
+          ng-model="sources.source",
+          ng-change="sources.useSource(sources.source)"
+          ) DHM Images
+  ui-view

@@ -1,5 +1,6 @@
 import parroquias from './components/parroquias/parroquias';
 import angularMeteorAuth from 'angular-meteor-auth';
+import _ from 'lodash';
 import './components/parroquia/parroquia';
 import './components/parroquia/parroquia-edit';
 import './components/parroquias/parroquias.search';
@@ -10,6 +11,7 @@ import './components/user/settings/settings';
 import './components/admin/users/users';
 import './components/admin/admin.html';
 import './components/user/user.html';
+import './components/admin/sources/sources.html';
 
 /*parroquias.run(function($rootScope) {
   'ngInject';
@@ -57,7 +59,25 @@ parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider
         }
       }
     });
-    $stateProvider.state('misas.admin.dhm-parse', {
+    $stateProvider.state('misas.admin.sources', {
+      url: 'sources/',
+      resolve: {
+        good: function(adminCheck){
+          return true;
+        }
+      },
+      controller: ($scope, $state) => {
+        'ngInject';
+        $scope.sources = {}; 
+        $scope.sources.useSource = (source) => {
+          if(_.isString(source)){
+            $state.go(`misas.admin.sources.${source}`);
+          }
+        };
+      },
+      templateUrl: 'imports/ui/components/admin/sources/sources.html'
+    });
+    $stateProvider.state('misas.admin.sources.dhm-parse', {
       url: 'dhm-parse/',
       resolve: {
         good: function(adminCheck){
@@ -107,7 +127,7 @@ parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider
     );
 
     $urlRouterProvider.otherwise('/parroquias');
-
+    /*
     const iconPath =  '/packages/planettraining_material-design-icons/bower_components/material-design-icons/sprites/svg-sprite/';
 
     $mdIconProvider
@@ -125,6 +145,7 @@ parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider
         iconPath + 'svg-sprite-navigation.svg')
       .iconSet('image',
         iconPath + 'svg-sprite-image.svg');
+       */
   }
 )
 .run(function($rootScope, $state) {

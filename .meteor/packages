@@ -21,10 +21,14 @@ accounts-facebook
 accounts-google
 accounts-twitter
 
+#######################
+# angular
+#######################
 ndxbxrme:ng-coffeescript
 pbastowski:angular-babel
 victor755:meteor-angular-jade
 angular-templates
+#planettraining:material-design-icons
 #angular-meteor-auth
 http
 
@@ -41,3 +45,8 @@ service-configuration
 toystars:elasticsearch-sync
 #victor755:elasticsearch-sync
 #mrt:allow-env
+#######################
+# images, files ... 
+#######################
+cfs:standard-packages
+cfs:gridfs

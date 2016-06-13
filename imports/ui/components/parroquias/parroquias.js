@@ -1,11 +1,8 @@
-// import 'angular-ui-bootstrap';
 import ngMaterial from 'angular-material';
 import ngMaterialTable from 'angular-material-data-table';
 import angular from 'angular';
 import angularMeteorAuth from 'angular-meteor-auth';
 import uiRouter from 'angular-ui-router';
-//import ngDebounce from 'ng-debounce';
-//import uiRouterLogger from 'ui-router-logger';
 import { Parroquias } from '../../../api/parroquias/collection';
 import { name as ServicesModule } from '../../services/module';
 import '../../services/userHelpers';
@@ -14,6 +11,7 @@ import { name as passwordModule } from '../auth/password/password';
 import { name as userSettingsModule } from '../user/settings/settings';
 import { name as adminUsersModule } from '../admin/users/users';
 import { name as parroquiasSearch } from './parroquias.search';
+import { name as adminSourceDHMImages} from '../admin/sources/DHM-images/DHM-images';
 import Navigation from '../navigation/navigation';
 import './parroquias.html';
 
@@ -25,8 +23,6 @@ export default angular.module('parroquias',
     'angular-meteor', 
     angularMeteorAuth,
     uiRouter, 
-    //ngDebounce,
-    //uiRouterLogger,
     'accounts.ui',
     ngMaterial,
     ngMaterialTable,
@@ -36,6 +32,7 @@ export default angular.module('parroquias',
     passwordModule,
     userSettingsModule,
     adminUsersModule,
+    adminSourceDHMImages,
 		parroquiasSearch
   ]
 );
