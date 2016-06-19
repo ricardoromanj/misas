@@ -1,6 +1,7 @@
 import '../imports/api/parroquias/methods';
 import '../imports/api/parroquias/publications';
 import '../imports/api/admin/sources/DHM/methods';
+import '../imports/startup/server-startup';
 import '../imports/api/users/methods';
 import '../imports/api/services/google.maps';
 import '../imports/startup/fixtures/users';

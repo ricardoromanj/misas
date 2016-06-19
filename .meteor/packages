@@ -20,7 +20,10 @@ accounts-password
 accounts-facebook
 accounts-google
 accounts-twitter
-
+#######################
+# security stuff 
+#######################
+check
 #######################
 # angular
 #######################
@@ -42,6 +45,9 @@ tmeasday:publish-counts
 alanning:roles
 fortawesome:fontawesome
 service-configuration
+#######################
+# elastic search 
+#######################
 toystars:elasticsearch-sync
 #victor755:elasticsearch-sync
 #mrt:allow-env
@@ -50,3 +56,16 @@ toystars:elasticsearch-sync
 #######################
 cfs:standard-packages
 cfs:gridfs
+#######################
+# relations in collections 
+#######################
+lepozepo:publish-with-relations
+#######################
+# streaming utilities 
+#######################
+#rocketchat:streamer
+#######################
+# jobs 
+#######################
+#differential:workers
+

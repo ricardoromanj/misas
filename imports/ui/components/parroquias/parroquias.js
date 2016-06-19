@@ -11,7 +11,7 @@ import { name as passwordModule } from '../auth/password/password';
 import { name as userSettingsModule } from '../user/settings/settings';
 import { name as adminUsersModule } from '../admin/users/users';
 import { name as parroquiasSearch } from './parroquias.search';
-import { name as adminSourceDHMImages} from '../admin/sources/DHM-images/DHM-images';
+import { name as adminFixDHMImages} from '../admin/fixes/dhm-images/dhm-images';
 import Navigation from '../navigation/navigation';
 import './parroquias.html';
 
@@ -32,7 +32,7 @@ export default angular.module('parroquias',
     passwordModule,
     userSettingsModule,
     adminUsersModule,
-    adminSourceDHMImages,
+    adminFixDHMImages,
 		parroquiasSearch
   ]
 );

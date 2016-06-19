@@ -764,6 +764,11 @@
       "from": "pubsub-js@latest",
       "resolved": "https://registry.npmjs.org/pubsub-js/-/pubsub-js-1.5.3.tgz"
     },
+    "servicelocatorjs": {
+      "version": "1.0.5",
+      "from": "servicelocatorjs@latest",
+      "resolved": "https://registry.npmjs.org/servicelocatorjs/-/servicelocatorjs-1.0.5.tgz"
+    },
     "ui-router": {
       "version": "1.0.0-alpha.3",
       "from": "ui-router@latest",

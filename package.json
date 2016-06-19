@@ -26,6 +26,7 @@
     "printable-json": "^1.0.0",
     "promise": "^7.1.1",
     "pubsub-js": "^1.5.3",
+    "servicelocatorjs": "^1.0.5",
     "ui-router": "^1.0.0-alpha.3",
     "url": "^0.11.0"
   },

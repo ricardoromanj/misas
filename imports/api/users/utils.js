@@ -12,3 +12,10 @@ export function checkIsRoot(){
   return result;
 }
 
+export function checkIsRootWithError(){
+  if(checkIsRoot()){
+    return;
+  }
+  throw new Meteor.Error('user-is-not-root', "You are not logged in as Root");
+}
+
