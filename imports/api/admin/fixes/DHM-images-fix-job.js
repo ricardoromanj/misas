@@ -1,16 +1,7 @@
+import { Parroquias } from '../../parroquias/collection';
 import { FixJobStatus, FixJob } from './fix-job';
 import { FixJobRegistry, FixJobRegistar } from './fix-job-registry';
 import { Name } from './DHM-images-fix-job-info';
-const jobStatus = {
-  name: Name,
-  status: FixJobStatus.notYetRun,
-  stats: {
-    numParroquias: 0,
-    numParroquiasWithImages: 0,
-    numParroquiasWithImagesProcessed: 0
-  },
-  logs: []
-};
 /*
  * function DHMImagesFixJob
  *
@@ -25,6 +16,18 @@ class DHMImagesFixJob extends FixJobRegistar {
    */
   constructor(){
     super();
+    this.name = Name;
+    this.stats = {
+      numParroquias: 0,
+      numParroquiasWithImagesUpdated: 0,
+      numParroquiasWithImages: 0 
+    };
+    this.update(this.notYetRun);
+  }
+  /*
+   * Reset this FixJob statistics
+   */
+  resetting(){
     this.stats = {
       numParroquias: 0,
       numParroquiasWithImagesUpdated: 0,
@@ -36,10 +39,16 @@ class DHMImagesFixJob extends FixJobRegistar {
    */
   starting(){
     let parroquias = Parroquias.find({});
+    let numUpdated = 0;
     parroquias.forEach(
       (parroquia) => {
         //process each parroquia
-        console.log(`parroquia's name: ${parroquia.name}`);
+        console.log(`parroquia's name: ${parroquia.name} - ${this.stats.numParroquias}`);
+        // update parroquias stats
+        this.stats.numParroquias++;
+        if((this.stats.numParroquias % 50) == 0){
+          this.update(FixJobStatus.running);
+        }
       }
     );
   }

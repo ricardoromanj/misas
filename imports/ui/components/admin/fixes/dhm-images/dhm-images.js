@@ -34,13 +34,14 @@ class DHMImagesFix {
         return FixJob.findOne({}); 
       }
     });
-    pc.subscribe('misas.admin.fixes.fixjob', () => {
-      return this.name;
+    console.log(`FixJob: ${Name}`);
+    this.subscribe('misas.admin.fixes.fixjob', () => {
+      return [ Name ];
     });
   }
   startJob(){
     console.log(`calling DHM-images fix`);
-    this.call('misas.admin.fixes.fixjob.start', (error, result) => {
+    this.call('misas.admin.fixes.fixjob.start', Name, (error, result) => {
       if(!_.isNil(error)){
         console.log(error);
         return;
@@ -74,7 +75,7 @@ export default angular.module(
   ($stateProvider) => {
     'ngInject';
     $stateProvider.state('misas.admin.sources.dhm-images', {
-      url: 'search',
+      url: 'dhm-images/',
       template: '<admin-fix-dhm-images></admin-fix-dhm-images>'
     });
   }

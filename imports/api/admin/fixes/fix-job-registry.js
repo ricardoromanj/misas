@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import Fiber from 'fibers';
 import { FixJobStatus, FixJob } from './fix-job';
 import ServiceLocator from 'servicelocatorjs';
+import _ from 'lodash';
 
 export const FixJobRegistry = ServiceLocator;
 /*
@@ -16,6 +17,14 @@ export class FixJobRegistar {
     this.stats = {}
   }
   /*
+   * function reset
+   *
+   * This function must be implemented to update the stats
+   */
+  reset(){
+    this.resetting();
+  }
+  /*
    * function update 
    *
    * This function lets the job update it status, and stats. It is 
@@ -23,11 +32,12 @@ export class FixJobRegistar {
    */
   update(status){
     this.status = status;
-    FixJob.update(
+    FixJob.upsert(
       {
         name: this.name
       },
       {
+        name: this.name,
         status: this.status,
         stats: this.stats
       }
@@ -39,12 +49,13 @@ export class FixJobRegistar {
    * start a new fiber with this job in it.
    */
   start(){
-    this.unblock();
     let unrunFiber = Fiber(() => {
       this.fiber = Fiber.current;
       this.update(FixJobStatus.running);
+      this.reset();
       this.starting();
       // after finishing set fiber to null
+      this.update(FixJobStatus.finished);
       this.fiber = null;
     });
     if(!_.isNil(this.fiber)){
@@ -69,6 +80,16 @@ export class FixJobRegistar {
       this.fiber.reset();
     }
     return true;
+  }
+  /*
+   * functin resetting
+   *
+   * Logic to clean up statistics information about the job should
+   * be done here.
+   */
+  resetting(){
+    Meteor.Error('method-not-implemented', 'This methods has yet to\
+ to be implemented.');
   }
   /*
    * function starting

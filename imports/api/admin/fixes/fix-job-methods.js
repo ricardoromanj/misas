@@ -24,14 +24,16 @@ Meteor.methods(
       /* else return just that one document to the client */
       return fixJobCursor;
     },
-    'misas.admin.fixes.fixjob.start': (name) => {
+    'misas.admin.fixes.fixjob.start': function(name){
       /* get the fix job with the specified name if it does
          exists */
+      console.log(`fixes.fixjob.start: Starting job with ${name}`);
       let fixjob = FixJobRegistry.get(name);
       if(_.isNil(fixjob)){
         throw new Meteor.Error('fixjob-does-not-exists', 'There is not FixJob with that name');
       }
       /* start the new FixJob */      
+      this.unblock();
       fixjob.start();
       return true;
     },

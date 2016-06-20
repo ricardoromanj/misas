@@ -1,6 +1,26 @@
-div(layout="column")
+.md-whiteframe-2dp(layout="column", layout-padding)
   h2 DHM images
+  p {{ fix.FixJob | json }}
   div 
     md-button(ng-click="fix.startJob()") Start Job
+  .md-whiteframe-1dp(ng-if="FixJob")
+    div(layout="row")
+      div(layout="column", flex="50", flex-gt-xs="20")
+        div
+          strong Job name: 
+          span {{ fix.FixJob.name }
+        div
+          strong Job status: 
+          span {{ fix.FixJob.status }
+        div
+          strong Job stats
+        div(layout="column")
+          div
+            strong Parroquias: 
+          div
+            strong Number of Parroquias updated:
+          div
+            strong Number of Parroquias with images:
+      div(flex)
   div
     p will be displayed here in the future
