@@ -34,8 +34,11 @@ angular-templates
 #planettraining:material-design-icons
 #angular-meteor-auth
 http
-
-
+#######################
+# testing 
+#######################
+xolvio:cleaner
+practicalmeteor:mocha
 #sass instead of css
 #standard-minifier-css
 seba:minifiers-autoprefixer
@@ -56,9 +59,11 @@ toystars:elasticsearch-sync
 #######################
 cfs:standard-packages
 cfs:gridfs
+cfs:ejson-file
 #######################
 # relations in collections 
 #######################
+dburles:collection-helpers 
 lepozepo:publish-with-relations
 #######################
 # streaming utilities 

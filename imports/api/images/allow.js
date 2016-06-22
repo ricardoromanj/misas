@@ -1,7 +1,7 @@
-import { checkIsRoot } from '../../users/utils';
-import { FixJob } from './fix-job';
+import { checkIsRoot } from '../users/utils';
+import { Images } from './collection';
 
-FixJob.allow({
+Images.allow({
   insert: () => {
     return checkIsRoot();
   },
@@ -9,6 +9,9 @@ FixJob.allow({
     return checkIsRoot(); 
   },
   remove: () => {
+    return checkIsRoot();
+  },
+  download: () => {
     return checkIsRoot();
   }
 });

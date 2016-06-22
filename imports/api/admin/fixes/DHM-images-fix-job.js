@@ -1,7 +1,11 @@
 import { Parroquias } from '../../parroquias/collection';
+import { Images } from '../../images/collection';
+import { getImages } from '../../parroquias/utils';
+import { cursorHasImageWithUrl } from '../../images/utils';
 import { FixJobStatus, FixJob } from './fix-job';
 import { FixJobRegistry, FixJobRegistar } from './fix-job-registry';
 import { Name } from './DHM-images-fix-job-info';
+import { FS } from 'meteor/cfs:base-package';
 /*
  * function DHMImagesFixJob
  *
@@ -38,15 +42,45 @@ class DHMImagesFixJob extends FixJobRegistar {
    * Starts processing the parroquias with parroquias img links
    */
   starting(){
-    let parroquias = Parroquias.find({});
-    let numUpdated = 0;
-    parroquias.forEach(
+    // update the initial number of parroquias, and parroquias with
+    // images
+    this.stats.numParroquias = Parroquias.find().count();
+    let parroquiasWithImages = Parroquias.find(
+      {
+        "img.url": {  
+          $exists: true,
+          $type: 2
+        }
+      }
+    );
+    this.stats.numParroquiasWithImages = parroquiasWithImages.count();
+    this.update(FixJobStatus.running);
+    parroquiasWithImages.forEach(
       (parroquia) => {
-        //process each parroquia
-        console.log(`parroquia's name: ${parroquia.name} - ${this.stats.numParroquias}`);
+        // process each parroquia
+        // console.log(`parroquia's name: ${parroquia.name} - ${this.stats.numParroquias}`);
         // update parroquias stats
-        this.stats.numParroquias++;
-        if((this.stats.numParroquias % 50) == 0){
+        let good = false;
+        let images = getImages(parroquia);  
+        let url = parroquias.img.url;
+        let [hasImage, id] = cursorHasImageWithUrl(images, url);
+        if(!hasImage){
+          let file = null;
+          try {
+            file = Images.insert(url);
+            good = true;
+          } catch(error) {
+            console.log(`Fixes.DHMImagesFixJob: Error getting image for \
+for ${url}`);
+            console.log(error);
+          }
+          if(good){
+            this.stats.numParroquiasWithImagesUpdated++;
+            //TODO: determine how to best store reference to
+            //file records
+          }
+        }
+        if((this.stats.numParroquiasWithImagesUpdated % 50) == 0){
           this.update(FixJobStatus.running);
         }
       }
