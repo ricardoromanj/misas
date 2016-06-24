@@ -24,7 +24,7 @@ env.zip contains several files as explained here.
 docker-compose up -d 
 ```
 
-#### Option 2 - Meteor runs without a Container and the rest do
+#### Option 2 - Meteor runs without a Container on own computer and the rest run on Containers
 
 ```bash
 #from misas/ directory
@@ -33,11 +33,13 @@ docker-compose up -d search_dev
 #start mongo container
 docker-compose up -d misasbundledb_dev
 #setup meteor
-source env.sh
+#env.sh contains configuration of server ES, Meteor URL, and API keys
+source env.sh         
+#dev.settings.json configurations used mostly to put them in the client
 meteor --settings dev.settings.json
 ```
 ### 
 
 ## Contributors
-* Ricardo Roman
-* Victor Fernandez
+* [Ricardo Roman](https://github.com/roman0316)
+* [Victor Fernandez](https://github.com/victor-fdez)
