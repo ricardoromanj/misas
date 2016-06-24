@@ -127,6 +127,10 @@ Parroquias.helpers({
       //TODO: does this update the image?, update myself
     } else {
       //the image file does not have an owner so add it
+      if(_.isNil(this._id)){
+        throw new Meteor.Error(`Parroquia: image ${fileObj._id} can't\
+ be owned by this parroquia since it does not already have an _id` );
+      }
       _.merge(fileObj, { metadata: { owner: this._id } }); 
       this.images.push(fileObj);
       //TODO: maybe unnecessary if new insert, if old update

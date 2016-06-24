@@ -39,6 +39,7 @@ http
 #######################
 xolvio:cleaner
 practicalmeteor:mocha
+practicalmeteor:mocha-console-runner
 #sass instead of css
 #standard-minifier-css
 seba:minifiers-autoprefixer
