@@ -12,6 +12,6 @@ Images.allow({
     return checkIsRoot();
   },
   download: () => {
-    return checkIsRoot();
+    return true; 
   }
 });

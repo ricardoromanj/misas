@@ -38,6 +38,8 @@ export class FixJobRegistar {
       },
       {
         name: this.name,
+        title: this.title,
+        description: this.description,
         status: this.status,
         stats: this.stats
       }

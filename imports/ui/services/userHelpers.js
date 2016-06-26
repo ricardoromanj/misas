@@ -8,8 +8,6 @@ import 'angular-meteor';
  
 export const name = 'misas.services';
 
-console.log("Loaded users");
-
 angular.module(
   ServicesModule
 ).factory(
@@ -53,8 +51,8 @@ angular.module(
       let deferred = $q.defer();
       $auth.awaitUser().then(
         (user) => {
-          console.log('checkIsRootP()');
-          console.log(user);
+          //console.log('checkIsRootP()');
+          //console.log(user);
           if(!_.has(user, 'roles')){
             //if roles is not defined in the user, then check in the server to
             //see if the given user has thoser permissions
@@ -72,7 +70,7 @@ angular.module(
             });
           } else {
             //check in the roles when it is available
-            console.log("checkIsRootP():");
+            //console.log("checkIsRootP():");
             let isRoot = Roles.userIsInRole(user._id, ['root'], Roles.GLOBAL_GROUP);
             if(!isRoot){
               deferred.reject('AUTH_REQUIRED');

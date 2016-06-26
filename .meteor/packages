@@ -52,8 +52,8 @@ service-configuration
 #######################
 # elastic search 
 #######################
-toystars:elasticsearch-sync
-#victor755:elasticsearch-sync
+#toystars:elasticsearch-sync
+victor755:elasticsearch-sync
 #mrt:allow-env
 #######################
 # images, files ... 
@@ -61,6 +61,7 @@ toystars:elasticsearch-sync
 cfs:standard-packages
 cfs:gridfs
 cfs:ejson-file
+cfs:graphicsmagick
 #######################
 # relations in collections 
 #######################

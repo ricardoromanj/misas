@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import _ from 'lodash';
 import 'meteor/dburles:collection-helpers';
-import Images from '../images/collection';
+import { Images } from '../images/collection';
 /*
  * @Collection Parroquias 
  * 
@@ -81,7 +81,7 @@ Parroquias.helpers({
     if(this.images.length == 0){
       return;
     }
-    let ids = _.map(this.images, () => {
+    let ids = _.map(this.images, (image) => {
       return image._id;
     }); 
     this.images = Images.find(
@@ -124,16 +124,14 @@ Parroquias.helpers({
       } else {
         this.images[index] = fileObj;
       }
-      //TODO: does this update the image?, update myself
     } else {
       //the image file does not have an owner so add it
       if(_.isNil(this._id)){
         throw new Meteor.Error(`Parroquia: image ${fileObj._id} can't\
  be owned by this parroquia since it does not already have an _id` );
       }
-      _.merge(fileObj, { metadata: { owner: this._id } }); 
+      fileObj.update({$set: { 'metadata.owner': this._id }});
       this.images.push(fileObj);
-      //TODO: maybe unnecessary if new insert, if old update
     }
     this.update();
   }

@@ -4,19 +4,9 @@ import _ from 'lodash';
 import './components/parroquia/parroquia';
 import './components/parroquia/parroquia-edit';
 import './components/parroquias/parroquias.search';
-import './components/admin/sources/DHM/DHM-parse';
 import './services/module';
 import './components/navigation/navigation';
 import './components/user/settings/settings';
-import './components/admin/users/users';
-import './components/admin/admin.html';
-import './components/user/user.html';
-import './components/admin/sources/sources.html';
-
-/*parroquias.run(function($rootScope) {
-  'ngInject';
-  $rootScope.$on("$stateChangeError", console.log.bind(console));
-});*/
 
 parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider, $mdIconProvider) {
     "ngInject";
@@ -48,58 +38,6 @@ parroquias.config(function($urlRouterProvider, $stateProvider, $locationProvider
         return console.log("parroquia edit state loaded");
       }
     });
-    //--ADMIN-- RELATED STATES
-    $stateProvider.state('misas.admin', {
-      url: 'admin/',
-      templateUrl: 'imports/ui/components/admin/admin.html',
-      resolve: {
-        adminCheck: function(userHelpers){
-          let result = userHelpers.checkIsRootP();
-          return result;
-        }
-      }
-    });
-    $stateProvider.state('misas.admin.sources', {
-      url: 'sources/',
-      resolve: {
-        good: function(adminCheck){
-          return true;
-        }
-      },
-      controller: ($scope, $state) => {
-        'ngInject';
-        $scope.sources = {}; 
-        $scope.sources.useSource = (source) => {
-          if(_.isString(source)){
-            $state.go(`misas.admin.sources.${source}`);
-          }
-        };
-      },
-      templateUrl: 'imports/ui/components/admin/sources/sources.html'
-    });
-    $stateProvider.state('misas.admin.sources.dhm-parse', {
-      url: 'dhm-parse/',
-      resolve: {
-        good: function(adminCheck){
-          return true;
-        }
-      },
-      template: '<dhm-parse></dhm-parse>'
-    });
-    $stateProvider.state(
-      'misas.admin.users', 
-      {
-        url: 'users/',
-        template: '<admin-users></admin-users>',
-        resolve: {
-          good: function(adminCheck){
-            return true;
-          }
-        },
-        controller: function(adminCheck){
-        }
-      }
-    );
     //--USER-- states
     $stateProvider.state('misas.login', {
       url: 'login/',

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 //import usersInit from './users-sync'
-import { ESMongoSync } from 'meteor/toystars:elasticsearch-sync';
+import { ESMongoSync } from 'meteor/victor755:elasticsearch-sync';
 import _ from 'lodash';
 import pj from 'printable-json';
 import elasticsearch from 'elasticsearch';

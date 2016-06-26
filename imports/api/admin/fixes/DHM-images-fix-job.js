@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+import _ from 'lodash';
 import { Parroquias } from '../../parroquias/collection';
 import { Images } from '../../images/collection';
 import { getImages } from '../../parroquias/utils';
@@ -6,6 +8,7 @@ import { FixJobStatus, FixJob } from './fix-job';
 import { FixJobRegistry, FixJobRegistar } from './fix-job-registry';
 import { Name } from './DHM-images-fix-job-info';
 import { FS } from 'meteor/cfs:base-package';
+import { WaitUntil } from '../../utils/wait-until';
 /*
  * function DHMImagesFixJob
  *
@@ -21,10 +24,26 @@ class DHMImagesFixJob extends FixJobRegistar {
   constructor(){
     super();
     this.name = Name;
+    this.title = "Get all images from DHM for current set of Parroquias";
+    this.description = "This fix job finds all of the parroquias with \
+image urls and tries to get the images for all of them.";
     this.stats = {
-      numParroquias: 0,
-      numParroquiasWithImagesUpdated: 0,
-      numParroquiasWithImages: 0 
+      numParroquias: {
+        value: 0,
+        human: 'Number of Parroquias stored'
+      },
+      numParroquiasWithImagesUpdated: {
+        value: 0,
+        human: 'Number of Parroquias with their Images which were Updated'
+      },
+      numParroquiasWithImages: {
+        value: 0,
+        human: 'Number of Parroquias with a URL for an Image'
+      },
+      numParroquiasWithImagesPreviouslyUpdated: {
+        value: 0,
+        human: 'Number of Parroquias with a URL for an Imange & Previously Updated'
+      } 
     };
     this.update(this.notYetRun);
   }
@@ -33,9 +52,22 @@ class DHMImagesFixJob extends FixJobRegistar {
    */
   resetting(){
     this.stats = {
-      numParroquias: 0,
-      numParroquiasWithImagesUpdated: 0,
-      numParroquiasWithImages: 0 
+      numParroquias: {
+        value: 0,
+        human: 'Number of Parroquias stored'
+      },
+      numParroquiasWithImagesUpdated: {
+        value: 0,
+        human: 'Number of Parroquias with their Images which were Updated'
+      },
+      numParroquiasWithImages: {
+        value: 0,
+        human: 'Number of Parroquias with a URL for an Image'
+      },
+      numParroquiasWithImagesPreviouslyUpdated: {
+        value: 0,
+        human: 'Number of Parroquias with a URL for an Imange & Previously Updated'
+      } 
     };
   }
   /*
@@ -44,7 +76,7 @@ class DHMImagesFixJob extends FixJobRegistar {
   starting(){
     // update the initial number of parroquias, and parroquias with
     // images
-    this.stats.numParroquias = Parroquias.find().count();
+    this.stats.numParroquias.value = Parroquias.find().count();
     let parroquiasWithImages = Parroquias.find(
       {
         "img.url": {  
@@ -53,38 +85,58 @@ class DHMImagesFixJob extends FixJobRegistar {
         }
       }
     );
-    this.stats.numParroquiasWithImages = parroquiasWithImages.count();
+    this.stats.numParroquiasWithImages.value = parroquiasWithImages.count();
     this.update(FixJobStatus.running);
     parroquiasWithImages.forEach(
       (parroquia) => {
         // process each parroquia
         // console.log(`parroquia's name: ${parroquia.name} - ${this.stats.numParroquias}`);
         // update parroquias stats
-        let good = false;
-        let images = getImages(parroquia);  
-        let url = parroquias.img.url;
-        let [hasImage, id] = cursorHasImageWithUrl(images, url);
-        if(!hasImage){
-          let file = null;
+        let waitTillFileUploads = Meteor.wrapAsync(this.waitUntilFileUploads, this);
+        let url = parroquia.img.url;
+        //get this parroquias images info
+        parroquia.getImages();  
+        let imageFound = _.find(parroquia.images, (image) => {
+          return _.has(image, 'metadata.source.url') && 
+            image.metadata.source.url == url;
+        });
+        if(_.isNil(imageFound)){
           try {
-            file = Images.insert(url);
-            good = true;
-          } catch(error) {
-            console.log(`Fixes.DHMImagesFixJob: Error getting image for \
-for ${url}`);
+            let newImage = Images.insert(url);
+            parroquia.addImage(newImage);
+            newImage.update({$set: { 'metadata.source.url': url }});
+            //console.log(newImage);
+            //process one image at a time so wait for this image to
+            //download
+            waitTillFileUploads(newImage);    
+            console.log(`uploaded ${parroquia.name}`);
+            this.stats.numParroquiasWithImagesUpdated.value++;
+          } catch (error) {
+            console.log(`DHMImagesFixJob: issue downloading url: ${url}`); 
             console.log(error);
           }
-          if(good){
-            this.stats.numParroquiasWithImagesUpdated++;
-            //TODO: determine how to best store reference to
-            //file records
-          }
-        }
-        if((this.stats.numParroquiasWithImagesUpdated % 50) == 0){
+          //if((this.stats.numParroquiasWithImagesUpdated % 0) == 0){
+          this.update(FixJobStatus.running);
+          //}
+        } else {
+          this.stats.numParroquiasWithImagesPreviouslyUpdated.value++;
           this.update(FixJobStatus.running);
         }
       }
     );
+  }
+  waitUntilFileUploads(fileObj, done){
+    let waitUntil = new WaitUntil();
+    waitUntil.interval(200)
+      .times(400)
+      .condition(function(){
+        //console.log(`check is uploaded: ${fileObj.isUploaded()}`);
+        return fileObj.isUploaded();
+      })
+      .done(function(){
+        console.log(`finished uploading image`);
+        done(null, true);
+      });
   }
 }
 

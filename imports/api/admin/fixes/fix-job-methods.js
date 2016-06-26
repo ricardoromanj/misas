@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import _ from 'lodash';
 import { FixJob, FixJobStatus } from './fix-job.js';
 /* fix jobs need to imported */
@@ -7,24 +8,11 @@ import { FixJobRegistry } from './fix-job-registry';
 
 Meteor.methods(
   {
-    'misas.admin.fixes.fixjob.status': (name) => {
-      let count = 0;
-      let fixJobCursor = FixJob.find({name: name});
-      count = fixJobCursor.count(); 
-      /* if count is equal to zero then add a document with
-         notYetRun status */
-      if(count == 0){
-        return FixJob.insert(
-          {
-            name: name,
-            status: FixJobStatus.notYetRun
-          }
-        );
-      }
-      /* else return just that one document to the client */
-      return fixJobCursor;
+    'misas.admin.fixes.fixjob.names': function (){
+      return null;
     },
     'misas.admin.fixes.fixjob.start': function(name){
+      check(name, String);
       /* get the fix job with the specified name if it does
          exists */
       console.log(`fixes.fixjob.start: Starting job with ${name}`);

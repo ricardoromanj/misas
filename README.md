@@ -14,6 +14,11 @@ necessary for containers.
 
 env.zip contains several files as explained here.
 
+### Software Requirements
+
+* ImageMagick is required for image manipulation
+** ubuntu: sudo apt-get install GraphicsMagick
+
 ### Development Containers
 
 #### Option 1 - All Development Running in Containers

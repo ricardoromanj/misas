@@ -1,19 +1,4 @@
 import { FS } from 'meteor/cfs:base-package';
-/*function addMetaSourceUrl(fileObj, readStream, writeStream){
-  console.log('add meta');
-  if(_.has(fileObj, 'data.source.url') &&
-     _.isString(fileObj.data.source.url)
-    ){
-    console.log(fileObj);
-    fileObj.metadata = {
-      source: {
-        url: fileObj.data.source.url
-      }
-    };
-  }
-  //readStream.pipe(writeStream);
-}
-*/
 /**
  * Images
  *
@@ -22,7 +7,8 @@ import { FS } from 'meteor/cfs:base-package';
  */
 export const Images = new FS.Collection("images", {
   stores: [
-    new FS.Store.GridFS("images")
+    new FS.Store.GridFS("thumb", { transformWrite: createThumb }),
+    new FS.Store.GridFS("original")
   ],
   filter: {
     allow: {
@@ -30,3 +16,9 @@ export const Images = new FS.Collection("images", {
     }
   }
 });
+
+function createThumb(fileObj, readStream, writeStream) {
+  // Transform the image into a 50x50px thumbnail
+  gm(readStream, fileObj.name()).resize('50', '50').stream().pipe(writeStream);
+};
+

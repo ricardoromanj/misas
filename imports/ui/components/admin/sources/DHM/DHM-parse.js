@@ -1,11 +1,36 @@
+// npm packages
 import angular from 'angular';
+import angularMeteor from 'angular-meteor';
+import uiRouter from 'angular-ui-router';
 import _ from 'lodash';
 import url from 'url';
+// collections
 import { Parroquias } from '../../../../../api/parroquias/collection';
+// html
 import './DHM-parse.html';
 
+export const name = `misas.admin.source.DHM`;
 
-angular.module('parroquias').directive('dhmParse', function() {
+export default angular.module(
+    `${name}`,
+    [
+      angularMeteor,
+      uiRouter
+    ] 
+).config(
+  ($stateProvider) => {
+    'ngInject';
+    $stateProvider.state('misas.admin.sources.dhm-parse', {
+      url: 'dhm-parse/',
+      resolve: {
+        good: function(adminCheck){
+          return true;
+        }
+      },
+      template: '<dhm-parse></dhm-parse>'
+    });
+  }
+).directive('dhmParse', function() {
   return {
     restrict: 'E',
     scope: {},
