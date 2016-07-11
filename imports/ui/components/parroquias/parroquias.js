@@ -14,10 +14,15 @@ import { name as MisasAdmin } from '../admin/admin';
 import MisasNavigation from '../navigation/navigation';
 import '../../services/userHelpers';
 import './parroquias.html';
-
-
-console.log('initializing parroquias module');
-
+/*
+ * module Parroquias
+ *
+ * This module will contain in the future the logic for storing
+ * showing personalize parroquias information. At the moment it
+ * only get you a subset of the parroquias.
+ *
+ * Actually is show nothing.
+ */
 export default angular.module('parroquias', 
   [
     'angular-meteor', 
@@ -48,7 +53,6 @@ angular.module('parroquias').directive('parroquias', function() {
       $reactive(this).attach($scope);
       vm = this;
       userHelpers.setupUserHelpers(vm);
-      return console.log('parroquias loaded');
     }
   };
 });

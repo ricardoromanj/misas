@@ -22,11 +22,6 @@ export default angular.module(
     'ngInject';
     $stateProvider.state('misas.admin.sources.dhm-parse', {
       url: 'dhm-parse/',
-      resolve: {
-        good: function(adminCheck){
-          return true;
-        }
-      },
       template: '<dhm-parse></dhm-parse>'
     });
   }

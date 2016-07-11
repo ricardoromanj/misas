@@ -1,0 +1,16 @@
+FROM ubuntu:xenial 
+RUN apt-get update && \
+    apt-get install -y locales && \
+    locale-gen en_US.UTF-8
+RUN apt-get update && \
+    apt-get install -y curl && \
+    apt-get install -y git-core
+RUN curl https://install.meteor.com/ | sh
+RUN mkdir -p /etc/misas/ /var/misas/
+
+COPY misas-git.bash misas-meteor-build.bash /etc/misas/
+WORKDIR /var/misas/
+
+RUN chmod +x /etc/misas/misas-meteor-build.bash
+EXPOSE 3000
+CMD /etc/misas/misas-meteor-build.bash

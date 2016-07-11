@@ -1,0 +1,39 @@
+# You can read the Docker Compose documentation at:
+#
+#   https://docs.docker.com/compose/
+#
+# Run with file with `docker-compose up -d`.
+#
+# Misas application.
+#
+# misas_meteor
+#
+# create a container that given a commit or a branch
+# will get it and run meteor on them
+version: '2'
+services:
+  meteor_deploy:
+    #container_name: "misas_meteor"
+    build:
+      context: .
+      dockerfile: Dockerfile-MisasMeteorDeploy
+    ports:
+      - "3000:3000"
+    environment:
+      - MISAS_GITHUB_URL=https://github.com/meteor/todos.git
+      - MISAS_GITHUB_REF=master
+      - ROOT_URL=http://meteor_deploy:3000/
+    volumes:
+      - "./var/:/var/misas/"
+  meteor_build:
+    #container_name: "misas_node_build"
+    build:
+      context: .
+      dockerfile: Dockerfile-MisasMeteorBuild
+    environment:
+      - MISAS_GITHUB_URL=https://github.com/meteor/todos.git
+      - MISAS_GITHUB_REF=master
+    ports:
+      - "3001:3000"
+    volumes:
+      - "./build/:/var/misas/"
