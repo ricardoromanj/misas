@@ -1,0 +1,19 @@
+jenkins-primary:
+  #image: "victor755555/jenkins:1.651.3"
+  build: ./
+  ports:
+    - "8080:8080"
+#  labels:
+#    io.rancher.sidekicks: jenkins-datavolume
+#    io.rancher.container.hostname_override: container_name
+  volumes_from:
+    - jenkins-datavolume
+jenkins-datavolume:
+  image: "busybox"
+#  external_links:
+#    - convoy-gluster/convoy-gluster:convoy-gluster
+  volumes:
+    - jenkins:/var/jenkins_home
+  entrypoint: ["chown", "-R", "1000:1000", "/var/jenkins_home"]
+#  labels:
+#    io.rancher.container.start_once: true
