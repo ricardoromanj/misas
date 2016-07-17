@@ -1,19 +1,17 @@
-jenkins-primary:
-  #image: "victor755555/jenkins:1.651.3"
+jenkins-builder:
   build: ./
+  #image: victor755555/jenkins:1.651.3
+  privileged: true
   ports:
-    - "8080:8080"
-#  labels:
-#    io.rancher.sidekicks: jenkins-datavolume
-#    io.rancher.container.hostname_override: container_name
-  volumes_from:
-    - jenkins-datavolume
-jenkins-datavolume:
-  image: "busybox"
-#  external_links:
-#    - convoy-gluster/convoy-gluster:convoy-gluster
+  - 8081:8080/tcp
+  #external_links:
+  #- convoy-gluster/convoy-gluster:convoy-cluster
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.scheduler.affinity:host_label: provider=scaleway
+    type: builder
+  tty: true
   volumes:
-    - jenkins:/var/jenkins_home
-  entrypoint: ["chown", "-R", "1000:1000", "/var/jenkins_home"]
-#  labels:
-#    io.rancher.container.start_once: true
+    - /var/run/docker.sock:/var/run/docker.sock 
+    - ./jenkins_home/:/var/jenkins_home/
+  stdin_open: true

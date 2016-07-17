@@ -76,3 +76,4 @@ lepozepo:publish-with-relations
 #######################
 #differential:workers
 
+dispatch:mocha-phantomjs
