@@ -5,6 +5,7 @@ const transformFunction = (watcher, document, callback) => {
   if(document != null){
     document.id = document._id;
     delete document._id;
+    delete document.images;
     if(!_.isNil(document.img)){
       delete document.img;
     }

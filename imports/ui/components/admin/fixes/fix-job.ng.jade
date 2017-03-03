@@ -1,0 +1,30 @@
+.md-whiteframe-2dp(layout="column", layout-padding)
+  h2 {{ fix.fixJob.title }} 
+  div 
+    md-button(ng-click="fix.startJob()") Start Job
+  .md-whiteframe-1dp(ng-if="fix.fixJob")
+    div(layout="row")
+      div(layout="column", flex="100")
+        div
+          strong Job name: 
+          span {{ fix.fixJob.name }}
+        div
+          //show jobs current running status
+          strong Job status: 
+          span {{ fix.fixJob.status }}
+        div
+          strong Job stats
+        div(layout="column")
+          //show all of this jobs stats here
+          div(
+            ng-repeat="stat in fix.fixJob.stats",
+            flex
+            flex-offset="5"
+            )
+            strong {{ stat.human }}: &nbsp&nbsp
+            span {{ stat.value }}
+      div(flex)
+  div
+    p. 
+      {{ fix.fixJob.description }}
+    

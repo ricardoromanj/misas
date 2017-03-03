@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Parroquias } from './collection';
+import { Images } from '../images/collection';
+import _ from 'lodash';
 /*
  * Published: parroquias
  * 
@@ -17,13 +19,24 @@ Meteor.publish('parroquias', function() {
 
 Meteor.publish('parroquia', function(id) {
   var selector;
-  if (id == null) {
-    id = '';
+  if(_.isNil(id)){
+    throw new Meteor.Error('param-not-specified', 'The id param\
+ was no specified');
   }
-  selector = {
-    _id: id
-  };
-  return Parroquias.find(selector);
+  if(!_.isString(id)){
+    throw new Meteor.Error('param-incorrect-type', 'The \'id\'\
+ should be a String');
+  }
+  //publish both the parroquia and it's images
+  console.log(Images.find({'metadata.owner': id}).fetch());
+  return [
+    Parroquias.find({
+      _id: id
+    }),
+    Images.find({
+      'metadata.owner': id
+    })
+  ]; 
 });
 /* Published: parroquias.search
  *

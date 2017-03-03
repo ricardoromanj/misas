@@ -20,15 +20,26 @@ accounts-password
 accounts-facebook
 accounts-google
 accounts-twitter
-
+#######################
+# security stuff 
+#######################
+check
+#######################
+# angular
+#######################
 ndxbxrme:ng-coffeescript
 pbastowski:angular-babel
 victor755:meteor-angular-jade
 angular-templates
+#planettraining:material-design-icons
 #angular-meteor-auth
 http
-
-
+#######################
+# testing 
+#######################
+xolvio:cleaner
+practicalmeteor:mocha
+practicalmeteor:mocha-console-runner
 #sass instead of css
 #standard-minifier-css
 seba:minifiers-autoprefixer
@@ -38,6 +49,30 @@ tmeasday:publish-counts
 alanning:roles
 fortawesome:fontawesome
 service-configuration
-toystars:elasticsearch-sync
-#victor755:elasticsearch-sync
+#######################
+# elastic search 
+#######################
+#toystars:elasticsearch-sync
+victor755:elasticsearch-sync
 #mrt:allow-env
+#######################
+# images, files ... 
+#######################
+cfs:standard-packages
+cfs:gridfs
+cfs:ejson-file
+cfs:graphicsmagick
+#######################
+# relations in collections 
+#######################
+dburles:collection-helpers 
+lepozepo:publish-with-relations
+#######################
+# streaming utilities 
+#######################
+#rocketchat:streamer
+#######################
+# jobs 
+#######################
+#differential:workers
+
