@@ -1,0 +1,40 @@
+# You can read the Docker Compose documentation at:
+#
+#   https://docs.docker.com/compose/
+#
+# Run with file with `docker-compose up -d`.
+#
+# We use two separate Docker containers: one for the database and one for the
+# Misas application.
+#
+
+# Uncomment for production
+search_dev:
+  image: "victor755555/elasticsearch-hq:2.3.2"
+  volumes:
+    - ./esdata:/usr/share/elasticsearch/data
+misasbundledb_dev:
+  image: mongo
+  volumes:
+    - ./data/runtime/db:/data/db
+    - ./data/dump:/dump
+  command: mongod --smallfiles --oplogSize 128
+  ports:
+    - 27017
+misasbundle_dev:
+  build: .
+  links:
+    - misasbundledb_dev
+    - search_dev
+  env_file:
+    - ./dev.env
+  environment:
+    - MONGO_URL=mongodb://misasbundledb_dev/misas
+    - ROOT_URL=http://localhost:3000
+    - SEARCH_MONGO_URL=mongodb://misasbundledb_dev/misas
+    - SEARCH_ELASTIC_URL=http://search_dev:9200
+  volumes:
+    - ./:/app
+  command: meteor --settings dev.settings.json
+  ports:
+    - "3201:3000"

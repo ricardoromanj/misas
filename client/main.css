@@ -1,0 +1,13 @@
+.move-up {
+  z-index: 99;
+}
+
+.top-space {
+  margin-top: 20px;
+}
+
+.md-button.md-small {
+  min-width: 2%;
+  margin-left: 1px;
+  margin-right: 1px;
+}

@@ -1,0 +1,25 @@
+h1 {{pc.parroquia.name}}
+h3 {{pc.parroquia.diocesis_name}}
+a(ui-sref="misas.parroquia-edit({id: pc.parroquia._id})").btn.btn-default Editar
+a(ng-href="http://www.dondehaymisa.com/dhm.asp?op=2&id={{pc.parroquia.id}}&d={{pc.parroquia.diocesis_id}}") DHM
+h3 type:  
+span {{pc.parroquia.parroquia_type}}
+h3 schedule:
+ul(ng-if="pc.parroquia.schedule.days")
+  li(ng-repeat="day in pc.parroquia.schedule.days") {{day.id}} {{day.name}}
+    ul(ng-if="day.events")
+      li(ng-repeat="event in day.events") {{event.type}} | {{event.start_time | json}}
+p(ng-if="pc.parroquia.img.url") {{pc.parroquia.img.url}}
+p(ng-if="pc.parroquia.address") {{pc.parroquia.address}} {{pc.parroquia.postal_code}}
+h3 address:
+ul
+  li(ng-if="pc.parroquia.address_line_1") Address Line 1: {{pc.parroquia.address_line_1}}
+  li(ng-if="pc.parroquia.address_line_2") Address Line 2: {{pc.parroquia.address_line_2}}
+  li(ng-if="pc.parroquia.city.name") City: {{pc.parroquia.city.name}}
+  li(ng-if="pc.parroquia.state.name") State: {{pc.parroquia.state.name}}
+  li(ng-if="pc.parroquia.postal_code") C.P.: {{pc.parroquia.postal_code}}
+  li(ng-if="pc.parroquia.postal_code_a") A.P.: {{pc.parroquia.postal_code_a}}
+h3 other:
+p(ng-if="pc.parroquia.phone") Phone: {{pc.parroquia.phone}}
+p(ng-if="pc.parroquia.email") Mail: {{pc.parroquia.email}}
+p(ng-if="pc.parroquia.website") Website: {{pc.parroquia.website}}

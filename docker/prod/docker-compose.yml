@@ -1,0 +1,48 @@
+# You can read the Docker Compose documentation at:
+#
+#   https://docs.docker.com/compose/
+#
+# Run with file with `docker-compose up -d`.
+#
+# Misas application.
+#
+
+misases_prod:
+  image: "elasticsearch:latest"
+  volumes:
+    - ./esdata:/usr/share/elasticsearch/data
+  ports:
+    - "9200"
+
+misasdb_prod:
+  image: mongo
+  volumes:
+    - ./data/runtime/db:/data/db
+    - ./data/dump:/dump
+  command: mongod --replSet test
+  ports:
+    - 27017
+
+misas_prod:
+  build: .
+  links:
+    - misasdb_prod
+    - misases_prod
+  env_file:
+    - ./prod.env
+  environment:
+    - MONGO_URL=mongodb://misasdb_prod/misas
+    - ROOT_URL=http://localhost:3000
+    - SEARCH_MONGO_URL=mongodb://misasdb_prod/local
+    - SEARCH_ELASTIC_URL=http://misases_prod:9200
+  ports:
+    - "3100:3000"
+
+misasnginx_prod:
+  image: nginx
+  links:
+    - misas_prod
+  volumes:
+    - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+  ports:
+    - "80:80"
